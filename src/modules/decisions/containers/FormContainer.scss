@@ -1,0 +1,39 @@
+$input-height: 56px;
+$input-font-size: 18px;
+
+.wrapper.form-wrapper {
+  background-color: var(--color-gold);
+}
+
+.form-container {
+  label {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .form-element {
+    margin-bottom: 16px;
+
+    > input, > button, &.search-bar input {
+      border: 2px solid #808080;
+      border-radius: 2px;
+      height: $input-height;
+      font-size: $input-font-size;
+    }
+  }
+
+  padding-bottom: 6px;
+
+  @media (min-width: 1248px) {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--container-width-xl);
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.MultiDropdownList__item {
+  height: 56px;
+  font-size: $input-font-size;
+}

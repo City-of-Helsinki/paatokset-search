@@ -1,0 +1,76 @@
+{
+  "name": "paatokset-search",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": ".",
+  "dependencies": {
+    "@appbaseio/reactivesearch": "^3.24.3",
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@testing-library/jest-dom": "^5.15.0",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "classnames": "^2.2.6",
+    "date-fns": "^2.16.1",
+    "hds-design-tokens": "^1.6.0",
+    "hds-react": "^1.6.0",
+    "i18next": "^21.4.0",
+    "node-sass": "^6.0.1",
+    "react": "^17.0.2",
+    "react-datepicker": "^4.3.0",
+    "react-daterange-picker": "^2.0.1",
+    "react-day-picker": "^7.4.10",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.7.3",
+    "react-query": "^3.31.0",
+    "react-scripts": "^4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/react-hooks": "^7.0.2",
+    "@types/classnames": "^2.2.11",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.11.6",
+    "@types/react": "^17.0.34",
+    "@types/react-datepicker": "^4.1.7",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-router-dom": "^5.1.5",
+    "husky": ">=4",
+    "lint-staged": ">=10",
+    "prettier": "^2.1.2",
+    "react-test-renderer": "^17.0.2",
+    "typescript": "^4.4.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,css}": [
+      "eslint",
+      "prettier --write"
+    ]
+  },
+  "proxy": "https://helsinki-paatokset.docker.so"
+}

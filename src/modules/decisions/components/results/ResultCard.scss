@@ -1,0 +1,68 @@
+.search-result__wrapper {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  width: 100%;
+  min-height: 378px;
+
+  @media (min-width: '1200px') {
+    max-width: 384px; 
+  }
+}
+.search-result__label {
+  padding: 11px 14px;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  text-transform: uppercase;
+  line-height: 26px;
+  background: #00d7a7;
+}
+
+.search-result__container {
+  padding: 18px 16px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.search-result__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.search-result__title {
+  width: 100%;
+}
+
+.search-result__title h2 {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 500;
+  margin-bottom: 36px;
+}
+
+.search-result__footer {
+  align-self: flex-end;
+}
+
+.search-result__tag-container {
+  margin-bottom: 24px;
+}
+
+.search-result__issue-link {
+  margin-bottom: 10px;
+}
+
+.search-tag {
+  background: #000;
+  color: #fff;
+  border-radius: 24px;
+  font-size: 14px;
+  padding: 6px 16px;
+}
