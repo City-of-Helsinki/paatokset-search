@@ -8,7 +8,7 @@ const SelectedFiltersContainer = () => {
     let shouldRender = true;
 
     try {
-      shouldRender = searchState.Category.value.length > 0;
+      shouldRender = searchState.top_category_name.value.length > 0;
     }
     catch(e: unknown) {
       shouldRender = false;

@@ -10,9 +10,8 @@ const SubmitButton = () => {
       componentId={'submit-button'}
       render={() => (
         <Button
+          type='submit'
           className='form-element submit-button'
-          onSubmit={(e: React.FormEvent) => e.preventDefault()}
-          onClick={(e: any) => e.preventDefault()}
           style={{
             borderColor: 'black'
           }}

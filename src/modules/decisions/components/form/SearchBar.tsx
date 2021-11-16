@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { DataSearch } from '@appbaseio/reactivesearch';
 import { IconSearch } from 'hds-react';
+import { DataSearchProps } from '@appbaseio/reactivesearch/lib/components/search/DataSearch';
 
-const SearchBar = () => {
-  const [value, setValue] = useState('');
-
-  const handleKeyPress = (e: KeyboardEvent, triggerQuery: Function) => {
-    if(e.key === 'Enter') {
-      triggerQuery();
-    }
-  }
+const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any}>((props, ref) => {
+  const { value, setValue } = props;
 
   return (
     <React.Fragment>
       <label>Mitä etsit?</label>
       <DataSearch
+        ref={ref}
         componentId='searchbox'
         dataField={[
           'content_draft_proposal',
@@ -31,10 +27,9 @@ const SearchBar = () => {
         icon={<IconSearch />}
         value={value}
         onChange={setValue}
-        onKeyPress={handleKeyPress}
       />
     </React.Fragment>
   );
-};
+});
 
 export default SearchBar;

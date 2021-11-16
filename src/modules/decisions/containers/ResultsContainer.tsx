@@ -23,7 +23,7 @@ const ResultsContainer = () => {
           dataField={'meeting_date'}
           sortBy={sort}
           react={{
-              and: ['searchbox', 'DateSensor', 'Category', 'sort-select', 'top_category_name']
+              and: ['searchbox', 'DateSensor', 'Category', 'sort-select', 'top_category_name', 'meeting_date']
           }}
           renderResultStats={(stats) => (
             <div className='ResultsContainer__stats'>
