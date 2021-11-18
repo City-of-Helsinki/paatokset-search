@@ -23,6 +23,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 32px;
 
   .stats__count {
     font-size: 20px;
@@ -48,14 +49,19 @@
     border: none;
   }
   
-  span.pagination__item {
-    background-color: #000;
-    color: #fff;
+  button.pagination__item {
     width: 36px;
     height: 36px;
-    border-radius: 25px;
+    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: transparent;
+
+    &.pagination__item--current {
+      background-color: #000;
+      color: #fff;
+      border-radius: 25px;
+    }
   }
 }

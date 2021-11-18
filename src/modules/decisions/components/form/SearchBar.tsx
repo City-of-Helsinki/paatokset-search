@@ -3,11 +3,13 @@ import { DataSearch } from '@appbaseio/reactivesearch';
 import { IconSearch } from 'hds-react';
 import { DataSearchProps } from '@appbaseio/reactivesearch/lib/components/search/DataSearch';
 
+import './SearchBar.scss';
+
 const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any}>((props, ref) => {
   const { value, setValue } = props;
 
   return (
-    <React.Fragment>
+    <div className='SearchBar'>
       <label>Mitä etsit?</label>
       <DataSearch
         ref={ref}
@@ -27,8 +29,11 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         icon={<IconSearch />}
         value={value}
         onChange={setValue}
+        react={{
+          and: 'meeting_date'
+        }}
       />
-    </React.Fragment>
+    </div>
   );
 });
 

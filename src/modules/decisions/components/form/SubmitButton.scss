@@ -1,5 +1,10 @@
-.submit-button {
+.SubmitButton {
   margin-bottom: 34.5px;
   background-color: black;
   width: 100%;
+  height: 56px;
+
+  &.submit-button--desktop {
+    max-width: 258px;
+  }
 }

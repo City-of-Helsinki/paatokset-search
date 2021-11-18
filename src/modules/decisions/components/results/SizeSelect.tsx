@@ -1,6 +1,8 @@
 import React from 'react';
 import { Select } from 'hds-react';
 
+import './SizeSelect.scss';
+
 type Props = {
   setSize: Function
 };

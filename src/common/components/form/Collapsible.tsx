@@ -6,29 +6,42 @@ import './Collapsible.scss';
 import useOutsideClick from '../../../hooks/useOutsideClick';
 
 type Props = {
-  title: string,
-  children: React.ReactNode
+  active?: boolean,
+  title: string|React.ReactNode,
+  children: React.ReactElement,
+  showHandle?: boolean,
+  ariaControls?: string,
 }
 
-const Collapsible = ({title, children}: Props) => {
-  const [isActive, setActive] = useState<boolean>(false);
+const Collapsible = ({active, ariaControls, title, children, showHandle}: Props) => {
+  const [isActive, setActive] = useState<boolean>(active||false);
   const ref = useRef<HTMLDivElement|null>(null);
+
+  const getHandle = () => {
+    if(showHandle !== false) {
+      return isActive ? 
+        <IconAngleUp /> :
+        <IconAngleDown />;
+    }
+  }
 
   useOutsideClick(ref, () => {
     setActive(false);
   });
 
   return (
-    <div className='Collapsible collapsible-wrapper' ref={ref}>
-      <div className='collapsible__element collapsible-container' onClick={() => setActive(!isActive)}>
-        <div className='collapsible__title'>{ title }</div>
-        {isActive ?
-          <IconAngleUp /> :
-          <IconAngleDown />
-        }
-      </div>
+    <div className='Collapsible collapsible-wrapper'>
+      <button
+        className='Collapsible__control Collapsible__element'
+        aria-controls={ariaControls}
+        aria-expanded={isActive}
+        onClick={() => setActive(!isActive)}
+      >
+        <span className='Collapsible__title'>{ title }</span>
+        {getHandle()}
+      </button>
       {isActive &&
-        <div className='collapsible__element collapsible__element--children'>
+        <div className='Collapsible__element Collapsible__element--children'>
           {children}
         </div>
       }
