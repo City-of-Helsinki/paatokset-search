@@ -6,35 +6,113 @@ import SubmitButton from '../components/form/SubmitButton';
 import SelectedFiltersContainer from './SelectedFiltersContainer';
 import DateSelect from '../components/form/DateSelect';
 import CategorySelect from '../components/form/CategorySelect';
+import { FormErrors } from '../types/types';
+
 import './FormContainer.scss';
 
-const FormContainer = () => {
-  return(
-    <div className="wrapper form-wrapper">
-      <h1>Hae päätöksiä</h1>
-      <form className='container form-container'>
-        <SearchBar />
-        <ReactiveComponent
-          componentId='top_category_name'
-          defaultQuery={() => ({
-            aggs: {
-              top_category_name: {
-                terms: {
-                  field: 'top_category_name'
+type FormContainerState = {
+  phrase: string,
+  categories: Array<string>,
+  errors: FormErrors
+};
+
+class FormContainer extends React.Component {
+  state: FormContainerState = {
+    phrase: '',
+    categories: [],
+    errors: {}
+  };
+
+  searchBar = React.createRef<any>();
+
+  handleSubmit = (event: any) => {
+    event.preventDefault();
+    this.searchBar.current.triggerQuery();
+  };
+
+  changePhrase = (value: any) => {
+    this.setState({
+      phrase: value
+    });
+  };
+
+  setCategories = (categories: Array<string>) => {
+    this.setState({
+      categories: categories
+    });
+  }
+
+  setErrors = (errors: FormErrors) => this.setState({errors});
+
+  render() {
+    const { errors, phrase, categories } = this.state;
+
+    return(
+      <div className='FormContainer wrapper form-wrapper'>
+        <h1>Hae päätöksiä</h1>
+        <form className='container form-container' onSubmit={this.handleSubmit}>
+          <div className='FormContainer__upper-fields'>
+            <SearchBar
+              ref={this.searchBar}
+              value={phrase}
+              setValue={this.changePhrase}
+            />
+            <SubmitButton
+              type='desktop'
+              disabled={errors.to !== undefined || errors.from !== undefined}
+            />
+          </div>
+          <div className='FormContainer__lower-fields'>
+            <ReactiveComponent
+              componentId='top_category_name'
+              defaultQuery={() => ({
+                aggs: {
+                  top_category_name: {
+                    terms: {
+                      field: 'top_category_name'
+                    }
+                  }
                 }
-              }
-            }
-          })}
-          render={({ aggregations, setQuery }) => (
-            <CategorySelect aggregations={aggregations} setQuery={setQuery} />
-          )}
-        />
-        <DateSelect />
-        <SubmitButton />
-        <SelectedFiltersContainer />
-      </form>
-    </div>
-  );
+              })}
+              render={({ aggregations, setQuery }) => (
+                <CategorySelect 
+                  aggregations={aggregations}
+                  setQuery={setQuery}
+                  setValue={this.setCategories}
+                  value={categories}
+                />
+              )}
+            />
+            <ReactiveComponent
+              componentId='meeting_date'
+              defaultQuery={() => ({
+                query: {
+                  range: {
+                    meeting_date: {}
+                  }
+                }
+              })}
+              render={({ setQuery }) => (
+                <DateSelect
+                  setQuery={setQuery}
+                  errors={errors}
+                  setErrors={this.setErrors}           
+                />
+              )}
+            />
+          </div>
+          <SubmitButton
+            type='mobile'
+            disabled={errors.to !== undefined || errors.from !== undefined}
+          />
+          <SelectedFiltersContainer
+            categories={categories}
+            setCategories={this.setCategories}
+          />
+        </form>
+      </div>
+    );
+  }
 };
 
 export default FormContainer;

@@ -1,34 +1,56 @@
 import React from 'react';
-import { SelectedFilters, StateProvider } from '@appbaseio/reactivesearch';
+import { SelectedFilters } from '@appbaseio/reactivesearch';
+import { IconCross } from 'hds-react';
 
 import './SelectedFiltersContainer.scss';
 
-const SelectedFiltersContainer = () => {
-  const shouldRender = (searchState: any) => {
-    let shouldRender = true;
+type Props = {
+  categories: Array<string>,
+  setCategories: Function
+}
 
-    try {
-      shouldRender = searchState.Category.value.length > 0;
-    }
-    catch(e: unknown) {
-      shouldRender = false;
-    }
+const SelectedFiltersContainer = ({ categories, setCategories }: Props) => {
 
-    return shouldRender;
-  };
+  if(categories.length <= 0) {
+    return null;
+  }
 
   return (
-    <StateProvider>
-      {({ searchState }) => {
-        return shouldRender(searchState) ?
-          <div className='form-element selected-filters-container'>
-            <SelectedFilters
-              className='selected-filters'
-            />
-          </div> :
-          null;
-      }}
-    </StateProvider>
+    <div className='SelectedFilters form-element'>
+      <SelectedFilters
+        className='SelectedFilters__wrapper'
+        render={() => {
+          const deleteCategory = (category: string) => {
+            let current = categories;
+            current.splice(current.indexOf(category), 1);
+            setCategories(current);
+          }
+
+          const filters = categories.map(category => (
+            <button
+              className='SelectedFilters__filter'
+              key={category}
+              onClick={() => deleteCategory(category)}
+            >
+              <IconCross />
+              {category}
+            </button>
+          ));
+
+          return (
+            <div className='SelectedFilters__container'>
+              {filters}
+              <button
+                className='SelectedFilters__filter SelectedFilters__clear-filters'
+                onClick={() => setCategories([])}
+              >
+                Clear all
+              </button>
+            </div>
+          )
+        }}
+      />
+    </div>
   );
 };
 

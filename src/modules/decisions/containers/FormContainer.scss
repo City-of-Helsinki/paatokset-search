@@ -3,6 +3,16 @@ $input-font-size: 18px;
 
 .wrapper.form-wrapper {
   background-color: var(--color-gold);
+
+  h1 {
+    @media (min-width: 1248px) {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: var(--container-width-xl);
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
 
 .form-container {
@@ -34,6 +44,32 @@ $input-font-size: 18px;
 }
 
 .MultiDropdownList__item {
-  height: 56px;
+  height: $input-height;
   font-size: $input-font-size;
+}
+
+.FormContainer__lower-fields {
+  @media (min-width: 1248px) {
+    display: flex;
+    width: 894px;
+    align-items: flex-end;
+    margin-bottom: 16px;
+
+    .form-element {
+      width: 282px;
+      margin-bottom: 0;
+
+      &:not(:first-child) {
+        margin-left: 24px;
+      }
+    }
+  }  
+}
+
+.FormContainer__upper-fields {
+  @media (min-width: 1248px) {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
 }
