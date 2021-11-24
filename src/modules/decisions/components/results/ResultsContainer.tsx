@@ -13,10 +13,10 @@ import './ResultsContainer.scss';
 
 const ResultsContainer = () => {
   const [sort, setSort] = useState<sortBy|undefined>('desc');
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(12);
   const { t } = useTranslation();
 
-  const getPrevPages = (current: number, pages: number, totalPages: number) => {
+  const getPagination = (current: number, pages: number, totalPages: number) => {
     const pagesPerSide = (pages - 1) / 2;
     let pagesLeft = pagesPerSide * 2;
     let prevPages: Array<number> = [];
@@ -72,7 +72,7 @@ const ResultsContainer = () => {
             </div>
           )}
           renderPagination={({ pages, totalPages, currentPage, setPage, setSize }) => {
-            const { prevPages, nextPages } = getPrevPages(currentPage, pages, totalPages)
+            const { prevPages, nextPages } = getPagination(currentPage, pages, totalPages)
             const prevPageExists = currentPage - 1 >= 0;
             const nextPageExists = currentPage + 1 < totalPages;
             const selectPage = Number.isFinite(totalPages) && (

@@ -4,6 +4,17 @@
   .ResultsContainer__container {
     padding: var(--spacing-s);
 
+    @media (min-width: 768px) {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      > div:first-child {
+        width: auto;  
+        display: inline-flex;
+      }
+    }
+
     @media (min-width: 1248px) {
       margin-left: auto;
       margin-right: auto;
@@ -25,8 +36,16 @@
   align-items: center;
   margin-bottom: 32px;
 
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+  }
+
   .stats__count {
     font-size: 20px;
+
+    @media (min-width: 768px) {
+      margin-right: 24px;
+    }
   }
 
   .stats__count strong {

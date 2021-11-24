@@ -1,5 +1,11 @@
+@import '../../../../index.scss';
+
 .SearchBar {
   @media (min-width: 1248px) {
     width: 894px;
+  }
+
+  .SearchBar__input:focus-within input {
+    @include focus-outline;
   }
 }

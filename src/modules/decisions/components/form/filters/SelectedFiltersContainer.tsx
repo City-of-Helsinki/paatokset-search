@@ -46,7 +46,7 @@ const SelectedFiltersContainer = ({ categories, setCategories }: Props) => {
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
                 onClick={() => setCategories([])}
               >
-                {t('SEARCH:Clear all')}
+                {t('SEARCH:clear-all')}
               </button>
             </div>
           )

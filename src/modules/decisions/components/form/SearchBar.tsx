@@ -25,15 +25,12 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         ]}
         aggregationField={'issue_id'}
         placeholder={t('DECISIONS:search-bar-placeholder')}
-        className='search-bar search-bar__decisions form-element'
+        className='SearchBar__input form-element'
         autosuggest={false}
         iconPosition={'right'}
         icon={<IconSearch />}
         value={value}
         onChange={setValue}
-        react={{
-          and: 'meeting_date'
-        }}
       />
     </div>
   );

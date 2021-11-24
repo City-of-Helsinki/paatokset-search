@@ -17,6 +17,12 @@ type Props = {
   errors: FormErrors,
   setErrors: Function,
   ariaControls?: string,
+  from: any,
+  to: any,
+  setFrom: Function,
+  setTo: Function,
+  queryFrom: any,
+  queryTo: any
 };
 
 type Query = {
@@ -36,14 +42,33 @@ const selections = {
   PAST_YEAR: 'PAST_YEAR'
 };
 
-const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
+const DateSelect = ({
+    ariaControls,
+    errors, setErrors,
+    setQuery,
+    from,
+    to,
+    setFrom,
+    setTo,
+    queryFrom,
+    queryTo
+  }: Props) => {
   const [isActive, setActive] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement|null>(null);
   const [calendarActive, setCalendarActive] = useState<boolean>(false);
   const [selection, setSelection] = useState<string|undefined>(undefined);
-  const [from, setFrom] = useState<any>(undefined);
-  const [to, setTo] = useState<any>(undefined);
   const { t } = useTranslation();
+
+  // For setting the date from datepicker / input fields
+  const setFromWithClear = (from: string) => {
+    setSelection(undefined);
+    setFrom(from);
+  }
+
+  const setToWithClear = (to: string) => {
+    setSelection(undefined);
+    setTo(to);
+  }
 
   const handleSelectionClick = (selected: string) => {
     if(selection === selected) {
@@ -109,7 +134,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
   }, [t, from, setErrors, to]);
 
   const triggerQuery = useCallback(() => {
-    if(from || to) {
+    if(queryFrom || queryTo) {
       let query: Query = {
         query: {
           range: {
@@ -118,12 +143,12 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
         }
       };
   
-      if(from && isValidDate(from) && !errors.from) {
-        query.query.range.meeting_date.gte = transformDate(from);
+      if(queryFrom && isValidDate(queryFrom) && !errors.from) {
+        query.query.range.meeting_date.gte = transformDate(queryFrom);
       }
 
-      if(to && isValidDate(to) && !errors.to) {
-        query.query.range.meeting_date.lte = transformDate(to);
+      if(queryTo && isValidDate(queryTo) && !errors.to) {
+        query.query.range.meeting_date.lte = transformDate(queryTo);
       }
 
       setQuery({
@@ -135,7 +160,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
         query: null
       })
     }
-  }, [from, to, errors.from, errors.to, setQuery]);
+  }, [queryFrom, queryTo, errors.from, errors.to, setQuery]);
 
   useEffect(() => {
     validateValues();
@@ -143,7 +168,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
 
   useEffect(() => {
     triggerQuery();
-  }, [from, to, triggerQuery])
+  }, [queryFrom, queryTo, triggerQuery])
 
   useOutsideClick(ref, () => {
     setActive(false);
@@ -166,7 +191,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
   }    
 
   const getHandle = () => {
-    if(!calendarActive) {
+    if(!(calendarActive && isActive)) {
       return isActive ? 
         <IconAngleUp /> :
         <IconAngleDown />;
@@ -182,6 +207,11 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
     }
   }
 
+  let collapsibleStyle: any = {};
+  if(ref && ref.current) {
+    collapsibleStyle.top = ref.current.clientHeight + 'px'; 
+  }
+
   const renderField = () => (
     <React.Fragment>
       {calendarActive ?
@@ -192,17 +222,17 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
                 name='from'
                 label={t('DECISIONS:start-date')}
                 defaultValue={from}
-                setDate={setFrom}
+                setDate={setFromWithClear}
                 error={errors.from}
                 onChange={setFrom}
                 autoFocus={true}
               />
-              <IconMinus />
+              <IconMinus className='DateSelect__date-fields-divider' />
               <DateInput
                 name='to'
                 label={t('DECISIONS:end-date')}
                 defaultValue={to}
-                setDate={setTo}
+                setDate={setToWithClear}
                 error={errors.to}
                 onChange={setTo}
               />
@@ -210,8 +240,8 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
             <DatePicker
               from={from}
               to={to}
-              setTo={setTo}
-              setFrom={setFrom}
+              setTo={setToWithClear}
+              setFrom={setFromWithClear}
             />
           </div>
           <Button className='DateSelect__inner-control' onClick={() => setActive (false)}>
@@ -254,7 +284,9 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
 
   return (
     <div className='DateSelect dateselect-wrapper form-element' ref={ref}>
+      <label>{t('DECISIONS:date-select')}</label>
       <button
+        type='button'
         className={classNames(
           'DateSelect__collapsible-control',
           'collapsible-element',
@@ -268,7 +300,10 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
         <span className='DateSelect__collapsible-handle'>{getHandle()}</span>
       </button>
       {isActive &&
-        <div className='DateSelect__collapsible-element collapsible-element--children'> 
+        <div 
+          className='DateSelect__collapsible-element collapsible-element--children'
+          style={collapsibleStyle}
+        > 
           {renderField()}
         </div>
       }

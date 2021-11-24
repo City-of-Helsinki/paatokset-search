@@ -16,21 +16,21 @@ const SortSelect = ({ setSize }: Props) => {
       }}
       label={null}
       defaultValue={{
-        label: '10',
-        value: 10
+        label: '12',
+        value: 12
       }}
       options={[
         {
-          label: '10',
-          value: 10
+          label: '12',
+          value: 12
         },
         {
-          label: '50',
-          value: 50
+          label: '48',
+          value: 48
         },
         {
-          label: '100',
-          value: 100
+          label: '96',
+          value: 96
         }
       ]}
       onChange={({value}: any) => setSize(value)}
