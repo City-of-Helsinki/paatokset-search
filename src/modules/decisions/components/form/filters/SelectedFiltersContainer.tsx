@@ -1,6 +1,7 @@
 import React from 'react';
 import { SelectedFilters } from '@appbaseio/reactivesearch';
 import { IconCross } from 'hds-react';
+import { useTranslation } from 'react-i18next';
 
 import './SelectedFiltersContainer.scss';
 
@@ -10,6 +11,7 @@ type Props = {
 }
 
 const SelectedFiltersContainer = ({ categories, setCategories }: Props) => {
+  const { t } = useTranslation();
 
   if(categories.length <= 0) {
     return null;
@@ -44,7 +46,7 @@ const SelectedFiltersContainer = ({ categories, setCategories }: Props) => {
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
                 onClick={() => setCategories([])}
               >
-                Clear all
+                {t('SEARCH:Clear all')}
               </button>
             </div>
           )

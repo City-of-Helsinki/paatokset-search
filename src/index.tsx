@@ -1,6 +1,7 @@
+import './i18n';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DecisionsContainer from './modules/decisions/containers/SearchContainer';
+import DecisionsContainer from './modules/decisions/SearchContainer';
 import * as serviceWorker from './serviceWorker';
 
 // Global styles

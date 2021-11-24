@@ -1,8 +1,10 @@
 import React from 'react';
 import { format, parse } from 'date-fns';
 import Calendar from 'react-calendar';
-import { isValidDate } from '../../../../utils/Date';
 import { IconAngleLeft, IconAngleRight } from 'hds-react';
+
+import i18n from '../../../.././../../i18n';
+import { isValidDate } from '../../../../../../utils/Date';
 
 import './DatePicker.scss';
 
@@ -41,6 +43,7 @@ const DatePicker = ({ from, to, setFrom, setTo }: Props) => {
   return (
     <div className='DatePicker'>
       <Calendar
+        locale={i18n.language}
         value={value}
         onChange={onSelect}
         selectRange={true}

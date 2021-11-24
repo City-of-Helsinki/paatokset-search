@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactiveComponent } from '@appbaseio/reactivesearch';
 import { Button } from 'hds-react';
 import classNames from 'classnames';
@@ -13,6 +14,7 @@ type Props = {
 
 const SubmitButton = ({ disabled, type = 'default' }: Props) => {
   const { width } = useWindowDimensions();
+  const { t } = useTranslation();
 
   if(type === 'mobile' && width >= 1248) {
     return null;
@@ -38,7 +40,7 @@ const SubmitButton = ({ disabled, type = 'default' }: Props) => {
             borderColor: 'black'
           }}
         >
-          Hae
+          {t('SEARCH:submit')}
         </Button>
       )}
     />

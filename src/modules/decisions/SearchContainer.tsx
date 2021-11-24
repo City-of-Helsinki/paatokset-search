@@ -1,8 +1,8 @@
 import React from 'react';
 import { ReactiveBase } from '@appbaseio/reactivesearch';
 
-import FormContainer from './FormContainer';
-import ResultsContainer from './ResultsContainer';
+import FormContainer from './components/form/FormContainer';
+import ResultsContainer from './components/results/ResultsContainer';
 
 const SearchContainer = () => {
   return (

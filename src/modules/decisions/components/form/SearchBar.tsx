@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import { DataSearch } from '@appbaseio/reactivesearch';
 import { IconSearch } from 'hds-react';
 import { DataSearchProps } from '@appbaseio/reactivesearch/lib/components/search/DataSearch';
+import { useTranslation } from 'react-i18next';
 
 import './SearchBar.scss';
 
 const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any}>((props, ref) => {
   const { value, setValue } = props;
+  const { t } = useTranslation();
 
   return (
     <div className='SearchBar'>
-      <label>Mitä etsit?</label>
+      <label>{t('DECISIONS:search-bar-label')}</label>
       <DataSearch
         ref={ref}
         componentId='searchbox'
@@ -22,7 +24,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
           'subject'
         ]}
         aggregationField={'issue_id'}
-        placeholder='Etsi hakusanalla, esim. puisto'
+        placeholder={t('DECISIONS:search-bar-placeholder')}
         className='search-bar search-bar__decisions form-element'
         autosuggest={false}
         iconPosition={'right'}

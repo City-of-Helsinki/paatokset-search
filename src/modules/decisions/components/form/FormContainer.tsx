@@ -1,12 +1,13 @@
 import React from 'react';
 import { ReactiveComponent } from '@appbaseio/reactivesearch';
 
-import SearchBar from '../components/form/SearchBar';
-import SubmitButton from '../components/form/SubmitButton';
-import SelectedFiltersContainer from './SelectedFiltersContainer';
-import DateSelect from '../components/form/DateSelect';
-import CategorySelect from '../components/form/CategorySelect';
-import { FormErrors } from '../types/types';
+import FormTitle from './FormTitle';
+import SearchBar from './SearchBar';
+import SubmitButton from './SubmitButton';
+import SelectedFiltersContainer from './filters/SelectedFiltersContainer';
+import DateSelect from './filters/date/DateSelect';
+import CategorySelect from './filters/CategorySelect';
+import { FormErrors } from '../../types/types';
 
 import './FormContainer.scss';
 
@@ -49,7 +50,7 @@ class FormContainer extends React.Component {
 
     return(
       <div className='FormContainer wrapper form-wrapper'>
-        <h1>Hae päätöksiä</h1>
+        <FormTitle />
         <form className='container form-container' onSubmit={this.handleSubmit}>
           <div className='FormContainer__upper-fields'>
             <SearchBar

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { IconAngleLeft, IconAngleRight } from 'hds-react';
 import { ReactiveList } from '@appbaseio/reactivesearch';
+import { useTranslation } from 'react-i18next';
 
-import ResultCard from '../components/results/ResultCard';
-import SortSelect from '../components/results/SortSelect';
-import SizeSelect from '../components/results/SizeSelect';
+import ResultCard from './ResultCard';
+import SortSelect from './SortSelect';
+import SizeSelect from './SizeSelect';
 import { sortBy } from '@appbaseio/reactivesearch/lib/types';
-import useWindowDimensions from '../../../hooks/useWindowDimensions';
+import useWindowDimensions from '../../../../hooks/useWindowDimensions';
 
 import './ResultsContainer.scss';
 
 const ResultsContainer = () => {
   const [sort, setSort] = useState<sortBy|undefined>('desc');
   const [size, setSize] = useState<number>(10);
+  const { t } = useTranslation();
 
   const getPrevPages = (current: number, pages: number, totalPages: number) => {
     const pagesPerSide = (pages - 1) / 2;
@@ -61,11 +63,11 @@ const ResultsContainer = () => {
             <div className='ResultsContainer__stats'>
               <span className='stats__count'>
                 <strong>{stats.numberOfResults}</strong>
-                {' hakutulosta'}
+                {t('SEARCH:results-count')}
               </span>
               <span className='stats__size'>
                 <SizeSelect setSize={setSize} />
-                {' kpl sivulla'}
+                {t('SEARCH:per-page')}
               </span>
             </div>
           )}

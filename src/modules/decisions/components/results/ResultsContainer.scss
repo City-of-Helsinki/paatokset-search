@@ -29,6 +29,10 @@
     font-size: 20px;
   }
 
+  .stats__count strong {
+    margin-right: 5px;
+  }
+
   .stats__size {
     display: flex;
     align-items: center;
@@ -47,9 +51,11 @@
   button.pagination__control {
     background: transparent;
     border: none;
+    cursor: pointer;
   }
   
   button.pagination__item {
+    cursor: pointer;
     width: 36px;
     height: 36px;
     border: none;
