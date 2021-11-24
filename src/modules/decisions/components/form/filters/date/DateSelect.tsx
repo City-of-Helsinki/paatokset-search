@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Button, Checkbox, IconAngleUp, IconAngleDown, IconMinus, IconCalendar, IconAngleLeft, SelectionGroup } from 'hds-react';
 import { format, parse, subWeeks, subMonths, subYears } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
-import useOutsideClick from '../../../../hooks/useOutsideClick';
+import useOutsideClick from '../../../../../../hooks/useOutsideClick';
 import DateInput from './DateInput';
-import { FormErrors } from '../../types/types';
-import { isValidDate } from '../../../../utils/Date';
+import { FormErrors } from '../../../../types/types';
+import { isValidDate } from '../../../../../../utils/Date';
 import DatePicker from './DatePicker';
 import './DateSelect.scss';
 
-import 'react-day-picker/lib/style.css';
 import classNames from 'classnames';
 
 type Props = {
@@ -43,6 +43,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
   const [selection, setSelection] = useState<string|undefined>(undefined);
   const [from, setFrom] = useState<any>(undefined);
   const [to, setTo] = useState<any>(undefined);
+  const { t } = useTranslation();
 
   const handleSelectionClick = (selected: string) => {
     if(selection === selected) {
@@ -82,11 +83,11 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
       }
 
       if(!isValidDate(to)) {
-        return 'Is not a valid date';
+        return t('SEARCH:invalid-date');
       }
       if(isValidDate(from) && isValidDate(to)) {
         if(parse(from, 'd.M.y', new Date()) > parse (to, 'd.M.y', new Date())) {
-          return 'To date cannot be less than from';
+          return t('SEARCH:to-less-than-from');
         }
       }
     }
@@ -97,7 +98,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
       }
   
       if(!isValidDate(from)) {
-        return 'Is not a valid date';
+        return t('SEARCH:invalid-date');
       }
     }
 
@@ -105,10 +106,9 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
       from: validateFrom(),
       to: validateTo()
     });
-  }, [from, setErrors, to]);
+  }, [t, from, setErrors, to]);
 
   const triggerQuery = useCallback(() => {
-    console.log('triggerQuery')
     if(from || to) {
       let query: Query = {
         query: {
@@ -151,7 +151,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
 
   const getCollapsibleTitle = () => {
     if(calendarActive && isActive) {
-      return <div className='DateSelect__title'><IconAngleLeft /><span>Takaisin</span></div>;
+      return <div className='DateSelect__title'><IconAngleLeft /><span>{t('DECISIONS:back')}</span></div>;
     }
     else if((from && isValidDate(from)) || (to && isValidDate(to))) {
       let titleString = (from && isValidDate(from)) ? from : '';
@@ -161,7 +161,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
       );
     }
     else {
-      return <div className='DateSelect__title DateSelect__title--default'><IconCalendar /><span>Valitse ajankohta</span></div>;
+      return <div className='DateSelect__title DateSelect__title--default'><IconCalendar /><span>{t('DECISIONS:choose-date')}</span></div>;
     }
   }    
 
@@ -190,7 +190,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
             <div className='DateSelect__date-fields-container'>
               <DateInput
                 name='from'
-                label='Alkamispäivä'
+                label={t('DECISIONS:start-date')}
                 defaultValue={from}
                 setDate={setFrom}
                 error={errors.from}
@@ -200,7 +200,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
               <IconMinus />
               <DateInput
                 name='to'
-                label='Päättymispäivä'
+                label={t('DECISIONS:end-date')}
                 defaultValue={to}
                 setDate={setTo}
                 error={errors.to}
@@ -215,7 +215,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
             />
           </div>
           <Button className='DateSelect__inner-control' onClick={() => setActive (false)}>
-            Sulje
+            {t('DECISIONS:close')}
           </Button>
         </div> :
         <div className="DateSelect__predefined-ranges-wrapper">
@@ -223,21 +223,21 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
             <SelectionGroup>
               <Checkbox
                 id='past_week'
-                label='Past week'
+                label={t('DECISIONS:past-week')}
                 name='past_week'
                 checked={selection === selections.PAST_WEEK}
                 onClick={() => handleSelectionClick(selections.PAST_WEEK)}
               />
               <Checkbox
                 id='past_month'
-                label='Past month'
+                label={t('DECISIONS:past-month')}
                 name='past_month'
                 checked={selection === selections.PAST_MONTH}
                 onClick={() => handleSelectionClick(selections.PAST_MONTH)}
               />
               <Checkbox
                 id='past_year'
-                label='Past year'
+                label={t('DECISIONS:past-year')}
                 name='past_year'
                 checked={selection === selections.PAST_YEAR}
                 onClick={() => handleSelectionClick(selections.PAST_YEAR)}
@@ -245,7 +245,7 @@ const DateSelect = ({ ariaControls, errors, setErrors, setQuery }: Props) => {
             </SelectionGroup>
           </div>
           <Button className='DateSelect__inner-control' onClick={() => setCalendarActive(true)}>
-            Valitse päivämäärät
+            {t('DECISIONS:choose-range')}
           </Button>
         </div>
       }

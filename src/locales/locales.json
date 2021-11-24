@@ -1,0 +1,58 @@
+{
+  "en": {
+    "SEARCH": {
+      "per-page": "per page",
+      "sort": "Sort",
+      "most-recent-first": "Most recent first",
+      "oldest-first": "Oldest first",
+      "submit": "Search",
+      "invalid-date": "Invalid date",
+      "results-count": "results"
+    },
+    "DECISIONS": {
+      "form-title": "Search decisions",
+      "search-bar-label": "What are you looking for?",
+      "search-bar-placeholder": "Search with a keyword, e.g. park",
+      "to-less-than-from": "End date can't be earlier than start date",
+      "back": "Back",
+      "choose-date": "Choose dates",
+      "start-date": "Start date",
+      "end-date": "End date",
+      "close": "Close",
+      "choose-range": "Choose range",
+      "past-week": "Past week",
+      "past-month": "Past month",
+      "past-year": "Past year",
+      "topic": "Topic",
+      "choose-topic": "Choose topic"
+    }
+  },
+  "fi": {
+    "SEARCH": {
+      "per-page": "kpl sivulla",
+      "sort": "Lajittelu",
+      "most-recent-first": "Uusin ensin",
+      "oldest-first": "Vanhin ensin",
+      "submit": "Hae",
+      "invalid-date": "Päivämäärä ei ole oikeassa muodossa",
+      "results-count": "hakutulosta"
+    },
+    "DECISIONS": {
+      "form-title": "Hae päätöksiä",
+      "search-bar-label": "Mitä etsit?",
+      "search-bar-placeholder": "Etsi hakusanalla, esim. puisto",
+      "to-less-than-from": "Päättymispäivän tulee olla alkamispäivän jälkeen",
+      "back": "Takaisin",
+      "choose-date": "Valitse ajankohta",
+      "start-date": "Alkamispäivä",
+      "end-date": "Päättymispäivä",
+      "close": "Sulje",
+      "choose-range": "Valitse päivämäärät",
+      "past-week": "Viime viikko",
+      "past-month": "Viime kuukausi",
+      "past-year": "Viime vuosi",
+      "topic": "Aihe",
+      "choose-topic": "Valitse aihe"
+    }
+  }
+}

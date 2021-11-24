@@ -13,6 +13,7 @@
     "hds-design-tokens": "^1.6.0",
     "hds-react": "^1.6.0",
     "i18next": "^21.4.0",
+    "i18next-browser-languagedetector": "^6.1.2",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-calendar": "^3.5.0",
@@ -68,6 +69,5 @@
       "eslint",
       "prettier --write"
     ]
-  },
-  "proxy": "https://helsinki-paatokset.docker.so"
+  }
 }

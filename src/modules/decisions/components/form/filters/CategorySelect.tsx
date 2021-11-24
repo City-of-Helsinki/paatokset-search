@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { Combobox } from 'hds-react';
+import { useTranslation } from 'react-i18next';
 
 import './CategorySelect.scss';
 
@@ -12,6 +13,7 @@ type Props = {
 
 const CategorySelect = ({aggregations, setQuery, setValue, value}: Props) => {
   let categories: Array<any> = [];
+  const { t } = useTranslation();
 
   if(
     aggregations &&
@@ -59,8 +61,8 @@ const CategorySelect = ({aggregations, setQuery, setValue, value}: Props) => {
   return (
     <Combobox
       className='CategorySelect form-element'
-      label='Aihe'
-      placeholder='Valitse aihe'
+      label={t('DECISIONS:topic')}
+      placeholder={t('DECISIONS:choose-topic')}
       options={categories}
       value={formattedValue}
       multiselect={true}
