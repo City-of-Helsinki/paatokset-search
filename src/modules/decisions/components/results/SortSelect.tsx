@@ -2,6 +2,8 @@ import React from 'react';
 import { Select } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
+import './SortSelect.scss';
+
 type Props = {
   setSort: Function
 };

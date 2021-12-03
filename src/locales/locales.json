@@ -7,7 +7,8 @@
       "oldest-first": "Oldest first",
       "submit": "Search",
       "invalid-date": "Invalid date",
-      "results-count": "results"
+      "results-count": "results",
+      "clear-all": "Clear all"
     },
     "DECISIONS": {
       "form-title": "Search decisions",
@@ -24,7 +25,8 @@
       "past-month": "Past month",
       "past-year": "Past year",
       "topic": "Topic",
-      "choose-topic": "Choose topic"
+      "choose-topic": "Choose topic",
+      "date-select": "Date range"
     }
   },
   "fi": {
@@ -35,7 +37,8 @@
       "oldest-first": "Vanhin ensin",
       "submit": "Hae",
       "invalid-date": "Päivämäärä ei ole oikeassa muodossa",
-      "results-count": "hakutulosta"
+      "results-count": "hakutulosta",
+      "clear-all": "Tyhjennä valinnat"
     },
     "DECISIONS": {
       "form-title": "Hae päätöksiä",
@@ -52,7 +55,8 @@
       "past-month": "Viime kuukausi",
       "past-year": "Viime vuosi",
       "topic": "Aihe",
-      "choose-topic": "Valitse aihe"
+      "choose-topic": "Valitse aihe",
+      "date-select": "Ajankohta"
     }
   }
 }

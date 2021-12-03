@@ -8,10 +8,11 @@ type Props = {
   aggregations: any,
   setQuery: Function,
   setValue: Function,
-  value: Array<string>
+  value: Array<string>,
+  queryValue: Array<string>
 }
 
-const CategorySelect = ({aggregations, setQuery, setValue, value}: Props) => {
+const CategorySelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props) => {
   let categories: Array<any> = [];
   const { t } = useTranslation();
 
@@ -27,14 +28,14 @@ const CategorySelect = ({aggregations, setQuery, setValue, value}: Props) => {
   }
 
   const triggerQuery = useCallback(() => {
-    if(value.length) {
+    if(queryValue.length) {
       setQuery({
         query: {
           terms: { 
-            top_category_name: value
+            top_category_name: queryValue
           }
         },
-        value: value
+        value: queryValue
       });
     }
     else {
@@ -43,11 +44,11 @@ const CategorySelect = ({aggregations, setQuery, setValue, value}: Props) => {
         values: []
       });
     }
-  }, [value, setQuery]);
+  }, [queryValue, setQuery]);
 
   useEffect(() => {
     triggerQuery();
-  }, [value, setQuery, triggerQuery])
+  }, [queryValue, setQuery, triggerQuery])
 
   const onChange = (categories: Array<any>) => {
     const values = categories.map(category => category.value);

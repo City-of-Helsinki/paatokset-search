@@ -14,6 +14,11 @@ import './FormContainer.scss';
 type FormContainerState = {
   phrase: string,
   categories: Array<string>,
+  queryCategories: Array<string>,
+  from: any,
+  queryFrom: any,
+  to: any,
+  queryTo: any
   errors: FormErrors
 };
 
@@ -21,14 +26,27 @@ class FormContainer extends React.Component {
   state: FormContainerState = {
     phrase: '',
     categories: [],
-    errors: {}
+    queryCategories: [],
+    errors: {},
+    from: undefined,
+    to: undefined,
+    queryFrom: undefined,
+    queryTo: undefined,
   };
 
   searchBar = React.createRef<any>();
 
   handleSubmit = (event: any) => {
+    console.log('handleSubmit')
     event.preventDefault();
     this.searchBar.current.triggerQuery();
+    this.setState({
+      queryCategories: this.state.categories
+    });
+    this.setState({
+      queryFrom: this.state.from,
+      queryTo: this.state.to
+    })
   };
 
   changePhrase = (value: any) => {
@@ -43,10 +61,22 @@ class FormContainer extends React.Component {
     });
   }
 
+  setFrom = (from: any) => {
+    this.setState({
+      from: from
+    });
+  }
+
+  setTo = (to: any) => {
+    this.setState({
+      to: to
+    });
+  }
+
   setErrors = (errors: FormErrors) => this.setState({errors});
 
   render() {
-    const { errors, phrase, categories } = this.state;
+    const { errors, phrase, categories, queryCategories, from, to, queryFrom, queryTo } = this.state;
 
     return(
       <div className='FormContainer wrapper form-wrapper'>
@@ -65,6 +95,29 @@ class FormContainer extends React.Component {
           </div>
           <div className='FormContainer__lower-fields'>
             <ReactiveComponent
+              componentId='meeting_date'
+              defaultQuery={() => ({
+                query: {
+                  range: {
+                    meeting_date: {}
+                  }
+                }
+              })}
+              render={({ setQuery }) => (
+                <DateSelect
+                  setQuery={setQuery}
+                  errors={errors}
+                  setErrors={this.setErrors}
+                  to={to}
+                  from={from}
+                  setFrom={this.setFrom}
+                  setTo={this.setTo}
+                  queryFrom={queryFrom}
+                  queryTo={queryTo}
+                />
+              )}
+            />
+            <ReactiveComponent
               componentId='top_category_name'
               defaultQuery={() => ({
                 aggs: {
@@ -81,23 +134,7 @@ class FormContainer extends React.Component {
                   setQuery={setQuery}
                   setValue={this.setCategories}
                   value={categories}
-                />
-              )}
-            />
-            <ReactiveComponent
-              componentId='meeting_date'
-              defaultQuery={() => ({
-                query: {
-                  range: {
-                    meeting_date: {}
-                  }
-                }
-              })}
-              render={({ setQuery }) => (
-                <DateSelect
-                  setQuery={setQuery}
-                  errors={errors}
-                  setErrors={this.setErrors}           
+                  queryValue={queryCategories}
                 />
               )}
             />

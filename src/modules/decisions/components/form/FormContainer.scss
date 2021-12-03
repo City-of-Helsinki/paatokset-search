@@ -19,16 +19,35 @@ $input-font-size: 18px;
   label {
     font-size: 16px;
     font-weight: 500;
+    display: block;
+    margin-bottom: var(--spacing-3-xs);
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  //Exception
+  .SearchBar label {
+    display: block;
+  }
+
+  .DateSelect__collapsible-element label {
+    display: block;
   }
 
   .form-element {
     margin-bottom: 16px;
 
-    > input, > button, &.search-bar input {
+    > input, > button, &.SearchBar__input input {
       border: 2px solid #808080;
       border-radius: 2px;
       height: $input-height;
       font-size: $input-font-size;
+
+      &:focus, &:focus-within, &:hover {
+        border-color: #1a1a1a;
+      }
     }
   }
 
