@@ -124,6 +124,14 @@ const ResultsContainer = () => {
             );
             return selectPage;
           }}
+          renderNoResults={() => (
+            <div className='ResultsContainer__stats'>
+              <span className='stats__count'>
+                <strong>0</strong>
+                {t('SEARCH:results-count')}
+              </span>
+            </div>
+          )}
           render={({ data }) => (
             <React.Fragment>
             <SortSelect

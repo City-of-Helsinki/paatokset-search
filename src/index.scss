@@ -1,5 +1,11 @@
-.wrapper {
-  padding: 16px;
+body {
+  font-family: var(--font-default);
+}
+
+#paatokset_search {
+  .wrapper {
+    padding: 16px 16px;
+  }
 }
 
 @mixin focus-outline {
