@@ -27,7 +27,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "copy-files": "mkdir -p dist/react && cp build/static/js/main.*.chunk.js dist/react/paatokset-search-main.js && cp build/static/js/runtime-main.*.js dist/react/paatokset-search-runtime-main.js && cp build/static/js/[0-9]*.*.chunk.js dist/react/paatokset-search-vendors.js && cp build/static/js/*.map dist/react/ && cp build/static/css/main.*.css dist/react/paatokset-search-main.css && cp build/static/css/*.map dist/react/paatokset-search",
+    "copy-files": "mkdir -p dist/react && cp build/static/js/main.*.chunk.js dist/react/paatokset-search-main.js && cp build/static/js/runtime-main.*.js dist/react/paatokset-search-runtime-main.js && cp build/static/js/[0-9]*.*.chunk.js dist/react/paatokset-search-vendors.js && cp build/static/js/*.map dist/react/ && cp build/static/css/main.*.css dist/react/paatokset-search-main.css && cp build/static/css/*.map dist/react",
     "dist": "npm run build && rimraf dist && npm run copy-files"
   },
   "eslintConfig": {

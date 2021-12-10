@@ -16,8 +16,8 @@ const baseTheme = {
 const SearchContainer = () => {
   return (
     <ReactiveBase
-      url='http://localhost:9200'
-      app='paatokset_decisions'
+      url={process.env.REACT_APP_ELASTIC_URL || 'http://localhost:9200'}
+      app={process.env.REACT_APP_NAME || 'paatokset_decisions'}
       theme={baseTheme}
       >
         <FormContainer />
