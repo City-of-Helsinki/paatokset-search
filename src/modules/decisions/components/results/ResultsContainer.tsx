@@ -8,6 +8,8 @@ import SortSelect from './SortSelect';
 import SizeSelect from './SizeSelect';
 import { sortBy } from '@appbaseio/reactivesearch/lib/types';
 import useWindowDimensions from '../../../../hooks/useWindowDimensions';
+import SearchComponents from '../../enum/SearchComponents';
+import IndexFields from '../../enum/IndexFields';
 
 import './ResultsContainer.scss';
 
@@ -50,14 +52,18 @@ const ResultsContainer = () => {
     <div className='ResultsContainer'>
       <ReactiveList
           className='ResultsContainer__container'
-          componentId='results'
+          componentId={SearchComponents.RESULTS}
           size={size}
           pagination={true}
           pages={pages}
-          dataField={'meeting_date'}
+          dataField={IndexFields.MEETING_DATE}
           sortBy={sort}
           react={{
-              and: ['searchbox'/*, 'DateSensor', 'Category', 'sort-select'*/,'top_category_name', 'meeting_date']
+              and: [
+                SearchComponents.SEARCH_BAR,
+                SearchComponents.CATEGORY,
+                SearchComponents.MEETING_DATE
+              ]
           }}
           renderResultStats={(stats) => (
             <div className='ResultsContainer__stats'>
