@@ -9,6 +9,7 @@ import { FormErrors } from '../../../../types/types';
 import { isValidDate } from '../../../../../../utils/Date';
 import DatePicker from './DatePicker';
 
+import formStyles from '../../../../../../common/styles/Form.module.scss';
 import './DateSelect.scss';
 
 import classNames from 'classnames';
@@ -284,7 +285,13 @@ const DateSelect = ({
   );
 
   return (
-    <div className='DateSelect dateselect-wrapper form-element' ref={ref}>
+    <div className={classNames(
+        'DateSelect',
+        'dateselect-wrapper',
+        formStyles['form-element']
+      )}
+      ref={ref}
+    >
       <label>{t('DECISIONS:date-select')}</label>
       <button
         type='button'

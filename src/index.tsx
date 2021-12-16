@@ -2,21 +2,34 @@ import './i18n';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DecisionsContainer from './modules/decisions/SearchContainer';
+import PolicymakersContainer from './modules/policymakers/SearchContainer';
 import * as serviceWorker from './serviceWorker';
 
 // Global styles
 import './index.scss';
 
 // Determine which data source we use once policymakers search is implemented
-const decisions = true;
+const rootElement = document.getElementById('paatokset_search');
+let searchContainer;
+
+if(rootElement) {
+  const type = rootElement.dataset.type;  
+  switch(type) {
+    case 'decisions':
+      searchContainer = <DecisionsContainer />;
+      break;
+    case 'policymakers':
+      searchContainer = <PolicymakersContainer />;
+      break;
+    default:
+      searchContainer = null;
+  }
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <section>
-      {decisions ?
-        <DecisionsContainer /> :
-        null
-      }
+      {searchContainer}
     </section>
   </React.StrictMode>,
   document.getElementById('paatokset_search')

@@ -8,7 +8,8 @@
       "submit": "Search",
       "invalid-date": "Invalid date",
       "results-count": "results",
-      "clear-all": "Clear all"
+      "clear-all": "Clear all",
+      "filters": "Filters"
     },
     "DECISIONS": {
       "form-title": "Search decisions",
@@ -27,6 +28,15 @@
       "topic": "Topic",
       "choose-topic": "Choose topic",
       "date-select": "Date range"
+    },
+    "POLICYMAKERS": {
+      "form-title":"Search policymakers",
+      "search-bar-placeholder": "Search with a keywrod, e.g. mayor",
+      "search-bar-label": "Who are you looking for?",
+      "organ": "Organ",
+      "choose-organ": "Choose organ",
+      "field": "Field of expertise",
+      "choose-field": "Choose field of expertise"
     }
   },
   "fi": {
@@ -38,7 +48,8 @@
       "submit": "Hae",
       "invalid-date": "Päivämäärä ei ole oikeassa muodossa",
       "results-count": "hakutulosta",
-      "clear-all": "Tyhjennä valinnat"
+      "clear-all": "Tyhjennä valinnat",
+      "filters": "Rajaus"
     },
     "DECISIONS": {
       "form-title": "Hae päätöksiä",
@@ -57,6 +68,15 @@
       "topic": "Aihe",
       "choose-topic": "Valitse aihe",
       "date-select": "Ajankohta"
+    },
+    "POLICYMAKERS": {
+      "form-title":"Hae päättäjää",
+      "search-bar-placeholder": "Etsi hakusanalla, esim. pormestari",
+      "search-bar-label": "Ketä etsit?",
+      "organ": "Toimielin",
+      "choose-organ": "Valitse toimielin",
+      "field": "Toimiala",
+      "choose-field": "Valitse toimiala"
     }
   }
 }

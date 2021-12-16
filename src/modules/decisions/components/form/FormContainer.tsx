@@ -11,7 +11,9 @@ import { FormErrors } from '../../types/types';
 import { updateQueryParam, getQueryParam, deleteQueryParam } from '../../../../utils/QueryString';
 import SearchComponents from '../../enum/SearchComponents';
 
-import './FormContainer.scss';
+import formStyles from '../../../../common/styles/Form.module.scss';
+import styles from './FormContainer.module.scss';
+import classNames from 'classnames';
 
 type FormContainerState = {
   phrase: string,
@@ -141,10 +143,17 @@ class FormContainer extends React.Component {
     }
 
     return(
-      <div className='FormContainer wrapper form-wrapper' style={containerStyle}>
+      <div
+        className={classNames(
+          formStyles.FormContainer,
+          styles.FormContainer,
+          'wrapper'
+        )}
+        style={containerStyle}
+      >
         <FormTitle />
-        <form className='form-container' onSubmit={this.handleSubmit}>
-          <div className='FormContainer__upper-fields'>
+        <form className={formStyles.FormContainer__form} onSubmit={this.handleSubmit}>
+          <div className={formStyles['FormContainer__upper-fields']}>
             <SearchBar
               ref={this.searchBar}
               value={phrase}
@@ -155,7 +164,7 @@ class FormContainer extends React.Component {
               disabled={errors.to !== undefined || errors.from !== undefined}
             />
           </div>
-          <div className='FormContainer__lower-fields'>
+          <div className={formStyles['FormContainer__lower-fields']}>
             <ReactiveComponent
               componentId={SearchComponents.MEETING_DATE}
               defaultQuery={() => ({
@@ -213,8 +222,14 @@ class FormContainer extends React.Component {
           />
         </form>
         {isDesktop &&
-          <div className='FormContainer__koro-wrapper' ref={this.koro} style={koroStyle}>
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="50" fill="currentColor" className='FormContainer__koro'>
+          <div className={styles['FormContainer__koro-wrapper']} ref={this.koro} style={koroStyle}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              width="100%" height="50"
+              fill="currentColor"
+              className={styles.FormContainer__koro}
+            >
               <defs>
                 <pattern id="koros1164540240" x="0" y="0" width="67" height="51" patternUnits="userSpaceOnUse">
                   <path d="M 67 70 V 30.32 h 0 C 50.25 30.32 50.25 20 33.5 20 S 16.76 30.32 0 30.32 H 0 V 70 Z"></path>

@@ -1,0 +1,25 @@
+@import '../../../index.scss';
+
+.SearchBarWrapper {
+  background-color: #fff;
+
+  @media (min-width: 1248px) {
+    width: 894px;
+  }
+
+  label {
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  input {
+    @include input;
+    line-height: $input-height;
+  }
+}
+
+.SearchBar__input {
+  &:focus-within input {
+    @include focus-outline;
+  }
+}
