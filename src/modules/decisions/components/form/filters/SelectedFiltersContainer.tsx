@@ -23,7 +23,7 @@ const SelectedFiltersContainer = ({ categories, setCategories }: Props) => {
         className='SelectedFilters__wrapper'
         render={() => {
           const deleteCategory = (category: string) => {
-            let current = categories;
+            let current = [...categories];
             current.splice(current.indexOf(category), 1);
             setCategories(current);
           }

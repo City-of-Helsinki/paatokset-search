@@ -8,6 +8,8 @@ import SelectedFiltersContainer from './filters/SelectedFiltersContainer';
 import DateSelect from './filters/date/DateSelect';
 import CategorySelect from './filters/CategorySelect';
 import { FormErrors } from '../../types/types';
+import { updateQueryParam, getQueryParam, deleteQueryParam } from '../../../../utils/QueryString';
+import SearchComponents from '../../enum/SearchComponents';
 
 import './FormContainer.scss';
 
@@ -39,13 +41,58 @@ class FormContainer extends React.Component {
   componentDidMount() {
     const handler = (e: MediaQueryListEvent) => this.setState({ isDesktop: e.matches });
     window.matchMedia('(min-width: 1200px)').addEventListener('change', handler);
+    const from = getQueryParam('from');
+    if(from) {
+      this.setState({
+        queryFrom: from,
+        from: from
+      })
+    }
+    const to = getQueryParam('to');
+    if(to) {
+      this.setState({
+        queryTo: to,
+        to: to
+      })
+    }
+    const initialCategories = getQueryParam(SearchComponents.CATEGORY);
+    if(initialCategories) {
+      const parsedCategories = JSON.parse(initialCategories);
+      this.setState({
+        categories: parsedCategories,
+        queryCategories: parsedCategories
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps: any, prevState: any) {
+    const { queryFrom, queryTo } = this.state;
+
+    if(queryFrom !== prevState.queryFrom) {
+      if(queryFrom) {
+        updateQueryParam('from', this.state.queryFrom);
+      }
+      else {
+        deleteQueryParam('from');
+      }
+    }
+    if(queryTo !== prevState.queryTo) {
+      if(queryTo) {
+        updateQueryParam('to', this.state.queryTo);
+      }
+      else {
+        deleteQueryParam('to');
+      }
+    }
   }
 
   searchBar = React.createRef<any>();
   koro = React.createRef<any>();
 
   handleSubmit = (event: any) => {
-    event.preventDefault();
+    if(event) {
+     event.preventDefault();
+    }
     this.searchBar.current.triggerQuery();
     this.setState({
       queryCategories: this.state.categories
@@ -53,7 +100,7 @@ class FormContainer extends React.Component {
     this.setState({
       queryFrom: this.state.from,
       queryTo: this.state.to
-    })
+    });
   };
 
   changePhrase = (value: any) => {
@@ -110,7 +157,7 @@ class FormContainer extends React.Component {
           </div>
           <div className='FormContainer__lower-fields'>
             <ReactiveComponent
-              componentId='meeting_date'
+              componentId={SearchComponents.MEETING_DATE}
               defaultQuery={() => ({
                 query: {
                   range: {
@@ -131,9 +178,10 @@ class FormContainer extends React.Component {
                   queryTo={queryTo}
                 />
               )}
+              URLParams={true}
             />
             <ReactiveComponent
-              componentId='top_category_name'
+              componentId={SearchComponents.CATEGORY}
               defaultQuery={() => ({
                 aggs: {
                   top_category_name: {
@@ -152,6 +200,7 @@ class FormContainer extends React.Component {
                   queryValue={queryCategories}
                 />
               )}
+              URLParams={true}
             />
           </div>
           <SubmitButton
