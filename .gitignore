@@ -22,8 +22,9 @@ drush/sites/.checksums
 
 *.sql
 
-# Ignore build folder
+# Ignore build folders
 build/
+dist/
 
 # Ingore files that are only for the current local environment
 public/sites/default/local.settings.php

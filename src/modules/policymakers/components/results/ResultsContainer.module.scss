@@ -1,0 +1,12 @@
+.ResultsContainer {
+  .stats__count--policymakers {
+    width: 100%;
+    margin-bottom: 22px;
+  }
+
+  .ResultsContainer__container {
+    >div:first-child {
+      width: 100%;
+    }
+}
+}

@@ -5,7 +5,8 @@ import { Button } from 'hds-react';
 import classNames from 'classnames';
 
 import useWindowDimensions from '../../../../hooks/useWindowDimensions';
-import './SubmitButton.scss';
+import formStyles from '../../../../common/styles/Form.module.scss';
+import styles from './SubmitButton.module.scss';
 
 type Props = {
   disabled: boolean,
@@ -15,6 +16,7 @@ type Props = {
 const SubmitButton = ({ disabled, type = 'default' }: Props) => {
   const { width } = useWindowDimensions();
   const { t } = useTranslation();
+  const customClass = type === 'desktop' ? styles.SubmitButton__desktop : styles.SubmitButton__mobile;
 
   if(type === 'mobile' && width >= 1248) {
     return null;
@@ -31,9 +33,9 @@ const SubmitButton = ({ disabled, type = 'default' }: Props) => {
         <Button
           type='submit'
           className={classNames(
-            'form-element',
-            'SubmitButton',
-            `submit-button--${type}`
+            formStyles['form-element'],
+            styles.SubmitButton,
+            customClass
           )}
           disabled={disabled}
           style={{

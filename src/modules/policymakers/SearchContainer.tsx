@@ -18,7 +18,7 @@ const SearchContainer = () => {
   return (
     <ReactiveBase
       url={process.env.REACT_APP_ELASTIC_URL || 'http://localhost:9200'}
-      app={Indices.PAATOKSET_DECISIONS}
+      app={Indices.PAATOKSET_POLICYMAKERS}
       theme={baseTheme}
       >
         <FormContainer />

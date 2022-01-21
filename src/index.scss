@@ -1,3 +1,6 @@
+$input-height: 56px;
+$input-font-size: 18px;
+
 body {
   font-family: var(--font-default);
 }
@@ -8,8 +11,28 @@ body {
   }
 }
 
+@mixin input {
+  border: 2px solid #808080;
+  border-radius: 2px;
+  height: $input-height;
+  font-size: $input-font-size;
+
+  &:focus, &:focus-within, &:hover {
+    border-color: #1a1a1a;
+  }
+}
+
 @mixin focus-outline {
   border: solid 2px #1a1a1a;
   transition: border-color 85ms ease-out;
   box-shadow: 0 0 0 3px #0072c6;
+}
+
+.MultiDropdownList__item {
+  height: $input-height;
+  font-size: $input-font-size;
+}
+
+.DateSelect__collapsible-element label {
+  display: block;
 }

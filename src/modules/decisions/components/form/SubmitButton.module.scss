@@ -1,5 +1,4 @@
-button.SubmitButton {
-  margin-bottom: 34.5px;
+.SubmitButton {
   background-color: black;
   width: 100%;
   height: 56px;
@@ -8,8 +7,12 @@ button.SubmitButton {
   --background-color-focus: --color-gold;
   --color-hover: #000;
   --color-focus: #000;
+}
 
-  &.submit-button--desktop {
-    max-width: 258px;
-  }
+.SubmitButton__desktop {
+  max-width: 258px;
+}
+
+.SubmitButton__mobile {
+  margin-bottom: 34.5px;
 }

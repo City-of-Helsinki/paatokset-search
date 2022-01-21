@@ -7,7 +7,7 @@ import SearchBarWrapper from '../../../../common/components/form/SearchBarWrappe
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
 
-const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any}>((props, ref) => {
+const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string, setValue: any}>((props, ref) => {
   const { value, setValue } = props;
   const { t } = useTranslation();
 
@@ -16,22 +16,18 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       ref={ref}
       componentId={SearchComponents.SEARCH_BAR}
       dataField={[
-        IndexFields.CONTENT_DRAFT_PROPOSAL,
-        IndexFields.CONTENT_PRESENTER,
-        IndexFields.CONTENT_RESOLUTION,
-        IndexFields.ISSUE_SUBJECT,
-        IndexFields.SUBJECT
+        IndexFields.TITLE
       ]}
-      aggregationField={IndexFields.ISSUE_ID}
-      placeholder={t('DECISIONS:search-bar-placeholder')}
+      placeholder={t('POLICYMAKERS:search-bar-placeholder')}
       autosuggest={false}
       value={value}
+      defaultValue={value}
       onChange={setValue}
       URLParams={true}
     />
   );
 
-  const label = t('DECISIONS:search-bar-label');
+  const label = t('POLICYMAKERS:search-bar-label');
 
   return (
     <SearchBarWrapper

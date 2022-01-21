@@ -1,8 +1,6 @@
-$input-height: 56px;
-$input-font-size: 18px;
+@import '../../index.scss';
 
-.wrapper.form-wrapper {
-  background-color: var(--color-gold);
+.FormContainer {
   position: relative;
 
   h1 {
@@ -10,14 +8,14 @@ $input-font-size: 18px;
       margin-top: 80px;
       margin-left: auto;
       margin-right: auto;
-      max-width: var(--container-width-xl);
+      max-width: var(--container-width-xl);  
       padding-left: 0;
       padding-right: 0;
     }
   }
 }
 
-.form-container {
+.FormContainer__form {
   label {
     font-size: 16px;
     font-weight: 500;
@@ -26,30 +24,6 @@ $input-font-size: 18px;
 
     @media (max-width: 768px) {
       display: none;
-    }
-  }
-
-  //Exception
-  .SearchBar label {
-    display: block;
-  }
-
-  .DateSelect__collapsible-element label {
-    display: block;
-  }
-
-  .form-element {
-    margin-bottom: 16px;
-
-    > input, > button, &.SearchBar__input input {
-      border: 2px solid #808080;
-      border-radius: 2px;
-      height: $input-height;
-      font-size: $input-font-size;
-
-      &:focus, &:focus-within, &:hover {
-        border-color: #1a1a1a;
-      }
     }
   }
 
@@ -64,9 +38,16 @@ $input-font-size: 18px;
   }
 }
 
-.MultiDropdownList__item {
-  height: $input-height;
-  font-size: $input-font-size;
+.form-element {
+  margin-bottom: 16px;
+
+  label {
+    font-weight: bold;
+  }
+
+  > input, > button {
+    @include input;
+  }
 }
 
 .FormContainer__lower-fields {
@@ -92,19 +73,5 @@ $input-font-size: 18px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-  }
-}
-
-.FormContainer__koro-wrapper {
-  position: absolute;
-  width: 100%;
-  left: 0;
-  background: #f7f7f8;
-  
-  .FormContainer__koro {  
-    transform: rotate(180deg);
-    fill: var(--color-gold);
-    width: 100%;
-
   }
 }

@@ -6,7 +6,7 @@
 
     @media (min-width: 768px) {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
 
       > div:first-child {
@@ -23,10 +23,6 @@
       padding-right: 0;
       padding-top: 100px;
     }
-  }
-
-  .SortSelect {
-    margin-bottom: 48px;
   }
 }
 
@@ -60,35 +56,5 @@
 
   .SizeSelect {
     padding: 2px;
-  }
-}
-
-.ResultsContainer__pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  button.pagination__control {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button.pagination__item {
-    cursor: pointer;
-    width: 36px;
-    height: 36px;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-
-    &.pagination__item--current {
-      background-color: #000;
-      color: #fff;
-      border-radius: 25px;
-    }
   }
 }

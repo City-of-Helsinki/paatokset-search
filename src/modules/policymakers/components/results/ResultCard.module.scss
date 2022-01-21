@@ -1,0 +1,27 @@
+.ResultCard {
+  width: 100%;
+  background: #fff;
+}
+
+.ResultCard__container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 34px 30px 34px 40px;
+  position: relative;
+  color: #000;
+  text-decoration: none;
+
+  &:before {
+    content: '';
+    width: 16px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.ResultCard__title {
+  font-size: 24px;
+}
