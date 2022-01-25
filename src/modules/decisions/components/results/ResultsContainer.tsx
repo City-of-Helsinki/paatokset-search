@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ReactiveList } from '@appbaseio/reactivesearch';
 import { useTranslation } from 'react-i18next';
 import { sortBy } from '@appbaseio/reactivesearch/lib/types';
@@ -18,11 +18,17 @@ const ResultsContainer = () => {
   const [size, setSize] = useState<number>(12);
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
+  const resultsContainer = useRef<HTMLDivElement|null>(null);
 
   const pages = width < 768 ? 1 : 5;
+  const scrollToResults = () => {
+    if(resultsContainer.current) {
+      resultsContainer.current.scrollIntoView();
+    }
+  }
 
   return (
-    <div className={resultsStyles.ResultsContainer}>
+    <div className={resultsStyles.ResultsContainer} ref={resultsContainer}>
       <ReactiveList
           className={resultsStyles.ResultsContainer__container}
           componentId={SearchComponents.RESULTS}
@@ -31,6 +37,7 @@ const ResultsContainer = () => {
           pages={pages}
           dataField={IndexFields.MEETING_DATE}
           sortBy={sort}
+          onPageChange={scrollToResults}
           react={{
               and: [
                 SearchComponents.SEARCH_BAR,
@@ -61,7 +68,7 @@ const ResultsContainer = () => {
           )}
           renderNoResults={() => (
             <div className={resultsStyles.ResultsContainer__stats}>
-              <span className='stats__count'>
+              <span className={resultsStyles.stats__count}>
                 <strong>0</strong>
                 {t('SEARCH:results-count')}
               </span>

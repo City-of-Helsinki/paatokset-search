@@ -8,6 +8,15 @@
   min-height: 378px;
   overflow: hidden;
 
+  &:hover {
+    .search-result__container {
+      text-decoration: underline;
+    }
+    .search-result__issue-link {
+      transform: translate(10px);
+    }
+  }
+
   @media (min-width: 768px) {
     width: calc(50% - 24px);
   }
@@ -62,6 +71,7 @@
 }
 
 .search-result__issue-link {
+  transition: all 0.2s ease-in-out;
   margin-bottom: 10px;
 }
 

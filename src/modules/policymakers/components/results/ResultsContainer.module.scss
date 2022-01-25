@@ -8,5 +8,9 @@
     >div:first-child {
       width: 100%;
     }
-}
+  }
+
+  @media (min-width: 1248px) {
+    padding-top: 100px;
+  }
 }

@@ -14,10 +14,14 @@ const baseTheme = {
   }
 }
 
-const SearchContainer = () => {
+type Props = {
+  url: string
+};
+
+const SearchContainer = ({ url }: Props) => {
   return (
     <ReactiveBase
-      url={process.env.REACT_APP_ELASTIC_URL || 'http://localhost:9200'}
+      url={url}
       app={Indices.PAATOKSET_DECISIONS}
       theme={baseTheme}
       >

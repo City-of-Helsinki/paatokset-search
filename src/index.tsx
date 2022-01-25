@@ -13,13 +13,15 @@ const rootElement = document.getElementById('paatokset_search');
 let searchContainer;
 
 if(rootElement) {
-  const type = rootElement.dataset.type;  
+  const type = rootElement.dataset.type;
+  const elasticUrl = rootElement.dataset.url || 'http://localhost:9200';
+
   switch(type) {
     case 'decisions':
-      searchContainer = <DecisionsContainer />;
+      searchContainer = <DecisionsContainer url={elasticUrl} />;
       break;
     case 'policymakers':
-      searchContainer = <PolicymakersContainer />;
+      searchContainer = <PolicymakersContainer url={elasticUrl} />;
       break;
     default:
       searchContainer = null;

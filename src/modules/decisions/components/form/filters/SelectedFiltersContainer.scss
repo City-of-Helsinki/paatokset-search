@@ -1,8 +1,17 @@
+@import '../../../../../index.scss';
+
 .SelectedFilters {
-  margin-top: 55px;
-  padding-top: 28px;
-  border-top: 1px solid black;
-  overflow: hidden;
+  padding: 28px 16px 0;
+  overflow: visible;
+  background: #f7f7f8;
+
+  @media (min-width: 1248px) {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--container-width-xl);
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   .SelectedFilters__container {
     display: flex;
@@ -10,6 +19,7 @@
   }
 
   .SelectedFilters__filter {
+    cursor: pointer;
     font-size: 14px;
     color: #fff;
     background: #000;
@@ -21,6 +31,12 @@
     border: none;
     margin-right: 15px;
     margin-bottom: 12px;
+    outline: 0;
+
+    &:focus, &:focus-within, &:focus-visible {
+      @include focus-outline;
+      outline: 0;
+    }
   }
 
   .SelectedFilters__clear-filters {
