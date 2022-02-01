@@ -20,6 +20,18 @@
     top: 0;
     left: 0;
   }
+
+  svg {
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  
+    svg {
+     transform: translate(10px);
+    }
+  }
 }
 
 .ResultCard__title {

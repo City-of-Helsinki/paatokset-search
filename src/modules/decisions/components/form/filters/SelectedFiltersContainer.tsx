@@ -17,8 +17,6 @@ const SelectedFiltersContainer = ({ categories, setCategories }: Props) => {
     return null;
   }
 
-  console.log(categories);
-
   return (
     <div className='SelectedFilters form-element'>
       <SelectedFilters
@@ -43,9 +41,6 @@ const SelectedFiltersContainer = ({ categories, setCategories }: Props) => {
 
           return (
             <div className='SelectedFilters__container'>
-              <span className='SelectedFilters__filter-label'>
-                {t('SEARCH:filters') + ':'}
-              </span>
               {filters}
               <button
                 className='SelectedFilters__filter SelectedFilters__clear-filters'

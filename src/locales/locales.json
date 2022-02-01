@@ -3,6 +3,7 @@
     "SEARCH": {
       "per-page": "per page",
       "sort": "Sort",
+      "relevancy": "Relevancy",
       "most-recent-first": "Most recent first",
       "oldest-first": "Oldest first",
       "submit": "Search",
@@ -43,6 +44,7 @@
     "SEARCH": {
       "per-page": "kpl sivulla",
       "sort": "Lajittelu",
+      "relevancy": "Osuvuus",
       "most-recent-first": "Uusin ensin",
       "oldest-first": "Vanhin ensin",
       "submit": "Hae",

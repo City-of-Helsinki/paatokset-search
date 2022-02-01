@@ -8,6 +8,15 @@
   min-height: 378px;
   overflow: hidden;
 
+  &:hover {
+    .search-result__container {
+      text-decoration: underline;
+    }
+    .search-result__issue-link {
+      transform: translate(10px);
+    }
+  }
+
   @media (min-width: 768px) {
     width: calc(50% - 24px);
   }
@@ -29,17 +38,15 @@
 }
 
 .search-result__container {
-  padding: 18px 16px 18px;
+  padding: 0 16px;
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   height: 100%;
 }
 
-.search-result__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+.search-result__date {
+  margin-top: 21px;
 }
 
 .search-result__title {
@@ -54,7 +61,8 @@
 }
 
 .search-result__footer {
-  align-self: flex-end;
+  padding: 0 16px;
+  margin-bottom: 18px;
 }
 
 .search-result__tag-container {
@@ -62,6 +70,7 @@
 }
 
 .search-result__issue-link {
+  transition: all 0.2s ease-in-out;
   margin-bottom: 10px;
 }
 

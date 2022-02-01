@@ -6,13 +6,14 @@ import './ResultCard.scss';
 
 type Props = {
   category: string,
-  date: string,
+  date: number,
   href: string,
   policymaker: string,
-  subject: string
+  subject: string,
+  _score: number
 };
 
-const ResultCard = ({category, date, href, policymaker, subject}: Props) => {
+const ResultCard = ({category, date, href, policymaker, subject, _score}: Props) => {
   const handleClick = () => {
     window.location.href=href
   }
@@ -23,7 +24,10 @@ const ResultCard = ({category, date, href, policymaker, subject}: Props) => {
     }
   }
 
-  const formattedDate = format(new Date(date), 'dd.MM.yyyy');
+  let formattedDate;
+  if(date) {
+    formattedDate = format(new Date(date * 1000), 'dd.MM.yyyy');
+  }
 
   return (
     <div 
@@ -37,22 +41,30 @@ const ResultCard = ({category, date, href, policymaker, subject}: Props) => {
       </div>
       <div className='search-result__container'>
         <div className='search-result__header'>
-          <div className='search-result__date'>
-            { formattedDate }
-          </div>
+          {formattedDate &&
+            <div className='search-result__date'>
+              { formattedDate }
+            </div>
+          }
         </div>
         <div className='search-result__title'>
+          {process.env.REACT_APP_DEVELOPER_MODE &&
+            <span style={{color: 'red'}}>{ _score }</span>
+          }
           <h2>{ subject }</h2>
         </div>
-        <div className='search-result__footer'>
-          <div className='search-result__tag-container paatokset-tag-container'>
-            <span className='search-tag'>{ category }</span>
-          </div>
+      </div>
+      <div className='search-result__footer'>
+          {
+            category &&
+              <div className='search-result__tag-container paatokset-tag-container'>
+                <span className='search-tag'>{ category }</span>
+              </div>
+          }
           <div className='search-result__issue-link'>
               <IconArrowRight size={'l'}/>
           </div>
         </div>
-      </div>
     </div>  
   );
 }

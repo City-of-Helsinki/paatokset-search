@@ -65,6 +65,10 @@ class FormContainer extends React.Component {
         queryCategories: parsedCategories
       });
     }
+    const keyword = getQueryParam(SearchComponents.SEARCH_BAR);
+    if(keyword) {
+      this.changePhrase(JSON.parse(keyword));
+    }
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
@@ -143,102 +147,104 @@ class FormContainer extends React.Component {
     }
 
     return(
-      <div
-        className={classNames(
-          formStyles.FormContainer,
-          styles.FormContainer,
-          'wrapper'
-        )}
-        style={containerStyle}
-      >
-        <FormTitle />
-        <form className={formStyles.FormContainer__form} onSubmit={this.handleSubmit}>
-          <div className={formStyles['FormContainer__upper-fields']}>
-            <SearchBar
-              ref={this.searchBar}
-              value={phrase}
-              setValue={this.changePhrase}
-            />
-            <SubmitButton
-              type='desktop'
-              disabled={errors.to !== undefined || errors.from !== undefined}
-            />
-          </div>
-          <div className={formStyles['FormContainer__lower-fields']}>
-            <ReactiveComponent
-              componentId={SearchComponents.MEETING_DATE}
-              defaultQuery={() => ({
-                query: {
-                  range: {
-                    meeting_date: {}
-                  }
-                }
-              })}
-              render={({ setQuery }) => (
-                <DateSelect
-                  setQuery={setQuery}
-                  errors={errors}
-                  setErrors={this.setErrors}
-                  to={to}
-                  from={from}
-                  setFrom={this.setFrom}
-                  setTo={this.setTo}
-                  queryFrom={queryFrom}
-                  queryTo={queryTo}
-                />
-              )}
-              URLParams={true}
-            />
-            <ReactiveComponent
-              componentId={SearchComponents.CATEGORY}
-              defaultQuery={() => ({
-                aggs: {
-                  top_category_name: {
-                    terms: {
-                      field: 'top_category_name'
+      <div style={{background: '#f7f7f8'}}>
+        <div
+          className={classNames(
+            formStyles.FormContainer,
+            styles.FormContainer,
+            'wrapper'
+          )}
+          style={containerStyle}
+        >
+          <FormTitle />
+          <form className={formStyles.FormContainer__form} onSubmit={this.handleSubmit}>
+            <div className={formStyles['FormContainer__upper-fields']}>
+              <SearchBar
+                ref={this.searchBar}
+                value={phrase}
+                setValue={this.changePhrase}
+              />
+              <SubmitButton
+                type='desktop'
+                disabled={errors.to !== undefined || errors.from !== undefined}
+              />
+            </div>
+            <div className={formStyles['FormContainer__lower-fields']}>
+              <ReactiveComponent
+                componentId={SearchComponents.MEETING_DATE}
+                defaultQuery={() => ({
+                  query: {
+                    range: {
+                      meeting_date: {}
                     }
                   }
-                }
-              })}
-              render={({ aggregations, setQuery }) => (
-                <CategorySelect 
-                  aggregations={aggregations}
-                  setQuery={setQuery}
-                  setValue={this.setCategories}
-                  value={categories}
-                  queryValue={queryCategories}
-                />
-              )}
-              URLParams={true}
+                })}
+                render={({ setQuery }) => (
+                  <DateSelect
+                    setQuery={setQuery}
+                    errors={errors}
+                    setErrors={this.setErrors}
+                    to={to}
+                    from={from}
+                    setFrom={this.setFrom}
+                    setTo={this.setTo}
+                    queryFrom={queryFrom}
+                    queryTo={queryTo}
+                  />
+                )}
+                URLParams={true}
+              />
+              <ReactiveComponent
+                componentId={SearchComponents.CATEGORY}
+                defaultQuery={() => ({
+                  aggs: {
+                    top_category_name: {
+                      terms: {
+                        field: 'top_category_name'
+                      }
+                    }
+                  }
+                })}
+                render={({ aggregations, setQuery }) => (
+                  <CategorySelect 
+                    aggregations={aggregations}
+                    setQuery={setQuery}
+                    setValue={this.setCategories}
+                    value={categories}
+                    queryValue={queryCategories}
+                  />
+                )}
+                URLParams={true}
+              />
+            </div>
+            <SubmitButton
+              type='mobile'
+              disabled={errors.to !== undefined || errors.from !== undefined}
             />
-          </div>
-          <SubmitButton
-            type='mobile'
-            disabled={errors.to !== undefined || errors.from !== undefined}
-          />
-          <SelectedFiltersContainer
-            categories={categories}
-            setCategories={this.setCategories}
-          />
-        </form>
-        {isDesktop &&
-          <div className={styles['FormContainer__koro-wrapper']} ref={this.koro} style={koroStyle}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              width="100%" height="50"
-              fill="currentColor"
-              className={styles.FormContainer__koro}
-            >
-              <defs>
-                <pattern id="koros1164540240" x="0" y="0" width="67" height="51" patternUnits="userSpaceOnUse">
-                  <path d="M 67 70 V 30.32 h 0 C 50.25 30.32 50.25 20 33.5 20 S 16.76 30.32 0 30.32 H 0 V 70 Z"></path>
-                </pattern>
-              </defs>
-              <rect fill="url(#koros1164540240)" width="100%" height="50"></rect>
-            </svg>
-          </div>
-        }
+          </form>
+          {isDesktop &&
+            <div className={styles['FormContainer__koro-wrapper']} ref={this.koro} style={koroStyle}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                width="100%" height="50"
+                fill="currentColor"
+                className={styles.FormContainer__koro}
+              >
+                <defs>
+                  <pattern id="koros1164540240" x="0" y="0" width="67" height="51" patternUnits="userSpaceOnUse">
+                    <path d="M 67 70 V 30.32 h 0 C 50.25 30.32 50.25 20 33.5 20 S 16.76 30.32 0 30.32 H 0 V 70 Z"></path>
+                  </pattern>
+                </defs>
+                <rect fill="url(#koros1164540240)" width="100%" height="50"></rect>
+              </svg>
+            </div>
+          }
+        </div>
+        <SelectedFiltersContainer
+          categories={categories}
+          setCategories={this.setCategories}
+        />
       </div>
     );
   }
