@@ -8,7 +8,8 @@ export const IndexFields = {
   MEETING_POLICYMAKER_LINK: 'meeting_policymaker_link',
   SUBJECT: 'subject',
   SUBJECT_RESOLUTION: 'subject_resolution',
-  TOP_CATEGORY_NAME: 'top_category_name'
+  TOP_CATEGORY_NAME: 'top_category_name',
+  SCORE: '_score'
 };
 
 export default IndexFields;

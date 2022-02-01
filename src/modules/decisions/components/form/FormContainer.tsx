@@ -67,7 +67,7 @@ class FormContainer extends React.Component {
     }
     const keyword = getQueryParam(SearchComponents.SEARCH_BAR);
     if(keyword) {
-      this.changePhrase(keyword);
+      this.changePhrase(JSON.parse(keyword));
     }
   }
 

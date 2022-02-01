@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ReactiveList } from '@appbaseio/reactivesearch';
 import { useTranslation } from 'react-i18next';
-import { sortBy } from '@appbaseio/reactivesearch/lib/types';
 
 import ResultCard from './ResultCard';
 import SortSelect from './SortSelect';
@@ -9,12 +8,13 @@ import SizeSelect from './SizeSelect';
 import useWindowDimensions from '../../../../hooks/useWindowDimensions';
 import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
+import { Sort } from '../../enum/Sort';
 import Pagination from '../../../../common/components/results/Pagination';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
 
 const ResultsContainer = () => {
-  const [sort, setSort] = useState<sortBy|undefined>('desc');
+  const [sort, setSort] = useState<string|undefined>(Sort.SCORE);
   const [size, setSize] = useState<number>(12);
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
@@ -27,6 +27,11 @@ const ResultsContainer = () => {
     }
   }
 
+  const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
+  const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc'; 
+
+  console.log(dataField, sortBy);
+
   return (
     <div className={resultsStyles.ResultsContainer} ref={resultsContainer}>
       <ReactiveList
@@ -35,9 +40,10 @@ const ResultsContainer = () => {
           size={size}
           pagination={true}
           pages={pages}
-          dataField={IndexFields.MEETING_DATE}
-          sortBy={sort}
+          dataField={dataField}
+          sortBy={sortBy}
           onPageChange={scrollToResults}
+          URLParams={true}
           react={{
               and: [
                 SearchComponents.SEARCH_BAR,
@@ -74,6 +80,24 @@ const ResultsContainer = () => {
               </span>
             </div>
           )}
+          defaultQuery={(value, props) => {
+            return {
+              query: {
+                function_score: {
+                  boost: 10,
+                  functions: [
+                    {gauss:
+                      {
+                        meeting_date: {
+                          scale: '365d'
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }}
           render={({ data }) => (
             <React.Fragment>
             <SortSelect
@@ -82,7 +106,8 @@ const ResultsContainer = () => {
             <ReactiveList.ResultCardsWrapper
               style={{
                 margin: 0,
-                gap: '24px'
+                gap: '24px',
+                width: '100%'
               }}
             >
               {data.map((item: any) => {
@@ -92,7 +117,8 @@ const ResultsContainer = () => {
                   date: item.meeting_date,
                   href: item.meeting_policymaker_link,
                   policymaker: 'Kaupunginvaltuusto',
-                  subject: item.subject
+                  subject: item.subject,
+                  _score: item._score
                 };
                 return <ResultCard
                   key={id}

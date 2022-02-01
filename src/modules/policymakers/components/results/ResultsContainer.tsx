@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { ReactiveList } from '@appbaseio/reactivesearch';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
@@ -12,11 +13,20 @@ import styles from './ResultsContainer.module.scss';
 
 const ResultsContainer = () => {
   const { t } = useTranslation();
+  const resultsContainer = useRef<HTMLDivElement|null>(null);
+
+  const scrollToResults = () => {
+    if(resultsContainer.current) {
+      resultsContainer.current.scrollIntoView();
+    }
+  }
 
   return (
-    <div className={classNames(
-      resultsStyles.ResultsContainer,
-      styles.ResultsContainer
+    <div 
+      ref={resultsContainer}
+      className={classNames(
+        resultsStyles.ResultsContainer,
+        styles.ResultsContainer
     )}>
       <ReactiveList
         className={classNames(
@@ -28,6 +38,7 @@ const ResultsContainer = () => {
         pages={5}
         pagination={true}
         dataField={IndexFields.TITLE}
+        onPageChange={scrollToResults}
         react={{
           and: [
             SearchComponents.SEARCH_BAR,
@@ -57,7 +68,7 @@ const ResultsContainer = () => {
         )}
         renderNoResults={() => (
           <div className={resultsStyles.ResultsContainer__stats}>
-            <span className='stats__count'>
+            <span className={resultsStyles.stats__count}>
               <strong>0</strong>
               {t('SEARCH:results-count')}
             </span>
@@ -67,7 +78,8 @@ const ResultsContainer = () => {
           <ReactiveList.ResultCardsWrapper
             style={{
               margin: 0,
-              gap: '24px'
+              gap: '24px',
+              width: '100%'
             }}
           >
             {data.map((item: any) => (
