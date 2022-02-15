@@ -2,10 +2,13 @@ import React from 'react';
 import { IconArrowRight } from 'hds-react';
 import { format } from 'date-fns';
 
+import useDepartmentClasses from '../../../../hooks/useDepartmentClasses';
+
 import './ResultCard.scss';
 
 type Props = {
   category: string,
+  color_class: string[],
   date: number,
   href: string,
   policymaker: string,
@@ -13,7 +16,9 @@ type Props = {
   _score: number
 };
 
-const ResultCard = ({category, date, href, policymaker, subject, _score}: Props) => {
+const ResultCard = ({category, color_class, date, href, policymaker, subject, _score}: Props) => {
+  const colorClass = useDepartmentClasses(color_class);
+
   const handleClick = () => {
     window.location.href=href
   }
@@ -36,7 +41,7 @@ const ResultCard = ({category, date, href, policymaker, subject, _score}: Props)
       onKeyPress={handleKeyPress}
       tabIndex={0}
     >
-      <div className='search-result__label'>
+      <div className='search-result__label' style={{backgroundColor: colorClass}}>
         { policymaker }
       </div>
       <div className='search-result__container'>

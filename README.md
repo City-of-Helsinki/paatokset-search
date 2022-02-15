@@ -1,5 +1,23 @@
 # paatokset-search
 
+First, make sure you have installed the helfi-paatokset project and have set it up properly.
+
+## Getting started
+
+```console
+foo@bar:~$ npm i
+foo@bar:~$ npm start
+```
+
+Make sure your elastic container is up and running.
+
+Since this app is used as an embedded app inside Drupal, some settings for the standalone app are set in the `public/index.html` file. Edit the div with id `paatokset_search` to modify these settings:
+
+- The data-url -attribute should be the URL for your elastic cluster. You can also change this to point to the proxy app server in test/prod environments to test the app with real data.
+- Data-type -attribute determines if the app is used for searching policymakers or decisions. Naturally the available options for this attribute are `decisions` and `policymakers`.
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -28,6 +46,10 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run dist`
+
+Creates a release-ready bundle from from the project.
 
 ### `npm run eject`
 

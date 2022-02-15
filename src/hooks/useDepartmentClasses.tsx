@@ -1,19 +1,9 @@
-export default function useDepartmentClasses(departmentArray: string[]|undefined) {
-  let department;
-  if(departmentArray && departmentArray.length >= 0) {
-    department = departmentArray[0];
+export default function useDepartmentClasses(colorClassArray: string[]|undefined) {
+  if(colorClassArray && colorClassArray.length >= 0) {
+    const colorClass = colorClassArray[0];
+
+    return `var(--${colorClass})`;
   }
 
-  if(department === 'Viranhaltija' || department === 'Luottamushenkilö') {
-    return 'trustee';
-  }
-  if(department === 'Lautakunta' || department === 'Jaosto' || department === 'Hallitus') {
-    return 'board'
-  }
-  if(department === 'Valtuusto') {
-    return 'council'
-  }
-  if(department === 'Toimi-/Neuvottelukunta') {
-    return 'committee';
-  }
+  return '';
 }

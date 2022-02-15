@@ -1,35 +1,32 @@
 import { IconArrowRight } from 'hds-react';
-import classNames from 'classnames';
 
 import useDepartmentClasses from '../../../../hooks/useDepartmentClasses';
 
 import style from './ResultCard.module.scss';
-import departmentStyles from '../../../../common/styles/Departments.module.scss';
 
 type Props = {
+  color_class: string[],
   key: string,
   title: string,
-  field_organization_type?: string[],
   url?: string
 }
 
-const ResultCard = ({key, title, url, field_organization_type}: Props) => {
-  const department = useDepartmentClasses(field_organization_type);
-  let departmentClass;
+const ResultCard = ({color_class, key, title, url}: Props) => {
+  const colorClass = useDepartmentClasses(color_class);
 
-  if(department && department.length > 0) {
-    departmentClass = departmentStyles[`department--${department}`];
-  }
+  console.log(colorClass);
 
   return (
     <article
       className={style.ResultCard} 
       key={key}
     >
-      <a href={url} className={classNames(
-        style.ResultCard__container,
-        departmentClass
-      )}>
+      <a
+        href={url}
+        data-color-class={colorClass}
+        className={style.ResultCard__container}
+      >
+        <span className={style.departmentHighlight} style={{backgroundColor: colorClass}}></span>
         <span className={style.ResultCard__title}>{title}</span>
         <IconArrowRight size='m' />
       </a>

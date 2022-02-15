@@ -12,6 +12,11 @@ import SectorSelect from './filters/SectorSelect';
 import formStyles from '../../../../common/styles/Form.module.scss';
 import classNames from 'classnames';
 
+type Props = {
+  searchTriggered: boolean,
+  triggerSearch: Function
+}
+
 type FormContainerState = {
   phrase: string,
   sectors: string[],
@@ -27,7 +32,7 @@ const getInitialValue = (key: string) => {
   return [];
 }
 
-class FormContainer extends Component {
+class FormContainer extends Component<Props> {
   state: FormContainerState = {
     phrase: '',
     sectors: [],
@@ -49,6 +54,11 @@ class FormContainer extends Component {
         sectors: initialSectors,
         querySectors: initialSectors
       });
+    }
+
+    const initialPhrase = getInitialValue(SearchComponents.SEARCH_BAR);
+    if(initialPhrase && !this.props.searchTriggered) {
+      this.props.triggerSearch();
     }
   }
 
@@ -90,6 +100,10 @@ class FormContainer extends Component {
     }
 
     if(this.searchBar.current) {
+      if(!this.props.searchTriggered) {
+        this.props.triggerSearch();
+      }
+
       this.searchBar.current.triggerQuery();
     }
 

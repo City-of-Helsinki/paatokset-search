@@ -6,7 +6,7 @@ export type FormErrors = {
 export type Fields = {
   top_category_name: string,
   meeting_date: string,
-  meeting_policymaker_link: string,
+  decision_url: string,
   policymaker: string,
   subject: string
 };

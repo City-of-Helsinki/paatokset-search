@@ -15,6 +15,11 @@ import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
 
+type FormContainerProps = {
+  searchTriggered: boolean,
+  triggerSearch: Function
+};
+
 type FormContainerState = {
   phrase: string,
   categories: Array<string>,
@@ -27,7 +32,7 @@ type FormContainerState = {
   isDesktop: boolean
 };
 
-class FormContainer extends React.Component {
+class FormContainer extends React.Component<FormContainerProps, FormContainerState> {
   state: FormContainerState = {
     phrase: '',
     categories: [],
@@ -68,6 +73,9 @@ class FormContainer extends React.Component {
     const keyword = getQueryParam(SearchComponents.SEARCH_BAR);
     if(keyword) {
       this.changePhrase(JSON.parse(keyword));
+      if(!this.props.searchTriggered) {
+        this.props.triggerSearch();
+      }
     }
   }
 
@@ -98,7 +106,7 @@ class FormContainer extends React.Component {
   handleSubmit = (event: any) => {
     if(event) {
      event.preventDefault();
-    }
+    }    
     this.searchBar.current.triggerQuery();
     this.setState({
       queryCategories: this.state.categories
@@ -107,6 +115,10 @@ class FormContainer extends React.Component {
       queryFrom: this.state.from,
       queryTo: this.state.to
     });
+
+    if(!this.props.searchTriggered) {
+      this.props.triggerSearch();
+    }
   };
 
   changePhrase = (value: any) => {
@@ -143,6 +155,7 @@ class FormContainer extends React.Component {
     
     if(isDesktop && this.koro.current) {
       containerStyle.marginBottom = `${this.koro.current.clientHeight}px`;
+      koroStyle.backgroundColor = this.props.searchTriggered ? '#f7f7f8' : 'transparent';
       koroStyle.bottom = `-${this.koro.current.clientHeight}px`;
     }
 
