@@ -30,8 +30,6 @@ const ResultsContainer = () => {
   const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
   const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc'; 
 
-  console.log(dataField, sortBy);
-
   return (
     <div className={resultsStyles.ResultsContainer} ref={resultsContainer}>
       <ReactiveList
@@ -100,32 +98,33 @@ const ResultsContainer = () => {
           }}
           render={({ data }) => (
             <React.Fragment>
-            <SortSelect
-              setSort={setSort}
-            />
-            <ReactiveList.ResultCardsWrapper
-              style={{
-                margin: 0,
-                gap: '24px',
-                width: '100%'
-              }}
-            >
-              {data.map((item: any) => {
-                const {id} = item;
-                const resultProps = {
-                  category: item.top_category_name,
-                  date: item.meeting_date,
-                  href: item.meeting_policymaker_link,
-                  policymaker: 'Kaupunginvaltuusto',
-                  subject: item.subject,
-                  _score: item._score
-                };
-                return <ResultCard
-                  key={id}
-                  {...resultProps}
-                />
-              })}
-            </ReactiveList.ResultCardsWrapper>
+              <SortSelect
+                setSort={setSort}
+              />
+              <ReactiveList.ResultCardsWrapper
+                style={{
+                  margin: 0,
+                  gap: '24px',
+                  width: '100%'
+                }}
+              >
+                {data.map((item: any) => {
+                  const {id} = item;
+                  const resultProps = {
+                    category: item.top_category_name,
+                    color_class: item.color_class,
+                    date: item.meeting_date,
+                    href: item.decision_url,
+                    policymaker: 'Kaupunginvaltuusto',
+                    subject: item.subject,
+                    _score: item._score
+                  };
+                  return <ResultCard
+                    key={id}
+                    {...resultProps}
+                  />
+                })}
+              </ReactiveList.ResultCardsWrapper>
             </React.Fragment>
           )}
       />

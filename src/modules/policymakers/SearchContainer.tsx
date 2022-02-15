@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactiveBase } from '@appbaseio/reactivesearch';
 
 import Indices from '../../Indices';
@@ -19,14 +19,22 @@ type Props = {
 };
 
 const SearchContainer = ({ url }: Props) => {
+  const [searchTriggered, setSearchStatus] = useState<boolean>(false);
+
+  const triggerSearch = () => {
+    setSearchStatus(true);
+  }
+
   return (
     <ReactiveBase
       url={url}
       app={Indices.PAATOKSET_POLICYMAKERS}
       theme={baseTheme}
       >
-        <FormContainer />
-        <ResultsContainer />
+        <FormContainer searchTriggered={searchTriggered} triggerSearch={triggerSearch} />
+        {searchTriggered &&
+          <ResultsContainer />
+        }
       </ReactiveBase>
   )
 }
