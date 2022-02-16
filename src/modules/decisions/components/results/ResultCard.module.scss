@@ -1,4 +1,4 @@
-.search-result__wrapper {
+.ResultCard {
   cursor: pointer;
   background-color: #fff;
   display: flex;
@@ -9,10 +9,10 @@
   overflow: hidden;
 
   &:hover {
-    .search-result__container {
+    .ResultCard__container {
       text-decoration: underline;
     }
-    .search-result__issue-link {
+    .ResultCard__issue-link {
       transform: translate(10px);
     }
   }
@@ -25,7 +25,7 @@
     max-width: 384px; 
   }
 }
-.search-result__label {
+.ResultCard__label {
   padding: 11px 14px;
   margin-bottom: 0;
   text-align: center;
@@ -37,7 +37,7 @@
   background: #00d7a7;
 }
 
-.search-result__container {
+.ResultCard__container {
   padding: 0 16px;
   display: flex;
   flex-wrap: wrap;
@@ -45,15 +45,15 @@
   height: 100%;
 }
 
-.search-result__date {
+.ResultCard__date{
   margin-top: 21px;
 }
 
-.search-result__title {
+.ResultCard__title {
   width: 100%;
 }
 
-.search-result__title h2 {
+.ResultCard__title h2 {
   margin-top: 21px;
   font-size: 24px;
   line-height: 24px;
@@ -61,16 +61,16 @@
   margin-bottom: 36px;
 }
 
-.search-result__footer {
+.ResultCard__footer {
   padding: 0 16px;
   margin-bottom: 18px;
 }
 
-.search-result__tag-container {
+.ResultCard__tags {
   margin-bottom: 24px;
 }
 
-.search-result__issue-link {
+.ResultCard__issue-link {
   transition: all 0.2s ease-in-out;
   margin-bottom: 10px;
 }
