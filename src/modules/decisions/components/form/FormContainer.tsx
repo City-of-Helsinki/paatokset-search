@@ -29,7 +29,8 @@ type FormContainerState = {
   to: any,
   queryTo: any
   errors: FormErrors,
-  isDesktop: boolean
+  isDesktop: boolean,
+  wildcardPhrase: string
 };
 
 class FormContainer extends React.Component<FormContainerProps, FormContainerState> {
@@ -42,7 +43,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     to: undefined,
     queryFrom: undefined,
     queryTo: undefined,
-    isDesktop: window.matchMedia('(min-width: 1200px)').matches
+    isDesktop: window.matchMedia('(min-width: 1200px)').matches,
+    wildcardPhrase: ''
   };
 
   componentDidMount() {
@@ -72,7 +74,11 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }
     const keyword = getQueryParam(SearchComponents.SEARCH_BAR);
     if(keyword) {
-      this.changePhrase(JSON.parse(keyword));
+      const initialPhrase = JSON.parse(keyword);
+      this.changePhrase(initialPhrase);
+      this.setState({
+        wildcardPhrase: initialPhrase
+      });
       if(!this.props.searchTriggered) {
         this.props.triggerSearch();
       }
@@ -109,11 +115,10 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }    
     this.searchBar.current.triggerQuery();
     this.setState({
-      queryCategories: this.state.categories
-    });
-    this.setState({
+      queryCategories: this.state.categories,
       queryFrom: this.state.from,
-      queryTo: this.state.to
+      queryTo: this.state.to,
+      wildcardPhrase: this.state.phrase
     });
 
     if(!this.props.searchTriggered) {
@@ -148,7 +153,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
   setErrors = (errors: FormErrors) => this.setState({errors});
 
   render() {
-    const { errors, phrase, categories, queryCategories, from, to, queryFrom, queryTo, isDesktop } = this.state;
+    const { errors, phrase, categories, queryCategories, from, to, queryFrom, queryTo, isDesktop, wildcardPhrase } = this.state;
 
     let containerStyle: any = {};
     let koroStyle: any = {};
@@ -228,6 +233,16 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                   />
                 )}
                 URLParams={true}
+              />
+              <ReactiveComponent
+                componentId={SearchComponents.WILDCARD}
+                customQuery={(props) => {
+                  return {query: {
+                    wildcard: {
+                      'subject.keyword': `*${wildcardPhrase}*`
+                    }
+                  }}
+                }}
               />
             </div>
             <SubmitButton
