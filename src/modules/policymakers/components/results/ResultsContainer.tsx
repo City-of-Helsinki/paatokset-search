@@ -39,9 +39,13 @@ const ResultsContainer = () => {
         pagination={true}
         dataField={IndexFields.TITLE}
         onPageChange={scrollToResults}
+        URLParams={true}
         react={{
-          and: [
+          or: [
             SearchComponents.SEARCH_BAR,
+            SearchComponents.WILDCARD
+          ],
+          and: [
             SearchComponents.SECTOR,
             SearchComponents.ORGAN
           ]

@@ -8,13 +8,12 @@ type Props = {
   color_class: string[],
   key: string,
   title: string,
+  trustee_name?: string,
   url?: string
 }
 
-const ResultCard = ({color_class, key, title, url}: Props) => {
+const ResultCard = ({color_class, key, title, trustee_name, url}: Props) => {
   const colorClass = useDepartmentClasses(color_class);
-
-  console.log(colorClass);
 
   return (
     <article
@@ -27,7 +26,7 @@ const ResultCard = ({color_class, key, title, url}: Props) => {
         className={style.ResultCard__container}
       >
         <span className={style.departmentHighlight} style={{backgroundColor: colorClass}}></span>
-        <span className={style.ResultCard__title}>{title}</span>
+        <span className={style.ResultCard__title}>{trustee_name ?? title}</span>
         <IconArrowRight size='m' />
       </a>
     </article>
