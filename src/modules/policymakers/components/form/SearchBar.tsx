@@ -17,7 +17,9 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       componentId={SearchComponents.SEARCH_BAR}
       dataField={[
         IndexFields.TITLE,
-        IndexFields.TRUSTEE_NAME
+        IndexFields.TRUSTEE_NAME,
+        IndexFields.DM_FIRST_NAME,
+        IndexFields.DM_LAST_NAME
       ]}
       placeholder={t('POLICYMAKERS:search-bar-placeholder')}
       autosuggest={false}
