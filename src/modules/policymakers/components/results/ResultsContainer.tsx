@@ -88,8 +88,8 @@ const ResultsContainer = () => {
           >
             {data.map((item: any) => (
               <ResultCard
-                key={item.id}
                 {...item}
+                key={item.id}
               />
             ))}
           </ReactiveList.ResultCardsWrapper>
