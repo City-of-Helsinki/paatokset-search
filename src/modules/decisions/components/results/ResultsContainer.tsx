@@ -20,7 +20,7 @@ const ResultsContainer = () => {
   const { width } = useWindowDimensions();
   const resultsContainer = useRef<HTMLDivElement|null>(null);
 
-  const pages = width < 768 ? 1 : 5;
+  const pages = width < 768 ? 3 : 5;
   const scrollToResults = () => {
     if(resultsContainer.current) {
       resultsContainer.current.scrollIntoView();

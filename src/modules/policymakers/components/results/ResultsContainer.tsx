@@ -26,12 +26,13 @@ const ResultsContainer = () => {
       ref={resultsContainer}
       className={classNames(
         resultsStyles.ResultsContainer,
-        styles.ResultsContainer
+        styles.ResultsContainer,
     )}>
       <ReactiveList
         className={classNames(
           resultsStyles.ResultsContainer__container,
-          styles.ResultsContainer__container
+          styles.ResultsContainer__container,
+          'container'
         )}
         componentId={SearchComponents.RESULTS}
         size={10}

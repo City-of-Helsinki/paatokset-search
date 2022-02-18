@@ -133,7 +133,13 @@ class FormContainer extends Component<Props> {
           'wrapper'
         )}
       >
-        <form className={formStyles.FormContainer__form} onSubmit={this.handleSubmit}>
+        <form 
+          className={classNames(
+            formStyles.FormContainer__form,
+            'container'
+          )}
+          onSubmit={this.handleSubmit}
+        >
           <div className={formStyles['FormContainer__upper-fields']}>
             <SearchBar
               ref={this.searchBar}
