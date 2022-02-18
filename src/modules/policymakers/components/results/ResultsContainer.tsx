@@ -35,7 +35,7 @@ const ResultsContainer = () => {
         )}
         componentId={SearchComponents.RESULTS}
         size={10}
-        pages={5}
+        pages={3}
         pagination={true}
         dataField={IndexFields.TITLE}
         onPageChange={scrollToResults}

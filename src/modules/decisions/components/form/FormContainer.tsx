@@ -75,10 +75,13 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     const keyword = getQueryParam(SearchComponents.SEARCH_BAR);
     if(keyword) {
       const initialPhrase = JSON.parse(keyword);
-      this.changePhrase(initialPhrase);
       this.setState({
         wildcardPhrase: initialPhrase
       });
+    }
+
+    const initialPage = getQueryParam('results');
+    if(![from, to, initialCategories, keyword, initialPage].every(value => Number(value) === 0)) {
       if(!this.props.searchTriggered) {
         this.props.triggerSearch();
       }

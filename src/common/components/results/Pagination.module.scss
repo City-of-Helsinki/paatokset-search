@@ -4,6 +4,7 @@
   align-items: center;
   width: 100%;
   margin-top: 48px;
+  font-weight: bold;
 
   .Pagination__control {
     background: transparent;
@@ -25,6 +26,11 @@
       background-color: #000;
       color: #fff;
       border-radius: 25px;
+    }
+
+    &.Pagination__item--separator {
+      width: auto;
+      height: auto;
     }
   }
 }

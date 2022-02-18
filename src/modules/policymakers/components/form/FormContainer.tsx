@@ -59,11 +59,17 @@ class FormContainer extends Component<Props> {
     }
 
     const initialPhrase = getQueryParam(SearchComponents.SEARCH_BAR);
-    if(initialPhrase && !this.props.searchTriggered) {
-      this.props.triggerSearch();
+    if(initialPhrase) {
       this.setState({
         wildcardPhrase: initialPhrase
       })
+    }
+
+    const initialPage = getQueryParam('results');
+    if(![initialOrgans, initialSectors, initialPhrase, initialPage].every(value => Number(value) === 0)) {
+      if(!this.props.searchTriggered) {
+        this.props.triggerSearch();
+      }
     }
   }
 
