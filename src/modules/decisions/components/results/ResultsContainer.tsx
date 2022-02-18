@@ -20,7 +20,7 @@ const ResultsContainer = () => {
   const { width } = useWindowDimensions();
   const resultsContainer = useRef<HTMLDivElement|null>(null);
 
-  const pages = width < 768 ? 1 : 5;
+  const pages = width < 768 ? 3 : 5;
   const scrollToResults = () => {
     if(resultsContainer.current) {
       resultsContainer.current.scrollIntoView();
@@ -43,8 +43,11 @@ const ResultsContainer = () => {
           onPageChange={scrollToResults}
           URLParams={true}
           react={{
-              and: [
+              or: [
                 SearchComponents.SEARCH_BAR,
+                SearchComponents.WILDCARD
+              ],
+              and: [
                 SearchComponents.CATEGORY,
                 SearchComponents.MEETING_DATE
               ]
@@ -113,9 +116,10 @@ const ResultsContainer = () => {
                   const resultProps = {
                     category: item.top_category_name,
                     color_class: item.color_class,
+                    organization_name: item.organization_name,
                     date: item.meeting_date,
                     href: item.decision_url,
-                    policymaker: 'Kaupunginvaltuusto',
+                    policymaker: '',
                     subject: item.subject,
                     _score: item._score
                   };

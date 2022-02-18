@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { IconAngleLeft, IconAngleRight } from 'hds-react';
 import classNames from 'classnames';
 
@@ -47,6 +48,8 @@ const Pagination = ({
   const { prevPages, nextPages } = getPagination(currentPage, pages, totalPages)
   const prevPageExists = currentPage - 1 >= 0;
   const nextPageExists = currentPage + 1 < totalPages;
+  const firstWithinRange = prevPages.includes(0) || !prevPages.length;
+  const lastWithinRange = nextPages.includes(totalPages) || !nextPages.length;
   const selectPage = Number.isFinite(totalPages) ? (
     <div className={styles.Pagination}>
       <button
@@ -60,6 +63,26 @@ const Pagination = ({
       >
         <IconAngleLeft />
       </button>
+      {!firstWithinRange &&
+        <Fragment>
+          <button
+            onClick={() => {
+              if(prevPageExists) {
+                setPage(0)
+              }
+            }}
+            className={styles.Pagination__item}
+          >
+            1
+          </button>
+          {prevPages[0] - 1 > 0 &&
+            <span className={classNames(
+              styles.Pagination__item,
+              styles['Pagination__item--separator']
+            )}>...</span>
+          }
+        </Fragment>
+      }
       {prevPages.map(pageIndex => (
         <button
           className={styles.Pagination__item}
@@ -85,6 +108,26 @@ const Pagination = ({
           { pageIndex + 1 }
         </button>
       ))}
+      {!lastWithinRange &&
+        <Fragment>
+          {nextPages[nextPages.length - 1] + 1 !== totalPages &&
+            <span className={classNames(
+              styles.Pagination__item,
+              styles['Pagination__item--separator']
+            )}>...</span>
+          }
+          <button
+            onClick={() => {
+              if(prevPageExists) {
+                setPage(totalPages)
+              }
+            }}
+            className={styles.Pagination__item}
+          >
+            {totalPages}
+          </button>
+        </Fragment>
+      }
       <button 
         onClick={() => {
           if(nextPageExists) {

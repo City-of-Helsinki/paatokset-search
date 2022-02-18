@@ -28,15 +28,6 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       value={value}
       onChange={setValue}
       URLParams={true}
-      // customQuery={(value, props) => {
-      //   return {
-      //     query: {
-      //       wildcard: {
-      //         issue_subject: '*lääkäri'
-      //       }
-      //     }
-      //   }
-      // }}
     />
   );
 

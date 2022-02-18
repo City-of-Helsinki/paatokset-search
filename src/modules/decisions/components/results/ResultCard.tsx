@@ -12,12 +12,12 @@ type Props = {
   color_class: string[],
   date: number,
   href: string,
-  policymaker: string,
   subject: string,
-  _score: number
+  _score: number,
+  organization_name: string
 };
 
-const ResultCard = ({category, color_class, date, href, policymaker, subject, _score}: Props) => {
+const ResultCard = ({category, color_class, date, href, organization_name, subject, _score}: Props) => {
   const colorClass = useDepartmentClasses(color_class);
 
   const handleClick = () => {
@@ -43,7 +43,7 @@ const ResultCard = ({category, color_class, date, href, policymaker, subject, _s
       tabIndex={0}
     >
       <div className={style.ResultCard__label} style={{backgroundColor: colorClass}}>
-        { policymaker }
+        { organization_name }
       </div>
       <div className={style.ResultCard__container}>
         <div>
@@ -77,4 +77,3 @@ const ResultCard = ({category, color_class, date, href, policymaker, subject, _s
 }
 
 export default ResultCard;
-

@@ -3,7 +3,8 @@ export const SearchComponents = {
   SECTOR: 'sector',
   ORGAN: 'organ',
   RESULTS: 'results',
-  SUBMIT_BUTTON: 'submit_button'
+  SUBMIT_BUTTON: 'submit_button',
+  WILDCARD: 'wildcard'
 };
 
 export default SearchComponents;

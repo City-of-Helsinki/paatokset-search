@@ -21,7 +21,8 @@ type FormContainerState = {
   phrase: string,
   sectors: string[],
   querySectors: string[],
-  filters: any[]
+  filters: any[],
+  wildcardPhrase: string
 };
 
 const getInitialValue = (key: string) => {
@@ -37,7 +38,8 @@ class FormContainer extends Component<Props> {
     phrase: '',
     sectors: [],
     querySectors: [],
-    filters: []
+    filters: [],
+    wildcardPhrase: ''
   };
 
   componentDidMount() {
@@ -56,9 +58,18 @@ class FormContainer extends Component<Props> {
       });
     }
 
-    const initialPhrase = getInitialValue(SearchComponents.SEARCH_BAR);
-    if(initialPhrase && !this.props.searchTriggered) {
-      this.props.triggerSearch();
+    const initialPhrase = getQueryParam(SearchComponents.SEARCH_BAR);
+    if(initialPhrase) {
+      this.setState({
+        wildcardPhrase: initialPhrase
+      })
+    }
+
+    const initialPage = getQueryParam('results');
+    if(![initialOrgans, initialSectors, initialPhrase, initialPage].every(value => Number(value) === 0)) {
+      if(!this.props.searchTriggered) {
+        this.props.triggerSearch();
+      }
     }
   }
 
@@ -108,12 +119,13 @@ class FormContainer extends Component<Props> {
     }
 
     this.setState({
-      querySectors: this.state.sectors
+      querySectors: this.state.sectors,
+      wildcardPhrase: this.state.phrase
     });
   }
 
   render() {
-    const { phrase, sectors, querySectors } = this.state;
+    const { phrase, sectors, querySectors, wildcardPhrase } = this.state;
 
     return (
       <div className={classNames(
@@ -121,7 +133,13 @@ class FormContainer extends Component<Props> {
           'wrapper'
         )}
       >
-        <form className={formStyles.FormContainer__form} onSubmit={this.handleSubmit}>
+        <form 
+          className={classNames(
+            formStyles.FormContainer__form,
+            'container'
+          )}
+          onSubmit={this.handleSubmit}
+        >
           <div className={formStyles['FormContainer__upper-fields']}>
             <SearchBar
               ref={this.searchBar}
@@ -152,6 +170,16 @@ class FormContainer extends Component<Props> {
                 />
               )}
               URLParams={true}
+            />
+            <ReactiveComponent 
+              componentId={SearchComponents.WILDCARD}
+              customQuery={() => ({
+                query: {
+                  wildcard: {
+                    title: `*${wildcardPhrase}*`
+                  }
+                }
+              })}
             />
           </div>
           <SubmitButton />
