@@ -49,7 +49,7 @@ const Pagination = ({
   const prevPageExists = currentPage - 1 >= 0;
   const nextPageExists = currentPage + 1 < totalPages;
   const firstWithinRange = prevPages.includes(0) || !prevPages.length;
-  const lastWithinRange = nextPages.includes(totalPages) || !nextPages.length;
+  const lastWithinRange = nextPages.includes(totalPages - 1) || !nextPages.length;
   const selectPage = Number.isFinite(totalPages) ? (
     <div className={styles.Pagination}>
       <button
@@ -119,7 +119,7 @@ const Pagination = ({
           <button
             onClick={() => {
               if(prevPageExists) {
-                setPage(totalPages)
+                setPage(totalPages - 1)
               }
             }}
             className={styles.Pagination__item}

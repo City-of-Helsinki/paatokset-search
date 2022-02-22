@@ -176,7 +176,7 @@ class FormContainer extends Component<Props> {
               customQuery={() => ({
                 query: {
                   wildcard: {
-                    title: `*${wildcardPhrase}*`
+                    'title.keyword': `*${wildcardPhrase}*`
                   }
                 }
               })}
