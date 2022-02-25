@@ -18,11 +18,11 @@ const SubmitButton = ({ disabled, type = 'default' }: Props) => {
   const { t } = useTranslation();
   const customClass = type === 'desktop' ? styles.SubmitButton__desktop : styles.SubmitButton__mobile;
 
-  if(type === 'mobile' && width >= 1248) {
+  if(type === 'mobile' && width > 1248) {
     return null;
   }
 
-  if(type === 'desktop' && width < 1248) {
+  if(type === 'desktop' && width <= 1248) {
     return null;
   }
 

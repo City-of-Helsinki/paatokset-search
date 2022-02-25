@@ -5,7 +5,9 @@ const FormTitle = () => {
   const { t } = useTranslation();
 
   return (
-    <h1>{t('DECISIONS:form-title')}</h1>
+    <div className='container'>
+      <h1>{t('DECISIONS:form-title')}</h1>
+    </div>
   );
 }
 

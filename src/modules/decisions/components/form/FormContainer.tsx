@@ -43,13 +43,13 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     to: undefined,
     queryFrom: undefined,
     queryTo: undefined,
-    isDesktop: window.matchMedia('(min-width: 1200px)').matches,
+    isDesktop: window.matchMedia('(min-width: 1248px)').matches,
     wildcardPhrase: ''
   };
 
   componentDidMount() {
     const handler = (e: MediaQueryListEvent) => this.setState({ isDesktop: e.matches });
-    window.matchMedia('(min-width: 1200px)').addEventListener('change', handler);
+    window.matchMedia('(min-width: 1248px)').addEventListener('change', handler);
     const from = getQueryParam('from');
     if(from) {
       this.setState({
@@ -178,7 +178,12 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           style={containerStyle}
         >
           <FormTitle />
-          <form className={formStyles.FormContainer__form} onSubmit={this.handleSubmit}>
+          <form className={classNames(
+              formStyles.FormContainer__form,
+              'container'
+            )}
+            onSubmit={this.handleSubmit}
+          >
             <div className={formStyles['FormContainer__upper-fields']}>
               <SearchBar
                 ref={this.searchBar}

@@ -1,9 +1,10 @@
 @import '../../../index.scss';
 
 .SearchBarWrapper {
+  flex: 1;
 
   @media (min-width: 1248px) {
-    width: 894px;
+    max-width: 894px;
   }
 
   label {
