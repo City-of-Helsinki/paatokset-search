@@ -2,6 +2,10 @@
 
 .FormContainer {
   position: relative;
+
+  @media(min-width: var(--)) {
+    margin-top: 80px;
+  }
 }
 
 .FormContainer__form {
