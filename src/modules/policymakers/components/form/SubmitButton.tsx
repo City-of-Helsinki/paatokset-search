@@ -18,10 +18,10 @@ const SubmitButton = ({ isDesktop }: Props) => {
   const { width } = useWindowDimensions();
   const customClass = isDesktop ? styles.SubmitButton__desktop : styles.SubmitButton__mobile;
   
-  if(isDesktop && width < 1200) {
+  if(isDesktop && width < 1248) {
     return null;
   }
-  if(!isDesktop &&  width >= 1200) {
+  if(!isDesktop &&  width >= 1248) {
     return null;
   }
 
