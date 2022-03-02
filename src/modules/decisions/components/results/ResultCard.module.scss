@@ -25,6 +25,16 @@
     max-width: 384px; 
   }
 }
+
+.PhantomCard {
+  display: none;
+  background-color: transparent;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+
 .ResultCard__label {
   padding: 11px 14px;
   margin-bottom: 0;

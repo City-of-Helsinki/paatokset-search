@@ -3,7 +3,8 @@ export const SearchComponents = {
   CATEGORY: 'category',
   MEETING_DATE: 'meeting_date',
   RESULTS: 'results',
-  WILDCARD: 'wildcard'
+  WILDCARD: 'wildcard',
+  DM: 'dm'
 };
 
 export default SearchComponents;

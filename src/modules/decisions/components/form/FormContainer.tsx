@@ -1,5 +1,6 @@
 import React from 'react';
 import { ReactiveComponent } from '@appbaseio/reactivesearch';
+import { withTranslation } from 'react-i18next';
 
 import FormTitle from './FormTitle';
 import SearchBar from './SearchBar';
@@ -7,9 +8,12 @@ import SubmitButton from './SubmitButton';
 import SelectedFiltersContainer from './filters/SelectedFiltersContainer';
 import DateSelect from './filters/date/DateSelect';
 import CategorySelect from './filters/CategorySelect';
+import DMSelect from './filters/DMSelect';
 import { FormErrors } from '../../types/types';
 import { updateQueryParam, getQueryParam, deleteQueryParam } from '../../../../utils/QueryString';
 import SearchComponents from '../../enum/SearchComponents';
+import IndexFields from '../../enum/IndexFields';
+import SpecialCases from '../../enum/SpecialCases';
 
 import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './FormContainer.module.scss';
@@ -17,13 +21,16 @@ import classNames from 'classnames';
 
 type FormContainerProps = {
   searchTriggered: boolean,
-  triggerSearch: Function
+  triggerSearch: Function,
+  t?: Function
 };
 
 type FormContainerState = {
   phrase: string,
   categories: Array<string>,
   queryCategories: Array<string>,
+  dms: Array<any>,
+  queryDms: Array<any>,
   from: any,
   queryFrom: any,
   to: any,
@@ -38,6 +45,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     phrase: '',
     categories: [],
     queryCategories: [],
+    dms: [],
+    queryDms: [],
     errors: {},
     from: undefined,
     to: undefined,
@@ -64,6 +73,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         to: to
       })
     }
+
     const initialCategories = getQueryParam(SearchComponents.CATEGORY);
     if(initialCategories) {
       const parsedCategories = JSON.parse(initialCategories);
@@ -72,6 +82,38 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         queryCategories: parsedCategories
       });
     }
+
+    const initialDms = getQueryParam(SearchComponents.DM);
+    if(initialDms) {
+      const { t } = this.props;
+      let dms = JSON.parse(initialDms);
+
+      // Decision maker values need to be transformed
+      if(t) {  
+        for(const dm in dms) {
+          switch(dms[dm]) {
+            case t('DECISIONS:city-council'):
+              dms[dm] = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
+              break;
+            case t('DECISIONS:city-hall'):
+              dms[dm] = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
+              break;
+            case t('DECISIONS:trustee'):
+              dms[dm] = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
+              break;
+            default:
+              dms[dm] = {label: dms[dm], value: dms[dm]}
+              break;
+          }
+        }
+
+        this.setState({
+          dms: dms,
+          queryDms: dms
+        });
+      }
+    }
+
     const keyword = getQueryParam(SearchComponents.SEARCH_BAR);
     if(keyword) {
       const initialPhrase = JSON.parse(keyword);
@@ -81,7 +123,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }
 
     const initialPage = getQueryParam('results');
-    if(![from, to, initialCategories, keyword, initialPage].every(value => Number(value) === 0)) {
+    if(![from, to, initialCategories, initialDms, keyword, initialPage].every(value => Number(value) === 0)) {
       if(!this.props.searchTriggered) {
         this.props.triggerSearch();
       }
@@ -119,6 +161,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     this.searchBar.current.triggerQuery();
     this.setState({
       queryCategories: this.state.categories,
+      queryDms: this.state.dms,
       queryFrom: this.state.from,
       queryTo: this.state.to,
       wildcardPhrase: this.state.phrase
@@ -141,6 +184,12 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     });
   }
 
+  setDms = (dms: Array<string>) => {
+    this.setState({
+      dms: dms
+    });
+  }
+
   setFrom = (from: any) => {
     this.setState({
       from: from
@@ -156,7 +205,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
   setErrors = (errors: FormErrors) => this.setState({errors});
 
   render() {
-    const { errors, phrase, categories, queryCategories, from, to, queryFrom, queryTo, isDesktop, wildcardPhrase } = this.state;
+    const { errors, phrase, categories, queryCategories, dms, queryDms, from, to, queryFrom, queryTo, isDesktop, wildcardPhrase } = this.state;
 
     let containerStyle: any = {};
     let koroStyle: any = {};
@@ -226,7 +275,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                   aggs: {
                     top_category_name: {
                       terms: {
-                        field: 'top_category_name'
+                        field: 'top_category_name',
+                        order: { _key: 'asc' }
                       }
                     }
                   }
@@ -238,6 +288,29 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     setValue={this.setCategories}
                     value={categories}
                     queryValue={queryCategories}
+                  />
+                )}
+                URLParams={true}
+              />
+              <ReactiveComponent
+                componentId={SearchComponents.DM}
+                defaultQuery={() => ({
+                  aggs: {
+                    [IndexFields.SECTOR]: {
+                      terms: {
+                        field: IndexFields.SECTOR,
+                        order: { _key: 'asc'}
+                      }
+                    }
+                  }
+                })}
+                render={({ aggregations, setQuery }) => (
+                  <DMSelect
+                    aggregations={aggregations}
+                    setQuery={setQuery}
+                    setValue={this.setDms}
+                    value={dms}
+                    queryValue={queryDms}
                   />
                 )}
                 URLParams={true}
@@ -280,10 +353,12 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         <SelectedFiltersContainer
           categories={categories}
           setCategories={this.setCategories}
+          dms={dms}
+          setDms={this.setDms}
         />
       </div>
     );
   }
 };
 
-export default FormContainer;
+export default withTranslation()(FormContainer);
