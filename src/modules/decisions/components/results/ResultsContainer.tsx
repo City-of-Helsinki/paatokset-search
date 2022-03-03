@@ -10,8 +10,10 @@ import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
 import { Sort } from '../../enum/Sort';
 import Pagination from '../../../../common/components/results/Pagination';
+import PhantomCard from './PhantomCard';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
+import classNames from 'classnames';
 
 const ResultsContainer = () => {
   const [sort, setSort] = useState<string|undefined>(Sort.SCORE);
@@ -27,13 +29,25 @@ const ResultsContainer = () => {
     }
   }
 
+  const cardWrapperStyles: any = {
+    margin: 0,
+    gap: '24px',
+    width: '100%'
+  };
+  if(width > 1281) {
+    cardWrapperStyles.justifyContent = 'space-between'
+  } 
+
   const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
   const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc'; 
 
   return (
     <div className={resultsStyles.ResultsContainer} ref={resultsContainer}>
       <ReactiveList
-          className={resultsStyles.ResultsContainer__container}
+          className={classNames(
+            resultsStyles.ResultsContainer__container,
+            'container'
+          )}
           componentId={SearchComponents.RESULTS}
           size={size}
           pagination={true}
@@ -49,7 +63,8 @@ const ResultsContainer = () => {
               ],
               and: [
                 SearchComponents.CATEGORY,
-                SearchComponents.MEETING_DATE
+                SearchComponents.MEETING_DATE,
+                SearchComponents.DM
               ]
           }}
           renderResultStats={(stats) => (
@@ -105,11 +120,7 @@ const ResultsContainer = () => {
                 setSort={setSort}
               />
               <ReactiveList.ResultCardsWrapper
-                style={{
-                  margin: 0,
-                  gap: '24px',
-                  width: '100%'
-                }}
+                style={cardWrapperStyles}
               >
                 {data.map((item: any) => {
                   const {id} = item;
@@ -128,6 +139,9 @@ const ResultsContainer = () => {
                     {...resultProps}
                   />
                 })}
+                {data.length % 3 !== 0 &&
+                  <PhantomCard />
+                }
               </ReactiveList.ResultCardsWrapper>
             </React.Fragment>
           )}

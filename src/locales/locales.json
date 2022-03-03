@@ -13,12 +13,16 @@
       "filters": "Filters"
     },
     "DECISIONS": {
+      "city-council": "City council",
+      "city-hall": "City hall",
+      "decisionmaker": "Decision maker",
       "form-title": "Search decisions",
       "search-bar-label": "What are you looking for?",
       "search-bar-placeholder": "Search with a keyword, e.g. park",
       "to-less-than-from": "End date can't be earlier than start date",
       "back": "Back",
       "choose-date": "Choose dates",
+      "choose-decisionmaker": "Choose decision maker",
       "start-date": "Start date",
       "end-date": "End date",
       "close": "Close",
@@ -27,6 +31,7 @@
       "past-month": "Past month",
       "past-year": "Past year",
       "topic": "Topic",
+      "trustee": "Trustees",
       "choose-topic": "Choose topic",
       "date-select": "Date range"
     },
@@ -54,12 +59,16 @@
       "filters": "Rajaus"
     },
     "DECISIONS": {
+      "city-council": "Kaupunginvaltuusto",
+      "city-hall": "Kaupunginhallitus",
+      "decisionmaker": "Päättäjä",
       "form-title": "Hae päätöksiä",
       "search-bar-label": "Mitä etsit?",
       "search-bar-placeholder": "Etsi hakusanalla, esim. puisto",
       "to-less-than-from": "Päättymispäivän tulee olla alkamispäivän jälkeen",
       "back": "Takaisin",
       "choose-date": "Valitse ajankohta",
+      "choose-decisionmaker": "Valitse päättäjä",
       "start-date": "Alkamispäivä",
       "end-date": "Päättymispäivä",
       "close": "Sulje",
@@ -68,6 +77,7 @@
       "past-month": "Viime kuukausi",
       "past-year": "Viime vuosi",
       "topic": "Aihe",
+      "trustee": "Viranhaltijat",
       "choose-topic": "Valitse aihe",
       "date-select": "Ajankohta"
     },

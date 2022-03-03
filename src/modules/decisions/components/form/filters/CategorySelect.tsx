@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback } from 'react';
-import { Combobox } from 'hds-react';
+import { Select } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import formStyles from '../../../../../common/styles/Form.module.scss';
-import styles from './CategorySelect.module.scss';
+import multiselectStyle from './Multiselect.module.scss';
 import classNames from 'classnames';
 
 type Props = {
@@ -62,22 +62,21 @@ const CategorySelect = ({ aggregations, setQuery, setValue, value, queryValue }:
   });
 
   return (
-    <Combobox
+    <Select
+      multiselect
       className={classNames(
-        styles.CategorySelect,
+        multiselectStyle.Multiselect,
         formStyles['form-element']
       )}
       label={t('DECISIONS:topic')}
       placeholder={t('DECISIONS:choose-topic')}
       options={categories}
       value={formattedValue}
-      multiselect={true}
       clearButtonAriaLabel='Clear all selections'
       selectedItemRemoveButtonAriaLabel={`Remove value`}
-      toggleButtonAriaLabel='Toggle menu'
       onChange={onChange}
     />
-);
+  );
 }
 
 export default CategorySelect;

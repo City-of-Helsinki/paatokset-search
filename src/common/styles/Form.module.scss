@@ -3,7 +3,7 @@
 .FormContainer {
   position: relative;
 
-  @media(min-width: var(--)) {
+  @media(min-width: var(--breakpoint-xl)) {
     margin-top: 80px;
   }
 }

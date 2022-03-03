@@ -155,7 +155,8 @@ class FormContainer extends Component<Props> {
                 aggs: {
                   [IndexFields.SECTOR]: {
                     terms: {
-                      field: IndexFields.SECTOR
+                      field: IndexFields.SECTOR,
+                      order: { _key: 'asc' }
                     }
                   }
                 }

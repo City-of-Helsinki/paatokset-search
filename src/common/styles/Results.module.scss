@@ -2,8 +2,6 @@
   background: #f7f7f8;
 
   .ResultsContainer__container {
-    padding: var(--spacing-s);
-
     @media (min-width: 768px) {
       display: flex;
       justify-content: flex-start;
@@ -14,15 +12,11 @@
         display: inline-flex;
       }
     }
-
-    @media (min-width: 1248px) {
-      margin-left: auto;
-      margin-right: auto;
-      max-width: var(--container-width-xl);
-      padding-left: 0;
-      padding-right: 0;
-    }
   }
+}
+
+.ResultCarsWrapper {
+  display :none;
 }
 
 .ResultsContainer__stats {

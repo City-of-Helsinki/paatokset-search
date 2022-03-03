@@ -10,7 +10,9 @@ export const IndexFields = {
   SUBJECT_RESOLUTION: 'subject_resolution',
   TOP_CATEGORY_NAME: 'top_category_name',
   SCORE: '_score',
-  ORGANIZATION_NAME: 'organization_name'
+  ORG_NAME: 'organization_name',
+  ORG_TYPE: 'organization_type',
+  SECTOR: 'sector'
 };
 
 export default IndexFields;

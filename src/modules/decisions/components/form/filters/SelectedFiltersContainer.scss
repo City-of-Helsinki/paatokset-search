@@ -5,14 +5,6 @@
   overflow: visible;
   background: #f7f7f8;
 
-  @media (min-width: 1248px) {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: var(--container-width-xl);
-    padding-left: 0;
-    padding-right: 0;
-  }
-
   .SelectedFilters__container {
     display: flex;
     flex-flow: row wrap;
