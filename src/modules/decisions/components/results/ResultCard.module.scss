@@ -29,6 +29,7 @@
 .PhantomCard {
   display: none;
   background-color: transparent;
+  cursor: unset;
 
   @media (min-width: 768px) {
     display: block;
