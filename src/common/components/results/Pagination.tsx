@@ -117,11 +117,7 @@ const Pagination = ({
             )}>...</span>
           }
           <button
-            onClick={() => {
-              if(prevPageExists) {
-                setPage(totalPages - 1)
-              }
-            }}
+            onClick={() => (setPage(totalPages - 1))}
             className={styles.Pagination__item}
           >
             {totalPages}
