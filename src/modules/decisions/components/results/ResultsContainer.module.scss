@@ -1,0 +1,7 @@
+.ResultsContainer__container {
+  padding-top: 16px;
+
+  @media (min-width: 1248px) {
+    padding-top: 0;
+  }
+}

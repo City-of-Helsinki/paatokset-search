@@ -13,6 +13,7 @@ import Pagination from '../../../../common/components/results/Pagination';
 import PhantomCard from './PhantomCard';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
+import styles from './ResultsContainer.module.scss';
 import classNames from 'classnames';
 
 const ResultsContainer = () => {
@@ -46,6 +47,7 @@ const ResultsContainer = () => {
       <ReactiveList
           className={classNames(
             resultsStyles.ResultsContainer__container,
+            styles.ResultsContainer__container,
             'container'
           )}
           componentId={SearchComponents.RESULTS}

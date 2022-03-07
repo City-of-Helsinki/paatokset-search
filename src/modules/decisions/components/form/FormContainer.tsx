@@ -37,7 +37,8 @@ type FormContainerState = {
   queryTo: any
   errors: FormErrors,
   isDesktop: boolean,
-  wildcardPhrase: string
+  wildcardPhrase: string,
+  koroRef: any
 };
 
 class FormContainer extends React.Component<FormContainerProps, FormContainerState> {
@@ -53,7 +54,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     queryFrom: undefined,
     queryTo: undefined,
     isDesktop: window.matchMedia('(min-width: 1248px)').matches,
-    wildcardPhrase: ''
+    wildcardPhrase: '',
+    koroRef: null
   };
 
   componentDidMount() {
@@ -152,7 +154,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
   }
 
   searchBar = React.createRef<any>();
-  koro = React.createRef<any>();
 
   handleSubmit = (event: any) => {
     if(event) {
@@ -204,16 +205,22 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
   setErrors = (errors: FormErrors) => this.setState({errors});
 
+  onRefChange = (node: any) => {
+    this.setState({
+      koroRef: node
+    });
+  }
+
   render() {
-    const { errors, phrase, categories, queryCategories, dms, queryDms, from, to, queryFrom, queryTo, isDesktop, wildcardPhrase } = this.state;
+    const { errors, phrase, categories, queryCategories, dms, queryDms, from, to, queryFrom, queryTo, isDesktop, wildcardPhrase, koroRef } = this.state;
 
     let containerStyle: any = {};
     let koroStyle: any = {};
     
-    if(isDesktop && this.koro.current) {
-      containerStyle.marginBottom = `${this.koro.current.clientHeight}px`;
+    if(koroRef && isDesktop) {
+      containerStyle.marginBottom = `${koroRef.clientHeight}px`;
       koroStyle.backgroundColor = this.props.searchTriggered ? '#f7f7f8' : 'transparent';
-      koroStyle.bottom = `-${this.koro.current.clientHeight}px`;
+      koroStyle.bottom = `-${koroRef.clientHeight}px`;
     }
 
     return(
@@ -332,7 +339,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
             />
           </form>
           {isDesktop &&
-            <div className={styles['FormContainer__koro-wrapper']} ref={this.koro} style={koroStyle}>
+            <div className={styles['FormContainer__koro-wrapper']} ref={this.onRefChange} style={koroStyle}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
