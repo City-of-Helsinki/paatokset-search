@@ -58,7 +58,7 @@ class FormContainer extends Component<Props> {
       });
     }
 
-    const initialPhrase = getQueryParam(SearchComponents.SEARCH_BAR);
+    const initialPhrase = getInitialValue(SearchComponents.SEARCH_BAR);
     if(initialPhrase) {
       this.setState({
         wildcardPhrase: initialPhrase
