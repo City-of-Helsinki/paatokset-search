@@ -3,6 +3,7 @@ import { Select } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import SpecialCases from '../../../enum/SpecialCases';
+import { Option } from '../../../types/types';
 
 import formStyles from '../../../../../common/styles/Form.module.scss';
 import multiSelectStyles from './Multiselect.module.scss';
@@ -12,8 +13,8 @@ type Props = {
   aggregations: any
   setQuery: Function,
   setValue: Function,
-  value: Array<any>,
-  queryValue: Array<any>
+  value: Option|null,
+  queryValue: Option|null
 };
 
 const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props) => {
@@ -40,34 +41,32 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
   const options = sectors.concat(specialCases).sort((a, b) => a.label.localeCompare(b.label));
 
   const triggerQuery = useCallback(() => {
-    if(queryValue.length) {
+    if(queryValue) {
       const specialCaseValues = [
         SpecialCases.CITY_COUNCIL,
         SpecialCases.CITY_HALL,
         SpecialCases.TRUSTEE
       ];
       let finalQuery: any = {bool: {should: []}};
-      const values: Array<string> = [];
-      for(const option of queryValue) {
-        if(specialCaseValues.includes(option.value)) {
-          finalQuery.bool.should.push({ term: { special_status: option.value }});
-          values.push(option.label);
-        }
-        else {
-          finalQuery.bool.should.push({ term: { sector: option.value }});
-          values.push(option.value);
-        }
+      let value: string|null = null;
+      if(specialCaseValues.includes(queryValue.value)) {
+        finalQuery.bool.should.push({ term: { special_status: queryValue.value }});
+        value = queryValue.label;
+      }
+      else {
+        finalQuery.bool.should.push({ term: { sector: queryValue.value }});
+        value = queryValue.value;
       }
 
       setQuery({
         query: finalQuery,
-        value: values
+        value: value
       });
     }
     else {
       setQuery({
         query: null,
-        values: []
+        values: null
       });
     }
   }, [queryValue, setQuery]);
@@ -76,19 +75,20 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
     triggerQuery();
   }, [queryValue, setQuery, triggerQuery])
 
-  const onChange = (dms: Array<any>) => {
-    setValue(dms);
+  const onChange = (dm: any) => {
+    setValue(dm);
   }
+
+  const currentValue: Option|Option[] = value || [];
 
   return (
     <Select
-      multiselect
       className={classNames(
           formStyles['form-element'],
           multiSelectStyles.Multiselect
       )}
+      value={currentValue}
       options={options}
-      value={value}
       label={t('DECISIONS:decisionmaker')}
       placeholder={t('DECISIONS:choose-decisionmaker')}
       clearButtonAriaLabel='Clear all selections'

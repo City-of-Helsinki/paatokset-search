@@ -10,3 +10,8 @@ export type Fields = {
   policymaker: string,
   subject: string
 };
+
+export type Option = {
+  label: string,
+  value: string
+};
