@@ -3,19 +3,21 @@ import { SelectedFilters } from '@appbaseio/reactivesearch';
 import { IconCross } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
+import { Option } from '../../../types/types';
+
 import './SelectedFiltersContainer.scss';
 
 type Props = {
   categories: Array<string>,
   setCategories: Function,
-  dms: Array<any>,
-  setDms: Function
+  dm: Option|null,
+  setDm: Function
 }
 
-const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms }: Props) => {
+const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm }: Props) => {
   const { t } = useTranslation();
 
-  if(categories.length <= 0 && dms.length <= 0) {
+  if(categories.length <= 0 && !dm) {
     return null;
   }
 
@@ -38,15 +40,17 @@ const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms }: Pr
     ));
   }
 
-  const getDmFilters = () => {
-    const deleteDm = (dm: any) => {
-      let current = [...dms];
-      const removeIndex = current.findIndex(element => element.value === dm.value);
-      current.splice(removeIndex, 1);
-      setDms(current);
+  const getDmFilter = () => {
+    // When dm is unset, it's an empty array
+    if(!dm || dm instanceof Array) {
+      return null;
     }
 
-    return dms.map(dm => (
+    const deleteDm = (dm: any) => {
+      setDm(null);
+    }
+
+    return (
       <button
         className='SelectedFilters__filter'
         key={dm.value}
@@ -55,7 +59,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms }: Pr
         <IconCross />
         {dm.label}
       </button>
-    ))
+    );
   }
 
   return (
@@ -66,10 +70,10 @@ const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms }: Pr
           return (
             <div className='SelectedFilters__container'>
               {getCategoryFilters()}
-              {getDmFilters()}
+              {getDmFilter()}
               <button
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
-                onClick={() => {setCategories([]); setDms([])}}
+                onClick={() => {setCategories([]); setDm(null)}}
               >
                 {t('SEARCH:clear-all')}
               </button>

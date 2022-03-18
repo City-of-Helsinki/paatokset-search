@@ -25,10 +25,47 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <style>
+      :root {
+        --color-sumu: #9fc9eb;
+        --color-hopea: #dedfe1;
+        --color-suomenlinna: #f5a3c7;
+        --color-kupari: #00d7a7;
+      }
+
+      #paatokset_search {
+        width: 100%;
+      }
+
+      @media (min-width: 576px) {
+        .container {
+          max-width: var(--container-width-s);
+          margin: 0 auto;
+        }
+      }
+      @media (min-width: 768px) {
+        .container {
+          max-width: var(--container-width-m);
+        }
+      }
+      @media (min-width: 992px) {
+        .container {
+          max-width: var(--container-width-l);
+        }
+      }
+      @media (min-width: 1248px) {
+        .container {
+          max-width: var(--container-width-xl);
+        }
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="paatokset_search" data-type="decisions"></div>
+    <div class="development-container">
+      <div id="paatokset_search" data-type="decisions"></div>
+    </div>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
