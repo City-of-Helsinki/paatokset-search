@@ -1,6 +1,8 @@
 {
   "en": {
     "SEARCH": {
+      "langcode": "en",
+      "prefix": "/en/",
       "per-page": "per page",
       "sort": "Sort",
       "relevancy": "Relevancy",
@@ -47,6 +49,8 @@
   },
   "fi": {
     "SEARCH": {
+      "langcode": "fi",
+      "prefix": "/fi/",
       "per-page": "kpl sivulla",
       "sort": "Lajittelu",
       "relevancy": "Osuvuus",
@@ -89,6 +93,54 @@
       "choose-organ": "Valitse toimielin",
       "field": "Toimiala",
       "choose-field": "Valitse toimiala"
+    }
+  },
+  "sv": {
+    "SEARCH": {
+      "langcode": "sv",
+      "prefix": "/sv/",
+      "per-page": "träffar per sida",
+      "sort": "Sortering",
+      "relevancy": "Relevans",
+      "most-recent-first": "Nyaste först",
+      "oldest-first": "Äldsta först",
+      "submit": "Sök",
+      "invalid-date": "Datumet är inte i rätt format",
+      "results-count": "träffar",
+      "clear-all": "Rensa alla",
+      "filters": "Avgränsa"
+    },
+    "DECISIONS": {
+      "city-council": "Stadsfullmäktige",
+      "city-hall": "Stadsstyrelsen",
+      "decisionmaker": "Päättäjä",
+      "form-title": "Sök beslut",
+      "search-bar-label": "Vad söker du?",
+      "search-bar-placeholder": "Skriv sökord, t.ex. Vik",
+      "to-less-than-from": "Slutdatumet ska vara efter startdatumet",
+      "back": "Tillbaka",
+      "choose-date": "Välj tidpunkt",
+      "choose-decisionmaker": "Välj beslutsfattare",
+      "start-date": "Från",
+      "end-date": "Till",
+      "close": "Stäng",
+      "choose-range": "Välj datum",
+      "past-week": "Senaste veckan",
+      "past-month": "Senaste månaden",
+      "past-year": "Senaste året",
+      "topic": "Ämne",
+      "trustee": "Tjänsteinnehavare",
+      "choose-topic": "Välj ämne",
+      "date-select": "Tidpunkt"
+    },
+    "POLICYMAKERS": {
+      "form-title":"Sök beslutsfattare",
+      "search-bar-placeholder": "Skriv sökord, t.ex. borgmästare",
+      "search-bar-label": "Vem söker du?",
+      "organ": "Organ",
+      "choose-organ": "Välj organ",
+      "field": "Sektor",
+      "choose-field": "Välj sektor"
     }
   }
 }
