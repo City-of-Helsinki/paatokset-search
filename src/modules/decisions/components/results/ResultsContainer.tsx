@@ -98,24 +98,30 @@ const ResultsContainer = () => {
               </span>
             </div>
           )}
-          defaultQuery={(value, props) => {
-            return {
-              query: {
-                function_score: {
-                  boost: 10,
-                  functions: [
-                    {gauss:
-                      {
-                        meeting_date: {
-                          scale: '365d'
-                        }
+          defaultQuery={() => ({
+            query: {
+              function_score: {
+                boost: 10,
+                query: {
+                  bool: {
+                    should: [
+                      {"match": {"_language": t('SEARCH:langcode')}},
+                      {"match": {"has_translation": false}}
+                    ]
+                  }
+                },
+                functions: [
+                  {gauss:
+                    {
+                      meeting_date: {
+                        scale: '365d'
                       }
                     }
-                  ]
-                }
+                  }
+                ]
               }
             }
-          }}
+          })}
           render={({ data }) => (
             <React.Fragment>
               <SortSelect
