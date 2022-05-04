@@ -278,15 +278,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
               <ReactiveComponent
                 componentId={SearchComponents.CATEGORY}
                 defaultQuery={() => ({
-                  query: {
-                    "bool": {
-                      "must": {
-                        "match": {
-                          "_language": this.props.langcode,
-                        }
-                      }
-                    }
-                  },
                   aggs: {
                     top_category_name: {
                       terms: {
