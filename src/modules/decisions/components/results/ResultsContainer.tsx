@@ -37,10 +37,10 @@ const ResultsContainer = () => {
   };
   if(width > 1281) {
     cardWrapperStyles.justifyContent = 'space-between'
-  } 
+  }
 
   const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
-  const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc'; 
+  const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc';
 
   return (
     <div className={resultsStyles.ResultsContainer} ref={resultsContainer}>
@@ -132,6 +132,7 @@ const ResultsContainer = () => {
                     organization_name: item.organization_name,
                     date: item.meeting_date,
                     href: item.decision_url,
+                    lang_prefix: t('SEARCH:prefix'),
                     policymaker: '',
                     subject: item.subject,
                     _score: item._score
