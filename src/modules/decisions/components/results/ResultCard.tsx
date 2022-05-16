@@ -12,16 +12,17 @@ type Props = {
   color_class: string[],
   date: number,
   href: string,
+  lang_prefix: string,
   subject: string,
   _score: number,
   organization_name: string
 };
 
-const ResultCard = ({category, color_class, date, href, organization_name, subject, _score}: Props) => {
+const ResultCard = ({category, color_class, date, href, lang_prefix, organization_name, subject, _score}: Props) => {
   const colorClass = useDepartmentClasses(color_class);
 
   const handleClick = () => {
-    window.location.href=href
+    window.location.href = href.toString().replace('/fi/', lang_prefix);
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -36,7 +37,7 @@ const ResultCard = ({category, color_class, date, href, organization_name, subje
   }
 
   return (
-    <div 
+    <div
       className={style.ResultCard}
       onClick={handleClick}
       onKeyPress={handleKeyPress}
@@ -72,7 +73,7 @@ const ResultCard = ({category, color_class, date, href, organization_name, subje
               <IconArrowRight size={'l'}/>
           </div>
         </div>
-    </div>  
+    </div>
   );
 }
 

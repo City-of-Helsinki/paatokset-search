@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ReactiveBase } from '@appbaseio/reactivesearch';
 
+import { useTranslation } from 'react-i18next';
+
 import Indices from '../../Indices';
 import FormContainer from './components/form/FormContainer';
 import ResultsContainer from './components/results/ResultsContainer';
@@ -19,6 +21,7 @@ type Props = {
 };
 
 const SearchContainer = ({ url }: Props) => {
+  const { t } = useTranslation();
   const [searchTriggered, setSearchStatus] = useState<boolean>(false);
 
   const triggerSearch = () => {
@@ -31,7 +34,10 @@ const SearchContainer = ({ url }: Props) => {
       app={Indices.PAATOKSET_POLICYMAKERS}
       theme={baseTheme}
       >
-        <FormContainer searchTriggered={searchTriggered} triggerSearch={triggerSearch} />
+        <FormContainer
+          langcode={t('SEARCH:langcode')}
+          searchTriggered={searchTriggered}
+          triggerSearch={triggerSearch} />
         {searchTriggered &&
           <ResultsContainer />
         }

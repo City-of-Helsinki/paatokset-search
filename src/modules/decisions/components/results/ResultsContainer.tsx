@@ -37,10 +37,10 @@ const ResultsContainer = () => {
   };
   if(width > 1281) {
     cardWrapperStyles.justifyContent = 'space-between'
-  } 
+  }
 
   const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
-  const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc'; 
+  const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc';
 
   return (
     <div className={resultsStyles.ResultsContainer} ref={resultsContainer}>
@@ -98,24 +98,30 @@ const ResultsContainer = () => {
               </span>
             </div>
           )}
-          defaultQuery={(value, props) => {
-            return {
-              query: {
-                function_score: {
-                  boost: 10,
-                  functions: [
-                    {gauss:
-                      {
-                        meeting_date: {
-                          scale: '365d'
-                        }
+          defaultQuery={() => ({
+            query: {
+              function_score: {
+                boost: 10,
+                query: {
+                  bool: {
+                    should: [
+                      {"match": {"_language": t('SEARCH:langcode')}},
+                      {"match": {"has_translation": false}}
+                    ]
+                  }
+                },
+                functions: [
+                  {gauss:
+                    {
+                      meeting_date: {
+                        scale: '365d'
                       }
                     }
-                  ]
-                }
+                  }
+                ]
               }
             }
-          }}
+          })}
           render={({ data }) => (
             <React.Fragment>
               <SortSelect
@@ -132,6 +138,7 @@ const ResultsContainer = () => {
                     organization_name: item.organization_name,
                     date: item.meeting_date,
                     href: item.decision_url,
+                    lang_prefix: t('SEARCH:prefix'),
                     policymaker: '',
                     subject: item.subject,
                     _score: item._score

@@ -13,6 +13,7 @@ import formStyles from '../../../../common/styles/Form.module.scss';
 import classNames from 'classnames';
 
 type Props = {
+  langcode: string,
   searchTriggered: boolean,
   triggerSearch: Function
 }
@@ -28,7 +29,7 @@ type FormContainerState = {
 const getInitialValue = (key: string) => {
   const queryParam = getQueryParam(key);
   if(queryParam) {
-    return JSON.parse(queryParam); 
+    return JSON.parse(queryParam);
   }
   return [];
 }
@@ -133,7 +134,7 @@ class FormContainer extends Component<Props> {
           'wrapper'
         )}
       >
-        <form 
+        <form
           className={classNames(
             formStyles.FormContainer__form,
             'container'
@@ -151,16 +152,27 @@ class FormContainer extends Component<Props> {
           <div className={formStyles['FormContainer__lower-fields']}>
             <ReactiveComponent
               componentId={SearchComponents.SECTOR}
-              defaultQuery={() => ({
-                aggs: {
-                  [IndexFields.SECTOR]: {
-                    terms: {
-                      field: IndexFields.SECTOR,
-                      order: { _key: 'asc' }
+              defaultQuery={() => (
+                {
+                  query: {
+                    "bool": {
+                      "must": {
+                        "match": {
+                          "_language": this.props.langcode,
+                        }
+                      }
+                    }
+                  },
+                  aggs: {
+                    [IndexFields.SECTOR]: {
+                      terms: {
+                        field: IndexFields.SECTOR,
+                        order: { _key: 'asc' }
+                      }
                     }
                   }
                 }
-              })}
+              )}
               render={({ aggregations, setQuery }) => (
                 <SectorSelect
                   aggregations={aggregations}
@@ -172,7 +184,7 @@ class FormContainer extends Component<Props> {
               )}
               URLParams={true}
             />
-            <ReactiveComponent 
+            <ReactiveComponent
               componentId={SearchComponents.WILDCARD}
               customQuery={() => ({
                 query: {

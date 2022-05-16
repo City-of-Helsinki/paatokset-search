@@ -21,6 +21,7 @@ import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
 
 type FormContainerProps = {
+  langcode: string,
   searchTriggered: boolean,
   triggerSearch: Function,
   t?: Function
@@ -92,7 +93,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       let dm = JSON.parse(initialDm);
 
       // Decision maker values need to be transformed
-      if(t) {  
+      if(t) {
         switch(dm) {
           case t('DECISIONS:city-council'):
             dm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
@@ -156,7 +157,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
   handleSubmit = (event: any) => {
     if(event) {
      event.preventDefault();
-    }    
+    }
     this.searchBar.current.triggerQuery();
     this.setState({
       queryCategories: this.state.categories,
@@ -214,7 +215,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
     let containerStyle: any = {};
     let koroStyle: any = {};
-    
+
     if(koroRef && isDesktop) {
       containerStyle.marginBottom = `${koroRef.clientHeight}px`;
       koroStyle.backgroundColor = this.props.searchTriggered ? '#f7f7f8' : 'transparent';
@@ -287,7 +288,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                   }
                 })}
                 render={({ aggregations, setQuery }) => (
-                  <CategorySelect 
+                  <CategorySelect
                     aggregations={aggregations}
                     setQuery={setQuery}
                     setValue={this.setCategories}
@@ -300,6 +301,15 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
               <ReactiveComponent
                 componentId={SearchComponents.DM}
                 defaultQuery={() => ({
+                  query: {
+                    "bool": {
+                      "must": {
+                        "match": {
+                          "_language": this.props.langcode,
+                        }
+                      }
+                    }
+                  },
                   aggs: {
                     [IndexFields.SECTOR]: {
                       terms: {

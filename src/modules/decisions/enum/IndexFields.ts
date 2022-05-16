@@ -12,7 +12,8 @@ export const IndexFields = {
   SCORE: '_score',
   ORG_NAME: 'organization_name',
   ORG_TYPE: 'organization_type',
-  SECTOR: 'sector'
+  SECTOR: 'sector',
+  HAS_TRANSLATION: 'has_translation'
 };
 
 export default IndexFields;

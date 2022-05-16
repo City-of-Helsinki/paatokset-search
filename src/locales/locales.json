@@ -1,6 +1,8 @@
 {
   "en": {
     "SEARCH": {
+      "langcode": "fi",
+      "prefix": "/en/",
       "per-page": "per page",
       "sort": "Sort",
       "relevancy": "Relevancy",
@@ -43,10 +45,29 @@
       "choose-organ": "Choose organ",
       "field": "Field of expertise",
       "choose-field": "Choose field of expertise"
+    },
+    "CATEGORIES": {
+      "00": "Hallintoasiat",
+      "01": "Henkilöstöasiat",
+      "02": "Talousasiat, verotus ja omaisuuden hallinta",
+      "03": "Lainsäädäntö ja lainsäädännön soveltaminen",
+      "04": "Kansainvälinen toiminta ja maahanmuuttopolitiikka",
+      "05": "Sosiaalitoimi",
+      "06": "Terveydenhuolto",
+      "07": "Tiedon hallinta",
+      "08": "Liikenne",
+      "09": "Turvallisuus ja yleinen järjestys",
+      "10": "Maankäyttö, rakentaminen ja asuminen",
+      "11": "Ympäristöasia",
+      "12": "Opetus- ja sivistystoimi",
+      "13": "Tutkimus- ja kehittämistoiminta",
+      "14": "Elinkeino- ja työvoimapalvelut"
     }
   },
   "fi": {
     "SEARCH": {
+      "langcode": "fi",
+      "prefix": "/fi/",
       "per-page": "kpl sivulla",
       "sort": "Lajittelu",
       "relevancy": "Osuvuus",
@@ -89,6 +110,88 @@
       "choose-organ": "Valitse toimielin",
       "field": "Toimiala",
       "choose-field": "Valitse toimiala"
+    },
+    "CATEGORIES": {
+      "00": "Hallintoasiat",
+      "01": "Henkilöstöasiat",
+      "02": "Talousasiat, verotus ja omaisuuden hallinta",
+      "03": "Lainsäädäntö ja lainsäädännön soveltaminen",
+      "04": "Kansainvälinen toiminta ja maahanmuuttopolitiikka",
+      "05": "Sosiaalitoimi",
+      "06": "Terveydenhuolto",
+      "07": "Tiedon hallinta",
+      "08": "Liikenne",
+      "09": "Turvallisuus ja yleinen järjestys",
+      "10": "Maankäyttö, rakentaminen ja asuminen",
+      "11": "Ympäristöasia",
+      "12": "Opetus- ja sivistystoimi",
+      "13": "Tutkimus- ja kehittämistoiminta",
+      "14": "Elinkeino- ja työvoimapalvelut"
+    }
+  },
+  "sv": {
+    "SEARCH": {
+      "langcode": "sv",
+      "prefix": "/sv/",
+      "per-page": "träffar per sida",
+      "sort": "Sortering",
+      "relevancy": "Relevans",
+      "most-recent-first": "Nyaste först",
+      "oldest-first": "Äldsta först",
+      "submit": "Sök",
+      "invalid-date": "Datumet är inte i rätt format",
+      "results-count": "träffar",
+      "clear-all": "Rensa alla",
+      "filters": "Avgränsa"
+    },
+    "DECISIONS": {
+      "city-council": "Stadsfullmäktige",
+      "city-hall": "Stadsstyrelsen",
+      "decisionmaker": "Beslutsfattare",
+      "form-title": "Sök beslut",
+      "search-bar-label": "Vad söker du?",
+      "search-bar-placeholder": "Skriv sökord, t.ex. Vik",
+      "to-less-than-from": "Slutdatumet ska vara efter startdatumet",
+      "back": "Tillbaka",
+      "choose-date": "Välj tidpunkt",
+      "choose-decisionmaker": "Välj beslutsfattare",
+      "start-date": "Från",
+      "end-date": "Till",
+      "close": "Stäng",
+      "choose-range": "Välj datum",
+      "past-week": "Senaste veckan",
+      "past-month": "Senaste månaden",
+      "past-year": "Senaste året",
+      "topic": "Ämne",
+      "trustee": "Tjänsteinnehavare",
+      "choose-topic": "Välj ämne",
+      "date-select": "Tidpunkt"
+    },
+    "POLICYMAKERS": {
+      "form-title":"Sök beslutsfattare",
+      "search-bar-placeholder": "Skriv sökord, t.ex. borgmästare",
+      "search-bar-label": "Vem söker du?",
+      "organ": "Organ",
+      "choose-organ": "Välj organ",
+      "field": "Sektor",
+      "choose-field": "Välj sektor"
+    },
+    "CATEGORIES": {
+      "00": "Förvaltningsärenden",
+      "01": "Personalärenden",
+      "02": "Ekonomi, beskattning och egendomsförvaltning",
+      "03": "Lagstiftning och dess tillämpning",
+      "04": "Internationell verksamhet och migrationspolitik",
+      "05": "Socialvård",
+      "06": "Hälsovård",
+      "07": "Informationshantering",
+      "08": "Trafik",
+      "09": "Säkerhet och allmän ordning",
+      "10": "Markanvändning, byggande och boende",
+      "11": "Miljöärenden",
+      "12": "Undervisnings- och bildningsväsende",
+      "13": "Forskning och utveckling",
+      "14": "Näringslivs- och arbetskraftstjänster"
     }
   }
 }

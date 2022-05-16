@@ -22,7 +22,7 @@ const ResultsContainer = () => {
   }
 
   return (
-    <div 
+    <div
       ref={resultsContainer}
       className={classNames(
         resultsStyles.ResultsContainer,
@@ -41,6 +41,22 @@ const ResultsContainer = () => {
         dataField={IndexFields.TITLE}
         onPageChange={scrollToResults}
         URLParams={true}
+        defaultQuery={() => (
+          {
+            query: {
+              "bool": {
+                "should": [
+                  {
+                    "match": {"_language": t('SEARCH:langcode')}
+                  },
+                  {
+                    "match": {"has_translation": false}
+                  }
+                ]
+              }
+            }
+          }
+        )}
         react={{
           or: [
             SearchComponents.SEARCH_BAR,
