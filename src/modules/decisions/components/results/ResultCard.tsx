@@ -13,16 +13,18 @@ type Props = {
   date: number,
   href: string,
   lang_prefix: string,
+  url_prefix: string,
+  url_query: string,
   subject: string,
   _score: number,
   organization_name: string
 };
 
-const ResultCard = ({category, color_class, date, href, lang_prefix, organization_name, subject, _score}: Props) => {
+const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix, url_query, organization_name, subject, _score}: Props) => {
   const colorClass = useDepartmentClasses(color_class);
 
   const handleClick = () => {
-    window.location.href = href.toString().replace('/fi/', lang_prefix);
+    window.location.href = href.toString().replace('/fi/', lang_prefix).replace('asia', url_prefix).replace('paatos', url_query);
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

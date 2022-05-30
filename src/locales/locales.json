@@ -15,6 +15,8 @@
       "filters": "Filters"
     },
     "DECISIONS": {
+      "url-prefix": "case",
+      "url-query": "decision",
       "city-council": "City council",
       "city-hall": "City hall",
       "decisionmaker": "Decision maker",
@@ -38,6 +40,7 @@
       "date-select": "Date range"
     },
     "POLICYMAKERS": {
+      "url-prefix": "decisionmakers",
       "form-title":"Search policymakers",
       "search-bar-placeholder": "Search with a keywrod, e.g. mayor",
       "search-bar-label": "Who are you looking for?",
@@ -80,6 +83,8 @@
       "filters": "Rajaus"
     },
     "DECISIONS": {
+      "url-prefix": "asia",
+      "url-query": "paatos",
       "city-council": "Kaupunginvaltuusto",
       "city-hall": "Kaupunginhallitus",
       "decisionmaker": "Päättäjä",
@@ -103,6 +108,7 @@
       "date-select": "Ajankohta"
     },
     "POLICYMAKERS": {
+      "url-prefix": "paattajat",
       "form-title":"Hae päättäjää",
       "search-bar-placeholder": "Etsi hakusanalla, esim. pormestari",
       "search-bar-label": "Ketä etsit?",
@@ -145,6 +151,8 @@
       "filters": "Avgränsa"
     },
     "DECISIONS": {
+      "url-prefix": "arende",
+      "url-query": "beslut",
       "city-council": "Stadsfullmäktige",
       "city-hall": "Stadsstyrelsen",
       "decisionmaker": "Beslutsfattare",
@@ -168,6 +176,7 @@
       "date-select": "Tidpunkt"
     },
     "POLICYMAKERS": {
+      "url-prefix": "beslutsfattare",
       "form-title":"Sök beslutsfattare",
       "search-bar-placeholder": "Skriv sökord, t.ex. borgmästare",
       "search-bar-label": "Vem söker du?",
