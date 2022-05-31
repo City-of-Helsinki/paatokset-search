@@ -15,6 +15,7 @@
       "filters": "Filters"
     },
     "DECISIONS": {
+      "show-all": "All decisionmakers",
       "url-prefix": "case",
       "url-query": "decision",
       "city-council": "City council",
@@ -83,6 +84,7 @@
       "filters": "Rajaus"
     },
     "DECISIONS": {
+      "show-all": "Kaikki päättäjät",
       "url-prefix": "asia",
       "url-query": "paatos",
       "city-council": "Kaupunginvaltuusto",
@@ -151,6 +153,7 @@
       "filters": "Avgränsa"
     },
     "DECISIONS": {
+      "show-all": "Alla beslutsfattare",
       "url-prefix": "arende",
       "url-query": "beslut",
       "city-council": "Stadsfullmäktige",

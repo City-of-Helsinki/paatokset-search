@@ -24,7 +24,7 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
   const specialCases = [
     {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL},
     {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL},
-    {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE}
+    {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE},
   ];
 
   if(
@@ -39,6 +39,8 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
   }
 
   const options = sectors.concat(specialCases).sort((a, b) => a.label.localeCompare(b.label));
+
+  options.unshift({label: t('DECISIONS:show-all'), value: null});
 
   const triggerQuery = useCallback(() => {
     if(queryValue) {
@@ -75,11 +77,16 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
     triggerQuery();
   }, [queryValue, setQuery, triggerQuery])
 
-  const onChange = (dm: any) => {
-    setValue(dm);
-  }
-
   const currentValue: Option|Option[] = value || [];
+
+  const onChange = (dm: any) => {
+    if (value !== null && dm !== null && value.value === dm.value) {
+      setValue(null);
+    }
+    else {
+      setValue(dm);
+    }
+  }
 
   return (
     <Select
