@@ -55,7 +55,7 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
         finalQuery.bool.should.push({ term: { special_status: queryValue.value }});
         value = queryValue.label;
       }
-      else {
+      else if (queryValue.value !== null) {
         finalQuery.bool.should.push({ term: { sector_id: queryValue.value }});
         value = queryValue.label;
       }

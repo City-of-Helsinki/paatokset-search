@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { Select } from 'hds-react';
 import { useTranslation } from 'react-i18next';
+import { Option } from '../../../types/types';
 
 import formStyles from '../../../../../common/styles/Form.module.scss';
 import multiselectStyle from './Multiselect.module.scss';
@@ -10,8 +11,8 @@ type Props = {
   aggregations: any,
   setQuery: Function,
   setValue: Function,
-  value: Array<string>,
-  queryValue: Array<string>
+  value: Array<Option>,
+  queryValue: Array<Option>
 }
 
 const CategorySelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props) => {
@@ -53,12 +54,14 @@ const CategorySelect = ({ aggregations, setQuery, setValue, value, queryValue }:
   }, [queryValue, setQuery, triggerQuery])
 
   const onChange = (categories: Array<any>) => {
-    const values = categories.map(category => category.value);
+    const values = categories.map((category) => {
+      return {value: category.value, label: category.label};
+    });
     setValue(values);
   }
 
   const formattedValue: Array<any> = value.map((category) => {
-    return {value: category, label: category};
+    return {value: category.value, label: category.label};
   });
 
   return (

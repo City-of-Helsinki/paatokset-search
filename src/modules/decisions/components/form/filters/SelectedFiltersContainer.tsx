@@ -8,7 +8,7 @@ import { Option } from '../../../types/types';
 import './SelectedFiltersContainer.scss';
 
 type Props = {
-  categories: Array<string>,
+  categories: Array<Option>,
   setCategories: Function,
   dm: Option|null,
   setDm: Function
@@ -26,20 +26,25 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
   }
 
   const getCategoryFilters = () => {
-    const deleteCategory = (category: string) => {
+    const deleteCategory = (value: string) => {
       let current = [...categories];
-      current.splice(current.indexOf(category), 1);
+      current = current.filter((category) => {
+        if (category.value === value) {
+          return false;
+        }
+        return true;
+      });
       setCategories(current);
     }
 
     return categories.map(category => (
       <button
         className='SelectedFilters__filter'
-        key={category}
-        onClick={() => deleteCategory(category)}
+        key={category.value}
+        onClick={() => deleteCategory(category.value)}
       >
         <IconCross />
-        {category}
+        {category.label}
       </button>
     ));
   }
