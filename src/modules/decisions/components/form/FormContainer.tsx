@@ -279,9 +279,9 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 componentId={SearchComponents.CATEGORY}
                 defaultQuery={() => ({
                   aggs: {
-                    top_category_name: {
+                    top_category_code: {
                       terms: {
-                        field: 'top_category_name',
+                        field: 'top_category_code',
                         order: { _key: 'asc' }
                       }
                     }
