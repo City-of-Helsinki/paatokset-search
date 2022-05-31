@@ -29,11 +29,11 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
 
   if(
     aggregations &&
-    aggregations.sector &&
-    aggregations.sector.buckets.length
+    aggregations.sector_id &&
+    aggregations.sector_id.buckets.length
   ) {
-    sectors = aggregations.sector.buckets.map((sector: any) => ({
-      label: sector.key,
+    sectors = aggregations.sector_id.buckets.map((sector: any) => ({
+      label: t('SECTORS:' + sector.key),
       value: sector.key
     }));
   }
@@ -56,8 +56,8 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
         value = queryValue.label;
       }
       else {
-        finalQuery.bool.should.push({ term: { sector: queryValue.value }});
-        value = queryValue.value;
+        finalQuery.bool.should.push({ term: { sector_id: queryValue.value }});
+        value = queryValue.label;
       }
 
       setQuery({

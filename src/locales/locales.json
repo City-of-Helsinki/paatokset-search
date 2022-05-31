@@ -50,6 +50,13 @@
       "field": "Field of expertise",
       "choose-field": "Choose field of expertise"
     },
+    "SECTORS": {
+      "U320200": "Sosiaali- ja terveystoimiala",
+      "U420300": "Kasvatuksen ja koulutuksen toimiala",
+      "U480400": "Kulttuurin ja vapaa-ajan toimiala",
+      "U50": "Keskushallinto",
+      "U541000": "Kaupunkiympäristön toimiala"
+    },
     "CATEGORIES": {
       "00": "Hallintoasiat",
       "01": "Henkilöstöasiat",
@@ -119,6 +126,13 @@
       "field": "Toimiala",
       "choose-field": "Valitse toimiala"
     },
+    "SECTORS": {
+      "U320200": "Sosiaali- ja terveystoimiala",
+      "U420300": "Kasvatuksen ja koulutuksen toimiala",
+      "U480400": "Kulttuurin ja vapaa-ajan toimiala",
+      "U50": "Keskushallinto",
+      "U541000": "Kaupunkiympäristön toimiala"
+    },
     "CATEGORIES": {
       "00": "Hallintoasiat",
       "01": "Henkilöstöasiat",
@@ -177,6 +191,13 @@
       "trustee": "Tjänsteinnehavare",
       "choose-topic": "Välj ämne",
       "date-select": "Tidpunkt"
+    },
+    "SECTORS": {
+      "U320200": "Social- och hälsovårdsektorn",
+      "U420300": "Sektorn för fostran och utbildning",
+      "U480400": "Kultur- och fritidssektorn",
+      "U50": "Centralförvaltningen",
+      "U541000": "Stadsmiljösektorn"
     },
     "POLICYMAKERS": {
       "url-prefix": "beslutsfattare",

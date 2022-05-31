@@ -301,19 +301,10 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
               <ReactiveComponent
                 componentId={SearchComponents.DM}
                 defaultQuery={() => ({
-                  query: {
-                    "bool": {
-                      "must": {
-                        "match": {
-                          "_language": this.props.langcode,
-                        }
-                      }
-                    }
-                  },
                   aggs: {
-                    [IndexFields.SECTOR]: {
+                    [IndexFields.SECTOR_ID]: {
                       terms: {
-                        field: IndexFields.SECTOR,
+                        field: IndexFields.SECTOR_ID,
                         order: { _key: 'asc'}
                       }
                     }
