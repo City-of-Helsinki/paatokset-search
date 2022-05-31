@@ -370,6 +370,10 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           setCategories={this.setCategories}
           dm={dm}
           setDm={this.setDm}
+          from={from}
+          setFrom={this.setFrom}
+          to={to}
+          setTo={this.setTo}
         />
       </div>
     );

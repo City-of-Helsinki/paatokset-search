@@ -12,12 +12,16 @@ type Props = {
   setCategories: Function,
   dm: Option|null,
   setDm: Function
+  to: any,
+  setTo: Function,
+  from: any,
+  setFrom: Function,
 }
 
-const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm }: Props) => {
+const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, setFrom, to, setTo }: Props) => {
   const { t } = useTranslation();
 
-  if(categories.length <= 0 && !dm) {
+  if(categories.length <= 0 && !dm && !to && !from) {
     return null;
   }
 
@@ -62,6 +66,28 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm }: Prop
     );
   }
 
+  const getDateFilter = () => {
+    if(!to && !from) {
+      return null;
+    }
+
+    const deleteDateQuery = () => {
+      setTo(null);
+      setFrom(null);
+    }
+
+    return (
+      <button
+        className='SelectedFilters__filter'
+        key="{{ dateLabel }}"
+        onClick={() => deleteDateQuery()}
+      >
+        <IconCross />
+        { from } - { to }
+      </button>
+    );
+  }
+
   return (
     <div className='SelectedFilters form-element container'>
       <SelectedFilters
@@ -69,11 +95,12 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm }: Prop
         render={() => {
           return (
             <div className='SelectedFilters__container'>
+              {getDateFilter()}
               {getCategoryFilters()}
               {getDmFilter()}
               <button
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
-                onClick={() => {setCategories([]); setDm(null)}}
+                onClick={() => {setCategories([]); setDm(null); setFrom(null); setTo(null)}}
               >
                 {t('SEARCH:clear-all')}
               </button>
