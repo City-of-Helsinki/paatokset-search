@@ -14,6 +14,8 @@ import { updateQueryParam, getQueryParam, deleteQueryParam } from '../../../../u
 import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
 import SpecialCases from '../../enum/SpecialCases';
+import CategoryMap from '../../enum/CategoryMap';
+import SectorMap from '../../enum/SectorMap';
 import { Option } from '../../types/types';
 
 import formStyles from '../../../../common/styles/Form.module.scss';
@@ -29,14 +31,15 @@ type FormContainerProps = {
 
 type FormContainerState = {
   phrase: string,
-  categories: Array<string>,
-  queryCategories: Array<string>,
+  categories: Array<Option>,
+  queryCategories: Array<Option>,
   dm: Option|null,
   queryDm: Option|null,
   from: any,
   queryFrom: any,
   to: any,
   queryTo: any
+  date_selection: any,
   errors: FormErrors,
   isDesktop: boolean,
   wildcardPhrase: string,
@@ -53,6 +56,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     errors: {},
     from: undefined,
     to: undefined,
+    date_selection: undefined,
     queryFrom: undefined,
     queryTo: undefined,
     isDesktop: window.matchMedia('(min-width: 1248px)').matches,
@@ -81,9 +85,26 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     const initialCategories = getQueryParam(SearchComponents.CATEGORY);
     if(initialCategories) {
       const parsedCategories = JSON.parse(initialCategories);
+      const formattedCategories = parsedCategories.map((category:string) => {
+        let foundCategory = CategoryMap.find((element) => {
+          if (element.label === category) {
+            return true;
+          }
+          return false;
+        });
+
+        if (typeof foundCategory === 'undefined') {
+          foundCategory = {
+            "label": category,
+            "value": "00"
+          }
+        }
+        return foundCategory;
+      });
+
       this.setState({
-        categories: parsedCategories,
-        queryCategories: parsedCategories
+        categories: formattedCategories,
+        queryCategories: formattedCategories
       });
     }
 
@@ -92,27 +113,37 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       const { t } = this.props;
       let dm = JSON.parse(initialDm);
 
+      let foundDm = SectorMap.find((element) => {
+        if (element.label === dm) {
+          return true;
+        }
+        return false;
+      });
+
       // Decision maker values need to be transformed
-      if(t) {
+      if(typeof foundDm === 'undefined' && t) {
         switch(dm) {
           case t('DECISIONS:city-council'):
-            dm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
+            foundDm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
             break;
           case t('DECISIONS:city-hall'):
-            dm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
+            foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
             break;
           case t('DECISIONS:trustee'):
-            dm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
+            foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
             break;
           default:
-            dm = {label: dm, value: dm}
+            foundDm = {label: dm, value: dm}
             break;
         }
       }
-      this.setState({
-        dm: dm,
-        queryDm: dm
-      });
+
+      if (typeof foundDm !== 'undefined') {
+        this.setState({
+          dm: foundDm,
+          queryDm: foundDm
+        });
+      }
     }
 
     const keyword = getQueryParam(SearchComponents.SEARCH_BAR);
@@ -178,7 +209,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     });
   };
 
-  setCategories = (categories: Array<string>) => {
+  setCategories = (categories: Array<Option>) => {
     this.setState({
       categories: categories
     });
@@ -202,6 +233,12 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     });
   }
 
+  setSelection = (date_selection: any) => {
+    this.setState({
+      date_selection: date_selection
+    });
+  }
+
   setErrors = (errors: FormErrors) => this.setState({errors});
 
   onRefChange = (node: any) => {
@@ -211,7 +248,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
   }
 
   render() {
-    const { errors, phrase, categories, queryCategories, dm, queryDm, from, to, queryFrom, queryTo, isDesktop, wildcardPhrase, koroRef } = this.state;
+    const { errors, phrase, categories, queryCategories, dm, queryDm, from, to, date_selection, queryFrom, queryTo, isDesktop, wildcardPhrase, koroRef } = this.state;
 
     let containerStyle: any = {};
     let koroStyle: any = {};
@@ -271,6 +308,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     setTo={this.setTo}
                     queryFrom={queryFrom}
                     queryTo={queryTo}
+                    selection={date_selection}
+                    setSelection={this.setSelection}
                   />
                 )}
                 URLParams={true}
@@ -279,9 +318,9 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 componentId={SearchComponents.CATEGORY}
                 defaultQuery={() => ({
                   aggs: {
-                    top_category_name: {
+                    top_category_code: {
                       terms: {
-                        field: 'top_category_name',
+                        field: 'top_category_code',
                         order: { _key: 'asc' }
                       }
                     }
@@ -301,19 +340,10 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
               <ReactiveComponent
                 componentId={SearchComponents.DM}
                 defaultQuery={() => ({
-                  query: {
-                    "bool": {
-                      "must": {
-                        "match": {
-                          "_language": this.props.langcode,
-                        }
-                      }
-                    }
-                  },
                   aggs: {
-                    [IndexFields.SECTOR]: {
+                    [IndexFields.SECTOR_ID]: {
                       terms: {
-                        field: IndexFields.SECTOR,
+                        field: IndexFields.SECTOR_ID,
                         order: { _key: 'asc'}
                       }
                     }
@@ -370,6 +400,11 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           setCategories={this.setCategories}
           dm={dm}
           setDm={this.setDm}
+          from={from}
+          setFrom={this.setFrom}
+          to={to}
+          setTo={this.setTo}
+          setSelection={this.setSelection}
         />
       </div>
     );

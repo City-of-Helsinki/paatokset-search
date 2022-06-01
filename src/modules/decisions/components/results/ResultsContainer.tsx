@@ -139,6 +139,8 @@ const ResultsContainer = () => {
                     date: item.meeting_date,
                     href: item.decision_url,
                     lang_prefix: t('SEARCH:prefix'),
+                    url_prefix: t('DECISIONS:url-prefix'),
+                    url_query: t('DECISIONS:url-query'),
                     policymaker: '',
                     subject: item.subject,
                     _score: item._score

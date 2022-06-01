@@ -24,21 +24,23 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
   const specialCases = [
     {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL},
     {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL},
-    {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE}
+    {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE},
   ];
 
   if(
     aggregations &&
-    aggregations.sector &&
-    aggregations.sector.buckets.length
+    aggregations.sector_id &&
+    aggregations.sector_id.buckets.length
   ) {
-    sectors = aggregations.sector.buckets.map((sector: any) => ({
-      label: sector.key,
+    sectors = aggregations.sector_id.buckets.map((sector: any) => ({
+      label: t('SECTORS:' + sector.key),
       value: sector.key
     }));
   }
 
   const options = sectors.concat(specialCases).sort((a, b) => a.label.localeCompare(b.label));
+
+  options.unshift({label: t('DECISIONS:show-all'), value: null});
 
   const triggerQuery = useCallback(() => {
     if(queryValue) {
@@ -53,9 +55,9 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
         finalQuery.bool.should.push({ term: { special_status: queryValue.value }});
         value = queryValue.label;
       }
-      else {
-        finalQuery.bool.should.push({ term: { sector: queryValue.value }});
-        value = queryValue.value;
+      else if (queryValue.value !== null) {
+        finalQuery.bool.should.push({ term: { sector_id: queryValue.value }});
+        value = queryValue.label;
       }
 
       setQuery({
@@ -75,11 +77,16 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
     triggerQuery();
   }, [queryValue, setQuery, triggerQuery])
 
-  const onChange = (dm: any) => {
-    setValue(dm);
-  }
-
   const currentValue: Option|Option[] = value || [];
+
+  const onChange = (dm: any) => {
+    if (value !== null && dm !== null && value.value === dm.value) {
+      setValue(null);
+    }
+    else {
+      setValue(dm);
+    }
+  }
 
   return (
     <Select

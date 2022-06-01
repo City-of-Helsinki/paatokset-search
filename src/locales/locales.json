@@ -15,6 +15,9 @@
       "filters": "Filters"
     },
     "DECISIONS": {
+      "show-all": "All decisionmakers",
+      "url-prefix": "case",
+      "url-query": "decision",
       "city-council": "City council",
       "city-hall": "City hall",
       "decisionmaker": "Decision maker",
@@ -38,6 +41,7 @@
       "date-select": "Date range"
     },
     "POLICYMAKERS": {
+      "url-prefix": "decisionmakers",
       "form-title":"Search policymakers",
       "search-bar-placeholder": "Search with a keywrod, e.g. mayor",
       "search-bar-label": "Who are you looking for?",
@@ -45,6 +49,13 @@
       "choose-organ": "Choose organ",
       "field": "Field of expertise",
       "choose-field": "Choose field of expertise"
+    },
+    "SECTORS": {
+      "U320200": "Sosiaali- ja terveystoimiala",
+      "U420300": "Kasvatuksen ja koulutuksen toimiala",
+      "U480400": "Kulttuurin ja vapaa-ajan toimiala",
+      "U50": "Keskushallinto",
+      "U541000": "Kaupunkiympäristön toimiala"
     },
     "CATEGORIES": {
       "00": "Hallintoasiat",
@@ -80,6 +91,9 @@
       "filters": "Rajaus"
     },
     "DECISIONS": {
+      "show-all": "Kaikki päättäjät",
+      "url-prefix": "asia",
+      "url-query": "paatos",
       "city-council": "Kaupunginvaltuusto",
       "city-hall": "Kaupunginhallitus",
       "decisionmaker": "Päättäjä",
@@ -103,6 +117,7 @@
       "date-select": "Ajankohta"
     },
     "POLICYMAKERS": {
+      "url-prefix": "paattajat",
       "form-title":"Hae päättäjää",
       "search-bar-placeholder": "Etsi hakusanalla, esim. pormestari",
       "search-bar-label": "Ketä etsit?",
@@ -110,6 +125,13 @@
       "choose-organ": "Valitse toimielin",
       "field": "Toimiala",
       "choose-field": "Valitse toimiala"
+    },
+    "SECTORS": {
+      "U320200": "Sosiaali- ja terveystoimiala",
+      "U420300": "Kasvatuksen ja koulutuksen toimiala",
+      "U480400": "Kulttuurin ja vapaa-ajan toimiala",
+      "U50": "Keskushallinto",
+      "U541000": "Kaupunkiympäristön toimiala"
     },
     "CATEGORIES": {
       "00": "Hallintoasiat",
@@ -145,6 +167,9 @@
       "filters": "Avgränsa"
     },
     "DECISIONS": {
+      "show-all": "Alla beslutsfattare",
+      "url-prefix": "arende",
+      "url-query": "beslut",
       "city-council": "Stadsfullmäktige",
       "city-hall": "Stadsstyrelsen",
       "decisionmaker": "Beslutsfattare",
@@ -167,7 +192,15 @@
       "choose-topic": "Välj ämne",
       "date-select": "Tidpunkt"
     },
+    "SECTORS": {
+      "U320200": "Social- och hälsovårdsektorn",
+      "U420300": "Sektorn för fostran och utbildning",
+      "U480400": "Kultur- och fritidssektorn",
+      "U50": "Centralförvaltningen",
+      "U541000": "Stadsmiljösektorn"
+    },
     "POLICYMAKERS": {
+      "url-prefix": "beslutsfattare",
       "form-title":"Sök beslutsfattare",
       "search-bar-placeholder": "Skriv sökord, t.ex. borgmästare",
       "search-bar-label": "Vem söker du?",

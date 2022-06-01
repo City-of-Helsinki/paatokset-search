@@ -6,36 +6,47 @@ import { useTranslation } from 'react-i18next';
 import { Option } from '../../../types/types';
 
 import './SelectedFiltersContainer.scss';
+import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
 type Props = {
-  categories: Array<string>,
+  categories: Array<Option>,
   setCategories: Function,
   dm: Option|null,
   setDm: Function
+  to: any,
+  setTo: Function,
+  from: any,
+  setFrom: Function,
+  setSelection: Function,
 }
 
-const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm }: Props) => {
+const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, setFrom, to, setTo, setSelection }: Props) => {
   const { t } = useTranslation();
 
-  if(categories.length <= 0 && !dm) {
+  if(categories.length <= 0 && !dm && !to && !from) {
     return null;
   }
 
   const getCategoryFilters = () => {
-    const deleteCategory = (category: string) => {
+    const deleteCategory = (value: string) => {
       let current = [...categories];
-      current.splice(current.indexOf(category), 1);
+      current = current.filter((category) => {
+        if (category.value === value) {
+          return false;
+        }
+        return true;
+      });
       setCategories(current);
     }
 
     return categories.map(category => (
       <button
         className='SelectedFilters__filter'
-        key={category}
-        onClick={() => deleteCategory(category)}
+        key={category.value}
+        onClick={() => deleteCategory(category.value)}
       >
         <IconCross />
-        {category}
+        {category.label}
       </button>
     ));
   }
@@ -62,6 +73,29 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm }: Prop
     );
   }
 
+  const getDateFilter = () => {
+    if(!to && !from) {
+      return null;
+    }
+
+    const deleteDateQuery = () => {
+      setTo(null);
+      setFrom(null);
+      setSelection(null);
+    }
+
+    return (
+      <button
+        className='SelectedFilters__filter'
+        key="{{ dateLabel }}"
+        onClick={() => deleteDateQuery()}
+      >
+        <IconCross />
+        { from } - { to }
+      </button>
+    );
+  }
+
   return (
     <div className='SelectedFilters form-element container'>
       <SelectedFilters
@@ -69,11 +103,12 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm }: Prop
         render={() => {
           return (
             <div className='SelectedFilters__container'>
+              {getDateFilter()}
               {getCategoryFilters()}
               {getDmFilter()}
               <button
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
-                onClick={() => {setCategories([]); setDm(null)}}
+                onClick={() => {setCategories([]); setDm(null); setFrom(null); setTo(null); setSelection(null)}}
               >
                 {t('SEARCH:clear-all')}
               </button>
