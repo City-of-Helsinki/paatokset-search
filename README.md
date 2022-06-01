@@ -47,6 +47,10 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `npm run create-release`
+
+Creates a new release zip file in the `/dist` directory, which can be uploaded to github as a binary asset.
+
 ### `npm run dist`
 
 Creates a release-ready bundle from from the project.
