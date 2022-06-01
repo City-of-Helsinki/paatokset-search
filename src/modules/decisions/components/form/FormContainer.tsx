@@ -39,6 +39,7 @@ type FormContainerState = {
   queryFrom: any,
   to: any,
   queryTo: any
+  date_selection: any,
   errors: FormErrors,
   isDesktop: boolean,
   wildcardPhrase: string,
@@ -55,6 +56,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     errors: {},
     from: undefined,
     to: undefined,
+    date_selection: undefined,
     queryFrom: undefined,
     queryTo: undefined,
     isDesktop: window.matchMedia('(min-width: 1248px)').matches,
@@ -231,6 +233,12 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     });
   }
 
+  setSelection = (date_selection: any) => {
+    this.setState({
+      date_selection: date_selection
+    });
+  }
+
   setErrors = (errors: FormErrors) => this.setState({errors});
 
   onRefChange = (node: any) => {
@@ -240,7 +248,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
   }
 
   render() {
-    const { errors, phrase, categories, queryCategories, dm, queryDm, from, to, queryFrom, queryTo, isDesktop, wildcardPhrase, koroRef } = this.state;
+    const { errors, phrase, categories, queryCategories, dm, queryDm, from, to, date_selection, queryFrom, queryTo, isDesktop, wildcardPhrase, koroRef } = this.state;
 
     let containerStyle: any = {};
     let koroStyle: any = {};
@@ -300,6 +308,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     setTo={this.setTo}
                     queryFrom={queryFrom}
                     queryTo={queryTo}
+                    selection={date_selection}
+                    setSelection={this.setSelection}
                   />
                 )}
                 URLParams={true}
@@ -394,6 +404,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           setFrom={this.setFrom}
           to={to}
           setTo={this.setTo}
+          setSelection={this.setSelection}
         />
       </div>
     );

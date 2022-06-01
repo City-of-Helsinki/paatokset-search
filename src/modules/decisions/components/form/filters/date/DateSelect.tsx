@@ -25,6 +25,8 @@ type Props = {
   setTo: Function,
   queryFrom: any,
   queryTo: any
+  selection: any,
+  setSelection: Function,
 };
 
 type Query = {
@@ -53,12 +55,13 @@ const DateSelect = ({
     setFrom,
     setTo,
     queryFrom,
-    queryTo
+    queryTo,
+    selection,
+    setSelection,
   }: Props) => {
   const [isActive, setActive] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement|null>(null);
   const [calendarActive, setCalendarActive] = useState<boolean>(false);
-  const [selection, setSelection] = useState<string|undefined>(undefined);
   const { t } = useTranslation();
 
   // For setting the date from datepicker / input fields
@@ -123,7 +126,7 @@ const DateSelect = ({
       if(!from || !from.length) {
         return;
       }
-  
+
       if(!isValidDate(from)) {
         return t('SEARCH:invalid-date');
       }
@@ -144,7 +147,7 @@ const DateSelect = ({
           }
         }
       };
-  
+
       if(queryFrom && isValidDate(queryFrom) && !errors.from) {
         query.query.range.meeting_date.gte = transformDate(queryFrom);
       }
@@ -190,11 +193,11 @@ const DateSelect = ({
     else {
       return <div className='DateSelect__title DateSelect__title--default'><IconCalendar /><span>{t('DECISIONS:choose-date')}</span></div>;
     }
-  }    
+  }
 
   const getHandle = () => {
     if(!(calendarActive && isActive)) {
-      return isActive ? 
+      return isActive ?
         <IconAngleUp /> :
         <IconAngleDown />;
     }
@@ -211,7 +214,7 @@ const DateSelect = ({
 
   let collapsibleStyle: any = {};
   if(ref && ref.current) {
-    collapsibleStyle.top = ref.current.clientHeight + 'px'; 
+    collapsibleStyle.top = ref.current.clientHeight + 'px';
   }
 
   const renderField = () => (
@@ -308,10 +311,10 @@ const DateSelect = ({
         <span className='DateSelect__collapsible-handle'>{getHandle()}</span>
       </button>
       {isActive &&
-        <div 
+        <div
           className='DateSelect__collapsible-element collapsible-element--children'
           style={collapsibleStyle}
-        > 
+        >
           {renderField()}
         </div>
       }

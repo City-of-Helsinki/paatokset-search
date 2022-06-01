@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Option } from '../../../types/types';
 
 import './SelectedFiltersContainer.scss';
+import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
 type Props = {
   categories: Array<Option>,
@@ -16,9 +17,10 @@ type Props = {
   setTo: Function,
   from: any,
   setFrom: Function,
+  setSelection: Function,
 }
 
-const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, setFrom, to, setTo }: Props) => {
+const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, setFrom, to, setTo, setSelection }: Props) => {
   const { t } = useTranslation();
 
   if(categories.length <= 0 && !dm && !to && !from) {
@@ -79,6 +81,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
     const deleteDateQuery = () => {
       setTo(null);
       setFrom(null);
+      setSelection(null);
     }
 
     return (
@@ -105,7 +108,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
               {getDmFilter()}
               <button
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
-                onClick={() => {setCategories([]); setDm(null); setFrom(null); setTo(null)}}
+                onClick={() => {setCategories([]); setDm(null); setFrom(null); setTo(null); setSelection(null)}}
               >
                 {t('SEARCH:clear-all')}
               </button>
