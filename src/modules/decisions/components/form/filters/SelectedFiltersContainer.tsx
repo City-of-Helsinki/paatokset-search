@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { Option } from '../../../types/types';
 
 import './SelectedFiltersContainer.scss';
-import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
 type Props = {
   categories: Array<Option>,
