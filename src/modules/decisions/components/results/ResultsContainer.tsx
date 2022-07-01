@@ -41,6 +41,42 @@ const ResultsContainer = () => {
 
   const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
   const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc';
+  const customQuery = () => {
+    return {
+      query: {
+        function_score: {
+          boost: 10,
+          query: {
+            bool: {
+              should: [
+                {"match": {"_language": t('SEARCH:langcode')}},
+                {"match": {"has_translation": false}}
+              ]
+            }
+          },
+          functions: [
+            {gauss:
+              {
+                meeting_date: {
+                  scale: '365d'
+                }
+              }
+            }
+          ]
+        }
+      },
+      aggs: {
+        [IndexFields.ISSUE_ID]: {
+          terms: {
+            field: IndexFields.ISSUE_ID,
+          }
+        }
+      },
+      collapse: {
+        field: "issue_id"
+      }
+    }
+  };
 
   return (
     <div className={resultsStyles.ResultsContainer} ref={resultsContainer}>
@@ -50,6 +86,17 @@ const ResultsContainer = () => {
             styles.ResultsContainer__container,
             'container'
           )}
+          onQueryChange={
+            function(prevQuery, nextQuery) {
+              const query = customQuery();
+              if (typeof nextQuery.aggs === "undefined") {
+                nextQuery.aggs = query.aggs;
+              }
+              if (typeof nextQuery.collapse === "undefined") {
+                nextQuery.collapse = query.collapse;
+              }
+            }
+          }
           componentId={SearchComponents.RESULTS}
           size={size}
           pagination={true}
@@ -98,31 +145,8 @@ const ResultsContainer = () => {
               </span>
             </div>
           )}
-          defaultQuery={() => ({
-            query: {
-              function_score: {
-                boost: 10,
-                query: {
-                  bool: {
-                    should: [
-                      {"match": {"_language": t('SEARCH:langcode')}},
-                      {"match": {"has_translation": false}}
-                    ]
-                  }
-                },
-                functions: [
-                  {gauss:
-                    {
-                      meeting_date: {
-                        scale: '365d'
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          })}
-          render={({ data }) => (
+          defaultQuery={customQuery}
+          render={({ data, rawData }) => (
             <React.Fragment>
               <SortSelect
                 setSort={setSort}
@@ -130,8 +154,24 @@ const ResultsContainer = () => {
               <ReactiveList.ResultCardsWrapper
                 style={cardWrapperStyles}
               >
-                {data.map((item: any) => {
+                {
+                  data.map((item: any) => {
+
+                  // Item mapping.
                   const {id} = item;
+                  // Check document count for collapsed search results.
+                  const aggregations = rawData.aggregations;
+                  let doc_count = 1;
+
+                  if (item.issue_id && item.issue_id[0] && aggregations && aggregations.issue_id && aggregations.issue_id.buckets.length) {
+                    const buckets = aggregations.issue_id.buckets;
+                    for (let i = 0; i < buckets.length; i++) {
+                      if (buckets[i].key === item.issue_id[0]) {
+                        doc_count = buckets[i].doc_count;
+                      }
+                    }
+                  }
+
                   const resultProps = {
                     category: item.top_category_name,
                     color_class: item.color_class,
@@ -141,6 +181,8 @@ const ResultsContainer = () => {
                     lang_prefix: t('SEARCH:prefix'),
                     url_prefix: t('DECISIONS:url-prefix'),
                     url_query: t('DECISIONS:url-query'),
+                    issue_id: item.issue_id,
+                    doc_count: doc_count,
                     policymaker: '',
                     subject: item.subject,
                     _score: item._score

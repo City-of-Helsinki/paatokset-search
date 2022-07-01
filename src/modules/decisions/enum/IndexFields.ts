@@ -4,7 +4,7 @@ export const IndexFields = {
   CONTENT_RESOLUTION: 'content_resolution',
   DECISION_CONTENT: 'decision_content',
   DECISION_MOTION: 'decision_motion',
-  ISSUE_ID: 'issue_id.keyword',
+  ISSUE_ID: 'issue_id',
   ISSUE_SUBJECT: 'issue_subject',
   MEETING_DATE: 'meeting_date',
   MEETING_POLICYMAKER_LINK: 'meeting_policymaker_link',
