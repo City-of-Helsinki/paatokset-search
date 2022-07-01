@@ -41,6 +41,42 @@ const ResultsContainer = () => {
 
   const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
   const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc';
+  const customQuery = () => {
+    return {
+      query: {
+        function_score: {
+          boost: 10,
+          query: {
+            bool: {
+              should: [
+                {"match": {"_language": t('SEARCH:langcode')}},
+                {"match": {"has_translation": false}}
+              ]
+            }
+          },
+          functions: [
+            {gauss:
+              {
+                meeting_date: {
+                  scale: '365d'
+                }
+              }
+            }
+          ]
+        }
+      },
+      aggs: {
+        [IndexFields.ISSUE_ID]: {
+          terms: {
+            field: IndexFields.ISSUE_ID,
+          }
+        }
+      },
+      collapse: {
+        field: "issue_id"
+      }
+    }
+  };
 
   return (
     <div className={resultsStyles.ResultsContainer} ref={resultsContainer}>
@@ -50,6 +86,17 @@ const ResultsContainer = () => {
             styles.ResultsContainer__container,
             'container'
           )}
+          onQueryChange={
+            function(prevQuery, nextQuery) {
+              const query = customQuery();
+              if (typeof nextQuery.aggs === "undefined") {
+                nextQuery.aggs = query.aggs;
+              }
+              if (typeof nextQuery.collapse === "undefined") {
+                nextQuery.collapse = query.collapse;
+              }
+            }
+          }
           componentId={SearchComponents.RESULTS}
           size={size}
           pagination={true}
@@ -98,40 +145,7 @@ const ResultsContainer = () => {
               </span>
             </div>
           )}
-          defaultQuery={() => ({
-            query: {
-              function_score: {
-                boost: 10,
-                query: {
-                  bool: {
-                    should: [
-                      {"match": {"_language": t('SEARCH:langcode')}},
-                      {"match": {"has_translation": false}}
-                    ]
-                  }
-                },
-                functions: [
-                  {gauss:
-                    {
-                      meeting_date: {
-                        scale: '365d'
-                      }
-                    }
-                  }
-                ]
-              }
-            },
-            aggs: {
-              [IndexFields.ISSUE_ID]: {
-                terms: {
-                  field: IndexFields.ISSUE_ID,
-                }
-              }
-            },
-            collapse: {
-              field: "issue_id"
-            }
-          })}
+          defaultQuery={customQuery}
           render={({ data, rawData }) => (
             <React.Fragment>
               <SortSelect
