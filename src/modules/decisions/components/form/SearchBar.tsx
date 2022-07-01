@@ -21,7 +21,6 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         IndexFields.ISSUE_SUBJECT,
         IndexFields.SUBJECT
       ]}
-      aggregationField={IndexFields.ISSUE_ID}
       placeholder={t('DECISIONS:search-bar-placeholder')}
       autosuggest={false}
       value={value}
