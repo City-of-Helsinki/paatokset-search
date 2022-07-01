@@ -120,9 +120,19 @@ const ResultsContainer = () => {
                   }
                 ]
               }
+            },
+            aggs: {
+              [IndexFields.ISSUE_ID]: {
+                terms: {
+                  field: IndexFields.ISSUE_ID,
+                }
+              }
+            },
+            collapse: {
+              field: "issue_id"
             }
           })}
-          render={({ data }) => (
+          render={({ data, rawData }) => (
             <React.Fragment>
               <SortSelect
                 setSort={setSort}
@@ -130,8 +140,24 @@ const ResultsContainer = () => {
               <ReactiveList.ResultCardsWrapper
                 style={cardWrapperStyles}
               >
-                {data.map((item: any) => {
+                {
+                  data.map((item: any) => {
+
+                  // Item mapping.
                   const {id} = item;
+                  // Check document count for collapsed search results.
+                  const aggregations = rawData.aggregations;
+                  let doc_count = 1;
+
+                  if (item.issue_id && item.issue_id[0] && aggregations && aggregations.issue_id && aggregations.issue_id.buckets.length) {
+                    const buckets = aggregations.issue_id.buckets;
+                    for (let i = 0; i < buckets.length; i++) {
+                      if (buckets[i].key === item.issue_id[0]) {
+                        doc_count = buckets[i].doc_count;
+                      }
+                    }
+                  }
+
                   const resultProps = {
                     category: item.top_category_name,
                     color_class: item.color_class,
@@ -141,6 +167,8 @@ const ResultsContainer = () => {
                     lang_prefix: t('SEARCH:prefix'),
                     url_prefix: t('DECISIONS:url-prefix'),
                     url_query: t('DECISIONS:url-query'),
+                    issue_id: item.issue_id,
+                    doc_count: doc_count,
                     policymaker: '',
                     subject: item.subject,
                     _score: item._score
