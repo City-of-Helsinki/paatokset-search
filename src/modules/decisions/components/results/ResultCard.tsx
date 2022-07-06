@@ -15,6 +15,7 @@ type Props = {
   lang_prefix: string,
   url_prefix: string,
   url_query: string,
+  amount_label: string,
   issue_id: string,
   doc_count: number,
   subject: string,
@@ -22,7 +23,7 @@ type Props = {
   organization_name: string
 };
 
-const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix, url_query, issue_id, doc_count, organization_name, subject, _score}: Props) => {
+const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix, url_query, amount_label, issue_id, doc_count, organization_name, subject, _score}: Props) => {
   const colorClass = useDepartmentClasses(color_class);
 
   const handleClick = () => {
@@ -66,6 +67,12 @@ const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix,
             <span style={{color: 'red'}}>Score: { _score }, Diary number: { issue_id }, Doc count: { doc_count },  </span>
           }
           <h2>{ subject }</h2>
+          {
+            doc_count > 1 &&
+              <div className={style.ResultCard__amount}>
+                <p>{amount_label}: {doc_count}</p>
+              </div>
+          }
         </div>
       </div>
       <div className={style.ResultCard__footer}>
