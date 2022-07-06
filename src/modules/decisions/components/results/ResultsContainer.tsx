@@ -181,6 +181,7 @@ const ResultsContainer = () => {
                     lang_prefix: t('SEARCH:prefix'),
                     url_prefix: t('DECISIONS:url-prefix'),
                     url_query: t('DECISIONS:url-query'),
+                    amount_label: t('DECISIONS:amount-label'),
                     issue_id: item.issue_id,
                     doc_count: doc_count,
                     policymaker: '',

@@ -9,7 +9,7 @@
   overflow: hidden;
 
   &:hover {
-    .ResultCard__container {
+    .ResultCard__title h2 {
       text-decoration: underline;
     }
     .ResultCard__issue-link {
@@ -81,6 +81,11 @@
   font-size: 24px;
   line-height: 24px;
   font-weight: 500;
+  margin-bottom: 36px;
+}
+
+.ResultCard__amount {
+  margin-top: -20px;
   margin-bottom: 36px;
 }
 
