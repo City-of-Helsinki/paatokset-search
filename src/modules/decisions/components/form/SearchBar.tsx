@@ -23,7 +23,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       ]}
       fieldWeights={[10,5,1,1]}
       placeholder={t('DECISIONS:search-bar-placeholder')}
-      autosuggest={true}
+      autosuggest={false}
       value={value}
       onChange={setValue}
       URLParams={true}
