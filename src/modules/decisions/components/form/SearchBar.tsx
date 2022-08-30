@@ -16,13 +16,14 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       ref={ref}
       componentId={SearchComponents.SEARCH_BAR}
       dataField={[
-        IndexFields.DECISION_CONTENT,
-        IndexFields.DECISION_MOTION,
+        IndexFields.SUBJECT,
         IndexFields.ISSUE_SUBJECT,
-        IndexFields.SUBJECT
+        IndexFields.DECISION_CONTENT,
+        IndexFields.DECISION_MOTION
       ]}
+      fieldWeights={[10,5,1,1]}
       placeholder={t('DECISIONS:search-bar-placeholder')}
-      autosuggest={false}
+      autosuggest={true}
       value={value}
       onChange={setValue}
       URLParams={true}
