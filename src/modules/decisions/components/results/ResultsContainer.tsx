@@ -9,7 +9,7 @@ import useWindowDimensions from '../../../../hooks/useWindowDimensions';
 import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
 import { Sort } from '../../enum/Sort';
-import Pagination from '../../../../common/components/results/Pagination';
+import Pagination from '../../../../common/components/results/PaginationBundled';
 import PhantomCard from './PhantomCard';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
@@ -144,13 +144,16 @@ const ResultsContainer = () => {
             )} />
           )}
           renderPagination={({ pages, totalPages, currentPage, setPage, setSize }) => (
-            <Pagination
-              pages={pages}
-              totalPages={totalPages}
-              currentPage={currentPage}
-              setPage={setPage}
-              setSize={setSize}
-            />
+            <StateProvider includeKeys={['aggregations', 'hits']} render={({ searchState }) => (
+              <Pagination
+                pages={pages}
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setPage={setPage}
+                size={size}
+                searchState={searchState}
+              />
+            )} />
           )}
           renderNoResults={() => (
             <div className={resultsStyles.ResultsContainer__stats}>
