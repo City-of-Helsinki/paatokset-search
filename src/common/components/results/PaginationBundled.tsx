@@ -18,7 +18,7 @@ export const getRealTotalPages = (searchState: any, totalPages: number, size: nu
     return totalPages;
   }
   if (searchState.results.aggregations && searchState.results.aggregations.issue_id && searchState.results.aggregations.issue_id.buckets.length > 0) {
-    return Math.floor(searchState.results.aggregations.issue_id.buckets.length / size);
+    return Math.ceil(searchState.results.aggregations.issue_id.buckets.length / size);
   }
   return totalPages;
 }
@@ -62,7 +62,7 @@ const Pagination = ({
   const prevPageExists = currentPage - 1 >= 0;
   const nextPageExists = currentPage + 1 < realTotalPages;
   const firstWithinRange = prevPages.includes(0) || !prevPages.length;
-  const lastWithinRange = nextPages.includes(totalPages - 1) || !nextPages.length;
+  const lastWithinRange = nextPages.includes(realTotalPages - 1) || !nextPages.length;
   const selectPage = Number.isFinite(realTotalPages) ? (
     <div className={styles.Pagination}>
       <button
