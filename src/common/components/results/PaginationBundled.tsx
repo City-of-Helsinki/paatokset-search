@@ -148,6 +148,9 @@ const Pagination = ({
       >
         <IconAngleRight />
       </button>
+      {process.env.REACT_APP_DEVELOPER_MODE &&
+        <div style={{color: 'red'}}>Original amount of pages: {totalPages}</div>
+      }
     </div>
   ) : null;
   return selectPage;
