@@ -130,7 +130,7 @@ const ResultsContainer = () => {
               ]
           }}
           renderResultStats={(stats) => (
-            <StateProvider includeKeys={['aggregations', 'hits']} render={({ searchState }) => (
+            <StateProvider includeKeys={['aggregations', 'hits', 'took']} render={({ searchState }) => (
               <div className={resultsStyles.ResultsContainer__stats}>
                 <span className={resultsStyles.stats__count}>
                   <strong>{getRealResultsAmount(searchState)}</strong>
@@ -140,6 +140,9 @@ const ResultsContainer = () => {
                   <SizeSelect setSize={setSize} />
                   {t('SEARCH:per-page')}
                 </span>
+                {process.env.REACT_APP_DEVELOPER_MODE &&
+                  <span style={{color: 'red', paddingLeft: '15px'}}>Time: {stats.time} ms</span>
+                }
               </div>
             )} />
           )}
