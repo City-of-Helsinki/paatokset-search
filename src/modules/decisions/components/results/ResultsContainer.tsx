@@ -141,7 +141,10 @@ const ResultsContainer = () => {
                   {t('SEARCH:per-page')}
                 </span>
                 {process.env.REACT_APP_DEVELOPER_MODE &&
-                  <span style={{color: 'red', paddingLeft: '15px'}}>Time: {stats.time} ms</span>
+                  <span>
+                    <span style={{color: 'red', paddingLeft: '15px'}}>Total hits: {stats.numberOfResults}</span>
+                    <span style={{color: 'red', paddingLeft: '15px'}}>Time: {stats.time} ms</span>
+                  </span>
                 }
               </div>
             )} />
