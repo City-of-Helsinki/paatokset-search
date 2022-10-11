@@ -10,7 +10,7 @@
       "oldest-first": "Oldest first",
       "submit": "Search",
       "invalid-date": "Invalid date",
-      "results-count": "results",
+      "results-count": "Search results for case:",
       "clear-all": "Clear all",
       "filters": "Filters"
     },
@@ -87,7 +87,7 @@
       "oldest-first": "Vanhin ensin",
       "submit": "Hae",
       "invalid-date": "Päivämäärä ei ole oikeassa muodossa",
-      "results-count": "hakutulosta",
+      "results-count": "Hakutuloksia asiassa:",
       "clear-all": "Tyhjennä valinnat",
       "filters": "Rajaus"
     },
@@ -164,7 +164,7 @@
       "oldest-first": "Äldsta först",
       "submit": "Sök",
       "invalid-date": "Datumet är inte i rätt format",
-      "results-count": "träffar",
+      "results-count": "Sökresultat i ärendet:",
       "clear-all": "Rensa alla",
       "filters": "Avgränsa"
     },

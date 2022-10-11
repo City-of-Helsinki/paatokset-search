@@ -40,7 +40,6 @@ const ResultsContainer = () => {
   }
 
   const getRealResultsAmount = (searchState:any) => {
-    console.log(searchState);
     if (!searchState.results) {
       return 0;
     }
@@ -69,7 +68,7 @@ const ResultsContainer = () => {
             {gauss:
               {
                 meeting_date: {
-                  scale: '365d'
+                  scale: '30d'
                 }
               }
             }
@@ -133,8 +132,7 @@ const ResultsContainer = () => {
             <StateProvider includeKeys={['aggregations', 'hits', 'took']} render={({ searchState }) => (
               <div className={resultsStyles.ResultsContainer__stats}>
                 <span className={resultsStyles.stats__count}>
-                  <strong>{getRealResultsAmount(searchState)}</strong>
-                  {t('SEARCH:results-count')}
+                  {t('SEARCH:results-count')} <strong>{getRealResultsAmount(searchState)}</strong>
                 </span>
                 <span className={resultsStyles.stats__size}>
                   <SizeSelect setSize={setSize} />
@@ -210,6 +208,7 @@ const ResultsContainer = () => {
                     doc_count: doc_count,
                     policymaker: '',
                     subject: item.subject,
+                    issue_subject: item.issue_subject,
                     _score: item._score
                   };
                   return <ResultCard
