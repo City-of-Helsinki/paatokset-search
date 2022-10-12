@@ -18,6 +18,17 @@ type Props = {
 const ResultCard = ({color_class, field_dm_org_name, key, title, trustee_name, trustee_title, url}: Props) => {
   const { t } = useTranslation();
   const colorClass = useDepartmentClasses(color_class);
+  const translatedTrusteeTitle = (trustee_title:string) => {
+    if (trustee_title.toString() === 'Councillor') {
+      return t('POLICYMAKERS:councillor');
+    }
+    else if (trustee_title.toString() === 'Deputy councillor') {
+      return t('POLICYMAKERS:deputy-councillor');
+    }
+    else {
+      return trustee_title;
+    }
+  }
 
   if (typeof url !== 'undefined') {
     url = url.toString();
@@ -58,7 +69,7 @@ const ResultCard = ({color_class, field_dm_org_name, key, title, trustee_name, t
           <h2 className={style.ResultCard__title}>{trustee_name ?? title}</h2>
           {
             trustee_title &&
-            <div className={style['ResultCard__sub-title']}>{trustee_title}</div>
+            <div className={style['ResultCard__sub-title']}>{ translatedTrusteeTitle(trustee_title) }</div>
           }
           {
             field_dm_org_name &&

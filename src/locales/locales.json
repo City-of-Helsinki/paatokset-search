@@ -49,7 +49,9 @@
       "organ": "Organ",
       "choose-organ": "Choose organ",
       "field": "Field of expertise",
-      "choose-field": "Choose field of expertise"
+      "choose-field": "Choose field of expertise",
+      "councillor": "Councillor",
+      "deputy-councillor": "Deputy councillor"
     },
     "SECTORS": {
       "U320200": "Sosiaali- ja terveystoimiala",
@@ -126,7 +128,9 @@
       "organ": "Toimielin",
       "choose-organ": "Valitse toimielin",
       "field": "Toimiala",
-      "choose-field": "Valitse toimiala"
+      "choose-field": "Valitse toimiala",
+      "councillor": "Valtuutettu",
+      "deputy-councillor": "Varavaltuutettu"
     },
     "SECTORS": {
       "U320200": "Sosiaali- ja terveystoimiala",
@@ -210,7 +214,9 @@
       "organ": "Organ",
       "choose-organ": "Välj organ",
       "field": "Sektor",
-      "choose-field": "Välj sektor"
+      "choose-field": "Välj sektor",
+      "councillor": "Councillor",
+      "deputy-councillor": "Deputy councillor"
     },
     "CATEGORIES": {
       "00": "Förvaltningsärenden",
