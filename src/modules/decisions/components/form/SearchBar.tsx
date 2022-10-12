@@ -21,7 +21,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         IndexFields.DECISION_CONTENT,
         IndexFields.DECISION_MOTION
       ]}
-      fieldWeights={[10,5,1,1]}
+      fieldWeights={[100,50,10,1]}
       placeholder={t('DECISIONS:search-bar-placeholder')}
       autosuggest={false}
       value={value}

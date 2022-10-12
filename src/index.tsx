@@ -14,7 +14,8 @@ let searchContainer;
 
 if(rootElement) {
   const type = rootElement.dataset.type;
-  const elasticUrl = rootElement.dataset.url || 'http://localhost:9200';
+  const fallbackUrl = process.env.REACT_APP_ELASTIC_URL || 'http://localhost:9200';
+  const elasticUrl = rootElement.dataset.url || fallbackUrl;
 
   switch(type) {
     case 'decisions':

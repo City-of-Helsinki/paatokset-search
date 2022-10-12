@@ -7,17 +7,43 @@ import style from './ResultCard.module.scss';
 type Props = {
   color_class: string[],
   field_dm_org_name?: string,
+  sector ?: string,
   key: string,
   title: string,
   trustee_name?: string,
   trustee_title?: string,
-
   url?: string
 }
 
-const ResultCard = ({color_class, field_dm_org_name, key, title, trustee_name, trustee_title, url}: Props) => {
+const ResultCard = ({color_class, field_dm_org_name, sector, key, title, trustee_name, trustee_title, url}: Props) => {
   const { t } = useTranslation();
   const colorClass = useDepartmentClasses(color_class);
+  const translatedTrusteeTitle = (trustee_title:string) => {
+    if (trustee_title.toString() === 'Councillor') {
+      return t('POLICYMAKERS:councillor');
+    }
+    else if (trustee_title.toString() === 'Deputy councillor') {
+      return t('POLICYMAKERS:deputy-councillor');
+    }
+    else {
+      return trustee_title;
+    }
+  }
+  const formattedSectorAndOrg = (sector:string|undefined, field_dm_org_name:string|undefined) => {
+    if (sector && field_dm_org_name) {
+      if (sector.toString() === field_dm_org_name.toString()) {
+        return sector;
+      }
+      return sector + ' - ' + field_dm_org_name;
+    }
+    else if (field_dm_org_name) {
+      return field_dm_org_name;
+    }
+    else if (sector) {
+      return sector;
+    }
+    return false;
+  }
 
   if (typeof url !== 'undefined') {
     url = url.toString();
@@ -58,11 +84,11 @@ const ResultCard = ({color_class, field_dm_org_name, key, title, trustee_name, t
           <h2 className={style.ResultCard__title}>{trustee_name ?? title}</h2>
           {
             trustee_title &&
-            <div className={style['ResultCard__sub-title']}>{trustee_title}</div>
+            <div className={style['ResultCard__sub-title']}>{ translatedTrusteeTitle(trustee_title) }</div>
           }
           {
-            field_dm_org_name &&
-            <div className={style['ResultCard__sub-title']}>{field_dm_org_name}</div>
+            formattedSectorAndOrg(sector, field_dm_org_name) &&
+            <div className={style['ResultCard__sub-title']}>{ formattedSectorAndOrg(sector, field_dm_org_name) }</div>
           }
         </div>
         <IconArrowRight size='m' />

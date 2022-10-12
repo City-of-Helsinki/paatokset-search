@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { ReactiveList } from '@appbaseio/reactivesearch';
+import { ReactiveList, StateProvider } from '@appbaseio/reactivesearch';
 import { useTranslation } from 'react-i18next';
 
 import ResultCard from './ResultCard';
@@ -9,7 +9,7 @@ import useWindowDimensions from '../../../../hooks/useWindowDimensions';
 import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
 import { Sort } from '../../enum/Sort';
-import Pagination from '../../../../common/components/results/Pagination';
+import Pagination from '../../../../common/components/results/PaginationBundled';
 import PhantomCard from './PhantomCard';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
@@ -39,6 +39,16 @@ const ResultsContainer = () => {
     cardWrapperStyles.justifyContent = 'space-between'
   }
 
+  const getRealResultsAmount = (searchState:any) => {
+    if (!searchState.results) {
+      return 0;
+    }
+    if (searchState.results.aggregations && searchState.results.aggregations.issue_id && searchState.results.aggregations.issue_id.buckets.length > 0) {
+      return searchState.results.aggregations.issue_id.buckets.length;
+    }
+    return searchState.results.hits.total;
+  }
+
   const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
   const sortBy = (sort === Sort.SCORE || sort === Sort.DATE_DESC) ? 'desc' : 'asc';
   const customQuery = () => {
@@ -58,7 +68,7 @@ const ResultsContainer = () => {
             {gauss:
               {
                 meeting_date: {
-                  scale: '365d'
+                  scale: '30d'
                 }
               }
             }
@@ -69,6 +79,8 @@ const ResultsContainer = () => {
         [IndexFields.ISSUE_ID]: {
           terms: {
             field: IndexFields.ISSUE_ID,
+            size: 10000,
+            show_term_doc_count_error: true
           }
         }
       },
@@ -117,25 +129,35 @@ const ResultsContainer = () => {
               ]
           }}
           renderResultStats={(stats) => (
-            <div className={resultsStyles.ResultsContainer__stats}>
-              <span className={resultsStyles.stats__count}>
-                <strong>{stats.numberOfResults}</strong>
-                {t('SEARCH:results-count')}
-              </span>
-              <span className={resultsStyles.stats__size}>
-                <SizeSelect setSize={setSize} />
-                {t('SEARCH:per-page')}
-              </span>
-            </div>
+            <StateProvider includeKeys={['aggregations', 'hits', 'took']} render={({ searchState }) => (
+              <div className={resultsStyles.ResultsContainer__stats}>
+                <span className={resultsStyles.stats__count}>
+                  {t('SEARCH:results-count')} <strong>{getRealResultsAmount(searchState)}</strong>
+                </span>
+                <span className={resultsStyles.stats__size}>
+                  <SizeSelect setSize={setSize} />
+                  {t('SEARCH:per-page')}
+                </span>
+                {process.env.REACT_APP_DEVELOPER_MODE &&
+                  <span>
+                    <span style={{color: 'red', paddingLeft: '15px'}}>Total hits: {stats.numberOfResults}</span>
+                    <span style={{color: 'red', paddingLeft: '15px'}}>Time: {stats.time} ms</span>
+                  </span>
+                }
+              </div>
+            )} />
           )}
           renderPagination={({ pages, totalPages, currentPage, setPage, setSize }) => (
-            <Pagination
-              pages={pages}
-              totalPages={totalPages}
-              currentPage={currentPage}
-              setPage={setPage}
-              setSize={setSize}
-            />
+            <StateProvider includeKeys={['aggregations', 'hits']} render={({ searchState }) => (
+              <Pagination
+                pages={pages}
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setPage={setPage}
+                size={size}
+                searchState={searchState}
+              />
+            )} />
           )}
           renderNoResults={() => (
             <div className={resultsStyles.ResultsContainer__stats}>
@@ -186,6 +208,7 @@ const ResultsContainer = () => {
                     doc_count: doc_count,
                     policymaker: '',
                     subject: item.subject,
+                    issue_subject: item.issue_subject,
                     _score: item._score
                   };
                   return <ResultCard

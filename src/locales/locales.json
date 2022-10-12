@@ -10,7 +10,7 @@
       "oldest-first": "Oldest first",
       "submit": "Search",
       "invalid-date": "Invalid date",
-      "results-count": "results",
+      "results-count": "Search results for case:",
       "clear-all": "Clear all",
       "filters": "Filters"
     },
@@ -49,7 +49,9 @@
       "organ": "Organ",
       "choose-organ": "Choose organ",
       "field": "Field of expertise",
-      "choose-field": "Choose field of expertise"
+      "choose-field": "Choose field of expertise",
+      "councillor": "Councillor",
+      "deputy-councillor": "Deputy councillor"
     },
     "SECTORS": {
       "U320200": "Sosiaali- ja terveystoimiala",
@@ -87,7 +89,7 @@
       "oldest-first": "Vanhin ensin",
       "submit": "Hae",
       "invalid-date": "Päivämäärä ei ole oikeassa muodossa",
-      "results-count": "hakutulosta",
+      "results-count": "Hakutuloksia asiassa:",
       "clear-all": "Tyhjennä valinnat",
       "filters": "Rajaus"
     },
@@ -126,7 +128,9 @@
       "organ": "Toimielin",
       "choose-organ": "Valitse toimielin",
       "field": "Toimiala",
-      "choose-field": "Valitse toimiala"
+      "choose-field": "Valitse toimiala",
+      "councillor": "Valtuutettu",
+      "deputy-councillor": "Varavaltuutettu"
     },
     "SECTORS": {
       "U320200": "Sosiaali- ja terveystoimiala",
@@ -164,7 +168,7 @@
       "oldest-first": "Äldsta först",
       "submit": "Sök",
       "invalid-date": "Datumet är inte i rätt format",
-      "results-count": "träffar",
+      "results-count": "Sökresultat i ärendet:",
       "clear-all": "Rensa alla",
       "filters": "Avgränsa"
     },
@@ -210,7 +214,9 @@
       "organ": "Organ",
       "choose-organ": "Välj organ",
       "field": "Sektor",
-      "choose-field": "Välj sektor"
+      "choose-field": "Välj sektor",
+      "councillor": "Councillor",
+      "deputy-councillor": "Deputy councillor"
     },
     "CATEGORIES": {
       "00": "Förvaltningsärenden",
