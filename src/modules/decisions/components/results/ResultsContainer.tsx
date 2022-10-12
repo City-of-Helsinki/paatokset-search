@@ -132,7 +132,7 @@ const ResultsContainer = () => {
             <StateProvider includeKeys={['aggregations', 'hits', 'took']} render={({ searchState }) => (
               <div className={resultsStyles.ResultsContainer__stats}>
                 <span className={resultsStyles.stats__count}>
-                  {t('SEARCH:results-count')} <strong>{getRealResultsAmount(searchState)}</strong>
+                  {t('DECISIONS:results-count')} <strong>{getRealResultsAmount(searchState)}</strong>
                 </span>
                 <span className={resultsStyles.stats__size}>
                   <SizeSelect setSize={setSize} />

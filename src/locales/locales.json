@@ -89,11 +89,12 @@
       "oldest-first": "Vanhin ensin",
       "submit": "Hae",
       "invalid-date": "Päivämäärä ei ole oikeassa muodossa",
-      "results-count": "Hakutuloksia asiassa:",
+      "results-count": "hakutulosta",
       "clear-all": "Tyhjennä valinnat",
       "filters": "Rajaus"
     },
     "DECISIONS": {
+      "results-count": "Hakutuloksia asiassa:",
       "show-all": "Kaikki päättäjät",
       "url-prefix": "asia",
       "url-query": "paatos",
@@ -168,11 +169,12 @@
       "oldest-first": "Äldsta först",
       "submit": "Sök",
       "invalid-date": "Datumet är inte i rätt format",
-      "results-count": "Sökresultat i ärendet:",
+      "results-count": "träffar",
       "clear-all": "Rensa alla",
       "filters": "Avgränsa"
     },
     "DECISIONS": {
+      "results-count": "Sökresultat i ärendet:",
       "show-all": "Alla beslutsfattare",
       "url-prefix": "arende",
       "url-query": "beslut",
