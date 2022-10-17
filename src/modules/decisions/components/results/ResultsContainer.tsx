@@ -58,6 +58,9 @@ const ResultsContainer = () => {
           boost: 10,
           query: {
             bool: {
+              must: [
+                {"exists": {"field": "meeting_date"}},
+              ],
               should: [
                 {"match": {"_language": t('SEARCH:langcode')}},
                 {"match": {"has_translation": false}}
