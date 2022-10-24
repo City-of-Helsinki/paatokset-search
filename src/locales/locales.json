@@ -39,7 +39,7 @@
       "trustee": "Trustees",
       "choose-topic": "Choose topic",
       "date-select": "Date range",
-      "amount-label": "Decisions in the case"
+      "amount-label": "Case with multiple decisions:"
     },
     "POLICYMAKERS": {
       "url-prefix": "decisionmakers",
@@ -119,7 +119,7 @@
       "trustee": "Viranhaltijat",
       "choose-topic": "Valitse aihe",
       "date-select": "Ajankohta",
-      "amount-label": "Päätöksiä asiassa"
+      "amount-label": "Päätöksen asia, jossa on useita päätöksiä:"
     },
     "POLICYMAKERS": {
       "url-prefix": "paattajat",
@@ -199,7 +199,7 @@
       "trustee": "Tjänsteinnehavare",
       "choose-topic": "Välj ämne",
       "date-select": "Tidpunkt",
-      "amount-label": "Beslut i ärenden"
+      "amount-label": "Ärende med flera beslut:"
     },
     "SECTORS": {
       "U320200": "Social- och hälsovårdsektorn",

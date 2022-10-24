@@ -68,13 +68,11 @@ const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix,
             <span style={{color: 'red'}}>Score: { _score }, Diary number: { issue_id }, URL: { href }  </span>
           }
           <h2>{ subject }</h2>
-          {process.env.REACT_APP_DEVELOPER_MODE &&
-            <h3>{ issue_subject }</h3>
-          }
           {
-            doc_count > 1 &&
+            doc_count > 1 && issue_subject &&
               <div className={style.ResultCard__amount}>
-                <p>{amount_label}: {doc_count}</p>
+                <p><strong>{amount_label}</strong>
+                <br />{ issue_subject }</p>
               </div>
           }
         </div>
