@@ -39,7 +39,7 @@
       "trustee": "Trustees",
       "choose-topic": "Choose topic",
       "date-select": "Date range",
-      "amount-label": "Case with multiple decisions:"
+      "amount-label": "Decision case, containing multiple decisions:"
     },
     "POLICYMAKERS": {
       "url-prefix": "decisionmakers",
@@ -199,7 +199,7 @@
       "trustee": "Tjänsteinnehavare",
       "choose-topic": "Välj ämne",
       "date-select": "Tidpunkt",
-      "amount-label": "Ärende med flera beslut:"
+      "amount-label": "Beslutsärende, med flera beslut:"
     },
     "SECTORS": {
       "U320200": "Social- och hälsovårdsektorn",
