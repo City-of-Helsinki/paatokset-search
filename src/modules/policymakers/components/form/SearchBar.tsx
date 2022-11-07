@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import SearchBarWrapper from '../../../../common/components/form/SearchBarWrapper';
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
+import { suggestions } from '@appbaseio/reactivesearch/lib/types';
 
 const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string, setValue: any}>((props, ref) => {
   const { value, setValue } = props;
@@ -22,11 +23,15 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         IndexFields.DM_LAST_NAME
       ]}
       placeholder={t('POLICYMAKERS:search-bar-placeholder')}
-      autosuggest={false}
+      autosuggest={true}
       value={value}
       defaultValue={value}
       onChange={setValue}
       URLParams={true}
+      parseSuggestion={(suggestion) => ({
+        title: suggestion.source.subject[0],
+        value: suggestion.source.subject[0],
+      })}
     />
   );
 

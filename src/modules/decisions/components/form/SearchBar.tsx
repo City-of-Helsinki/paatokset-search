@@ -23,10 +23,14 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       ]}
       fieldWeights={[100,50,10,1]}
       placeholder={t('DECISIONS:search-bar-placeholder')}
-      autosuggest={false}
+      autosuggest={true}
       value={value}
       onChange={setValue}
       URLParams={true}
+      parseSuggestion={(suggestion) => ({
+        title: suggestion.source.subject[0],
+        value: suggestion.source.subject[0],
+      })}
     />
   );
 
