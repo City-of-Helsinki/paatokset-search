@@ -79,16 +79,16 @@ const ResultsContainer = () => {
         }
       },
       aggs: {
-        [IndexFields.ISSUE_ID]: {
+        [IndexFields.UNIQUE_ISSUE_ID]: {
           terms: {
-            field: IndexFields.ISSUE_ID,
+            field: IndexFields.UNIQUE_ISSUE_ID,
             size: 10000,
             show_term_doc_count_error: true
           }
         }
       },
       collapse: {
-        field: "issue_id"
+        field: "unique_issue_id"
       }
     }
   };
@@ -188,10 +188,10 @@ const ResultsContainer = () => {
                   const aggregations = rawData.aggregations;
                   let doc_count = 1;
 
-                  if (item.issue_id && item.issue_id[0] && aggregations && aggregations.issue_id && aggregations.issue_id.buckets.length) {
-                    const buckets = aggregations.issue_id.buckets;
+                  if (item.unique_issue_id && item.unique_issue_id[0] && aggregations && aggregations.unique_issue_id && aggregations.unique_issue_id.buckets.length) {
+                    const buckets = aggregations.unique_issue_id.buckets;
                     for (let i = 0; i < buckets.length; i++) {
-                      if (buckets[i].key === item.issue_id[0]) {
+                      if (buckets[i].key === item.unique_issue_id[0]) {
                         doc_count = buckets[i].doc_count;
                       }
                     }
@@ -208,6 +208,7 @@ const ResultsContainer = () => {
                     url_query: t('DECISIONS:url-query'),
                     amount_label: t('DECISIONS:amount-label'),
                     issue_id: item.issue_id,
+                    unique_issue_id: item.unique_issue_id,
                     doc_count: doc_count,
                     policymaker: '',
                     subject: item.subject,

@@ -17,6 +17,7 @@ type Props = {
   url_query: string,
   amount_label: string,
   issue_id: string,
+  unique_issue_id: string,
   doc_count: number,
   subject: string,
   issue_subject: string,
@@ -24,7 +25,7 @@ type Props = {
   organization_name: string
 };
 
-const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix, url_query, amount_label, issue_id, doc_count, organization_name, subject, issue_subject, _score}: Props) => {
+const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix, url_query, amount_label, issue_id, unique_issue_id, doc_count, organization_name, subject, issue_subject, _score}: Props) => {
   const colorClass = useDepartmentClasses(color_class);
 
   const handleClick = () => {
@@ -65,7 +66,7 @@ const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix,
         </div>
         <div className={style.ResultCard__title}>
           {process.env.REACT_APP_DEVELOPER_MODE &&
-            <span style={{color: 'red'}}>Score: { _score }, Diary number: { issue_id }, URL: { href }  </span>
+            <span style={{color: 'red'}}>Score: { _score }, Diary number: { issue_id }, Unique issue ID: { unique_issue_id }, Doc Count: { doc_count } <br /> URL: { href }</span>
           }
           <h2>{ subject }</h2>
           {
