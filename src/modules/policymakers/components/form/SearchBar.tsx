@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import SearchBarWrapper from '../../../../common/components/form/SearchBarWrapper';
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
-import { suggestions } from '@appbaseio/reactivesearch/lib/types';
 
 const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string, setValue: any}>((props, ref) => {
   const { value, setValue } = props;
