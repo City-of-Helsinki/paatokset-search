@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { DataSearch } from '@appbaseio/reactivesearch';
 import { DataSearchProps } from '@appbaseio/reactivesearch/lib/components/search/DataSearch';
 import { useTranslation } from 'react-i18next';
+import { format } from 'date-fns';
 
 import SearchBarWrapper from '../../../../common/components/form/SearchBarWrapper';
 import IndexFields from '../../enum/IndexFields';
@@ -28,7 +29,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       onChange={setValue}
       URLParams={true}
       parseSuggestion={(suggestion) => ({
-        title: suggestion.source.subject[0],
+        title: suggestion.source.subject[0] + ' ('+ format(new Date(suggestion.source.meeting_date[0] * 1000), 'dd.MM.yyyy') +')',
         value: suggestion.source.subject[0],
       })}
     />
