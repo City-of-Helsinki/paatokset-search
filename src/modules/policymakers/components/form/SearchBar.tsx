@@ -28,8 +28,8 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       onChange={setValue}
       URLParams={true}
       parseSuggestion={(suggestion) => ({
-        title: suggestion.source.subject[0],
-        value: suggestion.source.subject[0],
+        title: suggestion.value,
+        value: suggestion.value,
       })}
     />
   );
