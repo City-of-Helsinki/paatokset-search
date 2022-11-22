@@ -27,10 +27,38 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       defaultValue={value}
       onChange={setValue}
       URLParams={true}
-      parseSuggestion={(suggestion) => ({
-        title: suggestion.value,
-        value: suggestion.value,
-      })}
+      render={function ({data, downshiftProps: { isOpen, getItemProps, highlightedIndex, selectedItem }}) {
+        const parsedData = [];
+        for (let i = 0; i < data.length; i++) {
+          let subject = data[i].value;
+          if (data[i].source.has_translation === true && data[i].source._language !== t('SEARCH:langcode')) {
+            continue;
+          }
+          parsedData.push({
+            label: subject,
+            value: subject
+          });
+        }
+        return isOpen && parsedData.length > 0 && (
+          <div className="search-autocomplete__wrapper">
+            <div className="search-autocomplete">
+              { parsedData.map((suggestion: any, index: Number) => (
+                <div className="search-autocomplete__item" key={suggestion.value} {...getItemProps({
+                    item: suggestion,
+                    style: {
+                      color: highlightedIndex === index ? 'white' : 'black',
+                      backgroundColor: highlightedIndex === index ? 'black' : 'white',
+                      fontWeight: selectedItem === suggestion ? 'bold' : 'normal',
+                    }
+                  })}>
+                  {suggestion.value}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }}
+
     />
   );
 

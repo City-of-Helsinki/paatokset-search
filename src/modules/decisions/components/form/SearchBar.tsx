@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { DataSearch } from '@appbaseio/reactivesearch';
 import { DataSearchProps } from '@appbaseio/reactivesearch/lib/components/search/DataSearch';
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
 
 import SearchBarWrapper from '../../../../common/components/form/SearchBarWrapper';
 import IndexFields from '../../enum/IndexFields';
@@ -28,10 +27,44 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       value={value}
       onChange={setValue}
       URLParams={true}
-      parseSuggestion={(suggestion) => ({
-        title: suggestion.source.subject[0] + ' ('+ format(new Date(suggestion.source.meeting_date[0] * 1000), 'dd.MM.yyyy') +')',
-        value: suggestion.source.subject[0],
-      })}
+      render={function ({data, downshiftProps: { isOpen, getItemProps, highlightedIndex, selectedItem }}) {
+        const uniqueSuggestions:string[] = [];
+        const parsedData = [];
+        for (let i = 0; i < data.length; i++) {
+          let subject = data[i].source.subject[0];
+          if (uniqueSuggestions.includes(subject)) {
+            continue;
+          }
+
+          if (data[i].source._language !== t('SEARCH:langcode')) {
+            continue;
+          }
+
+          uniqueSuggestions.push(subject);
+          parsedData.push({
+            label: subject,
+            value: subject
+          });
+        }
+        return isOpen && parsedData.length > 0 && (
+          <div className="search-autocomplete__wrapper">
+            <div className="search-autocomplete">
+              { parsedData.map((suggestion: any, index: Number) => (
+                <div className="search-autocomplete__item" key={suggestion.value} {...getItemProps({
+                    item: suggestion,
+                    style: {
+                      color: highlightedIndex === index ? 'white' : 'black',
+                      backgroundColor: highlightedIndex === index ? 'black' : 'white',
+                      fontWeight: selectedItem === suggestion ? 'bold' : 'normal',
+                    }
+                  })}>
+                  {suggestion.value}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }}
     />
   );
 
