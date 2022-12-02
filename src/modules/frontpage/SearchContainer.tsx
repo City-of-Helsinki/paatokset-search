@@ -30,6 +30,7 @@ const SearchContainer = ({ url }: Props) => {
           searchTriggered={true}
           triggerSearch={function(){}}
           searchLabel={t('DECISIONS:frontpage-search-label')}
+          searchRedirect={t('DECISIONS:redirect-uri')}
         />
       </ReactiveBase>
   )

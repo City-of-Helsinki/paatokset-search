@@ -12,6 +12,7 @@ type FormContainerProps = {
   searchTriggered: boolean,
   triggerSearch: Function,
   searchLabel: string,
+  searchRedirect: string,
   t?: Function
 };
 
@@ -28,7 +29,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
   handleSubmit = (event: any) => {
     if(event) {
-      window.location.href = '/fi/asia?s="' + encodeURIComponent(this.state.phrase) + '"';
+      window.location.href = this.props.searchRedirect + '"' + encodeURIComponent(this.state.phrase) + '"';
       event.preventDefault();
     }
   };
