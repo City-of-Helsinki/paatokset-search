@@ -5,7 +5,6 @@ import SearchBar from '../../../decisions/components/form/SearchBar';
 import SubmitButton from '../../../decisions/components/form/SubmitButton';
 
 import formStyles from '../../../../common/styles/Form.module.scss';
-import styles from '../../../decisions/components/form/FormContainer.module.scss';
 import classNames from 'classnames';
 
 type FormContainerProps = {
@@ -29,7 +28,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
   handleSubmit = (event: any) => {
     if(event) {
-      window.location.href = '/fi/asia?="' + encodeURIComponent(this.state.phrase) + '"';
+      window.location.href = '/fi/asia?s="' + encodeURIComponent(this.state.phrase) + '"';
       event.preventDefault();
     }
   };
@@ -46,11 +45,10 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     let containerStyle: any = {};
 
     return(
-      <div style={{background: '#f7f7f8'}}>
+      <div>
         <div
           className={classNames(
             formStyles.FormContainer,
-            styles.FormContainer,
             'wrapper'
           )}
           style={containerStyle}
