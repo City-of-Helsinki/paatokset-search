@@ -281,6 +281,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 ref={this.searchBar}
                 value={phrase}
                 setValue={this.changePhrase}
+                URLParams={true}
               />
               <SubmitButton
                 type='desktop'
