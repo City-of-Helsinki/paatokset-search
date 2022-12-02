@@ -182,7 +182,7 @@
       "show-all": "Alla beslutsfattare",
       "url-prefix": "arende",
       "url-query": "beslut",
-      "redirect-uri": "/sv/beslut?s=",
+      "redirect-uri": "/sv/arende?s=",
       "city-council": "Stadsfullmäktige",
       "city-hall": "Stadsstyrelsen",
       "decisionmaker": "Beslutsfattare",
