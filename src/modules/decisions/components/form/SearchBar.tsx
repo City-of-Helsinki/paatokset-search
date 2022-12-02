@@ -7,8 +7,8 @@ import SearchBarWrapper from '../../../../common/components/form/SearchBarWrappe
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
 
-const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any, URLParams: any}>((props, ref) => {
-  const { value, setValue, URLParams } = props;
+const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any, URLParams: any, searchLabel: string|undefined}>((props, ref) => {
+  const { value, setValue, URLParams, searchLabel } = props;
   const { t } = useTranslation();
 
   const dataSearch = (
@@ -31,7 +31,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         const uniqueSuggestions:string[] = [];
         const parsedData = [];
         for (let i = 0; i < data.length; i++) {
-          let subject = data[i].source.subject[0];
+          let subject:string = data[i].source.subject[0];
           if (uniqueSuggestions.includes(subject)) {
             continue;
           }
@@ -68,7 +68,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
     />
   );
 
-  const label = t('DECISIONS:search-bar-label');
+  const label = searchLabel ? searchLabel : t('DECISIONS:search-bar-label');
 
   return (
     <SearchBarWrapper

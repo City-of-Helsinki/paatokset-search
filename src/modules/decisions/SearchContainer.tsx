@@ -35,7 +35,7 @@ const SearchContainer = ({ url }: Props) => {
         <FormContainer
           langcode={t('SEARCH:langcode')}
           searchTriggered={searchTriggered}
-          triggerSearch={triggerSearch} />
+          triggerSearch={triggerSearch}/>
         {searchTriggered &&
           <ResultsContainer />
         }

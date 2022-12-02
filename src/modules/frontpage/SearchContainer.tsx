@@ -28,7 +28,9 @@ const SearchContainer = ({ url }: Props) => {
         <FormContainer
           langcode={t('SEARCH:langcode')}
           searchTriggered={true}
-          triggerSearch={function(){}} />
+          triggerSearch={function(){}}
+          searchLabel={t('DECISIONS:frontpage-search-label')}
+        />
       </ReactiveBase>
   )
 }

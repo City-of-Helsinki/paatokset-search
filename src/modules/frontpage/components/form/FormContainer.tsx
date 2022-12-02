@@ -1,7 +1,6 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 
-import FormTitle from '../../../decisions/components/form/FormTitle';
 import SearchBar from '../../../decisions/components/form/SearchBar';
 import SubmitButton from '../../../decisions/components/form/SubmitButton';
 
@@ -13,6 +12,7 @@ type FormContainerProps = {
   langcode: string,
   searchTriggered: boolean,
   triggerSearch: Function,
+  searchLabel: string,
   t?: Function
 };
 
@@ -55,7 +55,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           )}
           style={containerStyle}
         >
-          <FormTitle />
           <form className={classNames(
               formStyles.FormContainer__form,
               'container'
@@ -68,6 +67,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 value={phrase}
                 setValue={this.changePhrase}
                 URLParams={false}
+                searchLabel={this.props.searchLabel}
               />
               <SubmitButton
                 type='desktop'
