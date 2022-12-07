@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
 import { ReactiveBase } from '@appbaseio/reactivesearch';
 import { useTranslation } from 'react-i18next';
-
 import Indices from '../../Indices';
 import FormContainer from './components/form/FormContainer';
-import ResultsContainer from './components/results/ResultsContainer';
 
 const baseTheme = {
   typography: {
@@ -21,10 +18,6 @@ type Props = {
 
 const SearchContainer = ({ url }: Props) => {
   const { t } = useTranslation();
-  const [searchTriggered, setSearchState] = useState<boolean>(false);
-  const triggerSearch = () => {
-    setSearchState(true);
-  };
 
   return (
     <ReactiveBase
@@ -34,11 +27,11 @@ const SearchContainer = ({ url }: Props) => {
       >
         <FormContainer
           langcode={t('SEARCH:langcode')}
-          searchTriggered={searchTriggered}
-          triggerSearch={triggerSearch}/>
-        {searchTriggered &&
-          <ResultsContainer />
-        }
+          searchTriggered={true}
+          triggerSearch={function(){}}
+          searchLabel={t('DECISIONS:frontpage-search-label')}
+          searchRedirect={t('DECISIONS:redirect-uri')}
+        />
       </ReactiveBase>
   )
 }
