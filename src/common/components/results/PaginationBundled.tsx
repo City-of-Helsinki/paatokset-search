@@ -17,12 +17,12 @@ export const getRealTotalPages = (searchState: any, totalPages: number, size: nu
   if (!searchState.results) {
     return totalPages;
   }
-  if (searchState.results.aggregations && searchState.results.aggregations.issue_id && searchState.results.aggregations.issue_id.buckets.length > 0) {
+  if (searchState.results.aggregations && searchState.results.aggregations.unique_issue_id && searchState.results.aggregations.unique_issue_id.buckets.length > 0) {
     // Special case when max amount of hits is reached.
-    if (searchState.results.aggregations.issue_id.buckets.length === 10000) {
+    if (searchState.results.aggregations.unique_issue_id.buckets.length >= 10000) {
       return totalPages - 1;
     }
-    return Math.ceil(searchState.results.aggregations.issue_id.buckets.length / size);
+    return Math.ceil(searchState.results.aggregations.unique_issue_id.buckets.length / size);
   }
   return totalPages;
 }

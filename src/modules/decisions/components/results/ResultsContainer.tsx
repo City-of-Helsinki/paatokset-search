@@ -43,8 +43,8 @@ const ResultsContainer = () => {
     if (!searchState.results) {
       return 0;
     }
-    if (searchState.results.aggregations && searchState.results.aggregations.issue_id && searchState.results.aggregations.issue_id.buckets.length > 0) {
-      return searchState.results.aggregations.issue_id.buckets.length;
+    if (searchState.results.aggregations && searchState.results.aggregations.unique_issue_id && searchState.results.aggregations.unique_issue_id.buckets.length > 0) {
+      return searchState.results.aggregations.unique_issue_id.buckets.length;
     }
     return searchState.results.hits.total;
   }
