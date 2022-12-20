@@ -44,8 +44,8 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
         key={category.value}
         onClick={() => deleteCategory(category.value)}
       >
-        <IconCross />
         {category.label}
+        <IconCross />
       </button>
     ));
   }
@@ -66,8 +66,8 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
         key={dm.value}
         onClick={() => deleteDm(dm.value)}
       >
-        <IconCross />
         {dm.label}
+        <IconCross />
       </button>
     );
   }
@@ -89,8 +89,8 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
         key="{{ dateLabel }}"
         onClick={() => deleteDateQuery()}
       >
-        <IconCross />
         { from } - { to }
+        <IconCross />
       </button>
     );
   }
@@ -109,6 +109,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
                 onClick={() => {setCategories([]); setDm(null); setFrom(null); setTo(null); setSelection(null)}}
               >
+                <IconCross />
                 {t('SEARCH:clear-all')}
               </button>
             </div>
