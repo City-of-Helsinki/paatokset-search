@@ -146,6 +146,7 @@ class FormContainer extends Component<Props> {
               ref={this.searchBar}
               value={phrase}
               setValue={this.setPhrase}
+              triggerSearch={this.props.triggerSearch}
             />
             <SubmitButton isDesktop={true} />
           </div>
