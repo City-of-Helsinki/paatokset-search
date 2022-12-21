@@ -7,6 +7,7 @@ import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
 import ResultCard from './ResultCard';
 import Pagination from '../../../../common/components/results/Pagination';
+import SearchLoader from '../../../../common/components/results/SearchLoader';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
 import styles from './ResultsContainer.module.scss';
@@ -37,6 +38,7 @@ const ResultsContainer = () => {
         componentId={SearchComponents.RESULTS}
         size={10}
         pages={3}
+        loader={<SearchLoader />}
         pagination={true}
         dataField={IndexFields.TITLE}
         onPageChange={scrollToResults}
