@@ -324,6 +324,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     top_category_code: {
                       terms: {
                         field: 'top_category_code',
+                        size: 100,
                         order: { _key: 'asc' }
                       }
                     }
@@ -347,6 +348,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     [IndexFields.SECTOR_ID]: {
                       terms: {
                         field: IndexFields.SECTOR_ID,
+                        size: 100,
                         order: { _key: 'asc'}
                       }
                     }

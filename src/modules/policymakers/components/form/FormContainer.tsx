@@ -168,6 +168,7 @@ class FormContainer extends Component<Props> {
                     [IndexFields.SECTOR]: {
                       terms: {
                         field: IndexFields.SECTOR,
+                        size: 100,
                         order: { _key: 'asc' }
                       }
                     }
