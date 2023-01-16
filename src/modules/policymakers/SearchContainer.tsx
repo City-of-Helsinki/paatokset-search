@@ -23,9 +23,18 @@ type Props = {
 const SearchContainer = ({ url }: Props) => {
   const { t } = useTranslation();
   const [searchTriggered, setSearchStatus] = useState<boolean>(false);
+  const [lastRefreshTime, setLastRefreshTime] = useState<string>('');
 
   const triggerSearch = () => {
     setSearchStatus(true);
+  }
+
+  const setLastRefreshed = () => {
+    setLastRefreshTime(String(Date.now()));
+  }
+
+  const getLastRefreshed = () => {
+    return lastRefreshTime;
   }
 
   return (
@@ -37,9 +46,11 @@ const SearchContainer = ({ url }: Props) => {
         <FormContainer
           langcode={t('SEARCH:langcode')}
           searchTriggered={searchTriggered}
-          triggerSearch={triggerSearch} />
+          triggerSearch={triggerSearch}
+          setLastRefreshed={setLastRefreshed} />
         {searchTriggered &&
-          <ResultsContainer />
+          <ResultsContainer
+            getLastRefreshed={getLastRefreshed} />
         }
       </ReactiveBase>
   )

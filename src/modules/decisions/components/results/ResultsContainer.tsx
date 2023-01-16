@@ -125,7 +125,7 @@ const ResultsContainer = () => {
           react={{
               or: [
                 SearchComponents.SEARCH_BAR,
-                SearchComponents.WILDCARD
+                SearchComponents.WILDCARD,
               ],
               and: [
                 SearchComponents.CATEGORY,

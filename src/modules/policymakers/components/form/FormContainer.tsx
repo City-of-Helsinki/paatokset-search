@@ -15,12 +15,14 @@ import classNames from 'classnames';
 type Props = {
   langcode: string,
   searchTriggered: boolean,
-  triggerSearch: Function
+  triggerSearch: Function,
+  setLastRefreshed: Function
 }
 
 type FormContainerState = {
   phrase: string,
   sectors: string[],
+  sectorsSelected: string[],
   querySectors: string[],
   filters: any[],
   wildcardPhrase: string
@@ -38,6 +40,7 @@ class FormContainer extends Component<Props> {
   state: FormContainerState = {
     phrase: '',
     sectors: [],
+    sectorsSelected: [],
     querySectors: [],
     filters: [],
     wildcardPhrase: ''
@@ -55,6 +58,7 @@ class FormContainer extends Component<Props> {
     if(initialSectors) {
       this.setState({
         sectors: initialSectors,
+        sectorsSelected: initialSectors,
         querySectors: initialSectors
       });
     }
@@ -80,6 +84,12 @@ class FormContainer extends Component<Props> {
     });
   }
 
+  setWildCardPhrase = (value: string) => {
+    this.setState({
+      wildcardPhrase: value
+    });
+  }
+
   setSectors = (sectors: string[]) => {
     this.setState({
       sectors: sectors
@@ -88,21 +98,35 @@ class FormContainer extends Component<Props> {
 
   searchBar = React.createRef<any>();
 
+  getFilters = () => {
+    const { sectorsSelected } = this.state;
+    const sectorFilters = sectorsSelected.map(sector => ({value: sector, type: SearchComponents.SECTOR, deleteFilter: this.deleteFilter}));
+    return sectorFilters;
+  }
+
+  updateFilters = () => {
+    this.setState({
+      querySectors: this.state.sectors,
+      sectorsSelected: this.state.sectors
+    });
+  }
+
   deleteFilter = (value: string, type: string) => {
     let values = [...this.state.sectors];
     values.splice(values.indexOf(value), 1);
     this.setSectors(values);
-  }
-
-  getFilters = () => {
-    const { sectors } = this.state;
-    const sectorFilters = sectors.map(sector => ({value: sector, type: SearchComponents.SECTOR, deleteFilter: this.deleteFilter}));
-    return sectorFilters;
+    this.setState({
+      sectors: values,
+      sectorsSelected: values,
+      querySectors: values
+    })
   }
 
   clearAllFilters = () => {
     this.setState({
-      sectors: []
+      sectors: [],
+      querySectors: [],
+      sectorsSelected: []
     });
   }
 
@@ -120,9 +144,10 @@ class FormContainer extends Component<Props> {
     }
 
     this.setState({
-      querySectors: this.state.sectors,
       wildcardPhrase: this.state.phrase
     });
+
+    this.updateFilters();
   }
 
   render() {
@@ -146,7 +171,6 @@ class FormContainer extends Component<Props> {
               ref={this.searchBar}
               value={phrase}
               setValue={this.setPhrase}
-              triggerSearch={this.props.triggerSearch}
             />
             <SubmitButton isDesktop={true} />
           </div>
