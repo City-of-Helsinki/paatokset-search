@@ -11,6 +11,7 @@ import IndexFields from '../../enum/IndexFields';
 import { Sort } from '../../enum/Sort';
 import Pagination from '../../../../common/components/results/PaginationBundled';
 import PhantomCard from './PhantomCard';
+import SearchLoader from '../../../../common/components/results/SearchLoader';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
 import styles from './ResultsContainer.module.scss';
@@ -120,10 +121,11 @@ const ResultsContainer = () => {
           sortBy={sortBy}
           onPageChange={scrollToResults}
           URLParams={true}
+          loader={<SearchLoader />}
           react={{
               or: [
                 SearchComponents.SEARCH_BAR,
-                SearchComponents.WILDCARD
+                SearchComponents.WILDCARD,
               ],
               and: [
                 SearchComponents.CATEGORY,

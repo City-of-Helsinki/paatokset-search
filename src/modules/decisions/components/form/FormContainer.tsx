@@ -33,12 +33,16 @@ type FormContainerState = {
   phrase: string,
   categories: Array<Option>,
   queryCategories: Array<Option>,
+  selectedCategories: Array<Option>,
   dm: Option|null,
   queryDm: Option|null,
+  selectedDm: Option|null,
   from: any,
   queryFrom: any,
+  selectedFrom: any,
   to: any,
   queryTo: any
+  selectedTo: any,
   date_selection: any,
   errors: FormErrors,
   isDesktop: boolean,
@@ -51,14 +55,18 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     phrase: '',
     categories: [],
     queryCategories: [],
+    selectedCategories: [],
     dm: null,
     queryDm: null,
+    selectedDm: null,
     errors: {},
     from: undefined,
     to: undefined,
     date_selection: undefined,
     queryFrom: undefined,
     queryTo: undefined,
+    selectedFrom: undefined,
+    selectedTo: undefined,
     isDesktop: window.matchMedia('(min-width: 1248px)').matches,
     wildcardPhrase: '',
     koroRef: null
@@ -71,6 +79,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     if(from) {
       this.setState({
         queryFrom: from,
+        selectedFrom: from,
         from: from
       })
     }
@@ -78,6 +87,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     if(to) {
       this.setState({
         queryTo: to,
+        selectedTo: to,
         to: to
       })
     }
@@ -104,6 +114,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
       this.setState({
         categories: formattedCategories,
+        selectedCategories: formattedCategories,
         queryCategories: formattedCategories
       });
     }
@@ -141,6 +152,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       if (typeof foundDm !== 'undefined') {
         this.setState({
           dm: foundDm,
+          selectedDm: foundDm,
           queryDm: foundDm
         });
       }
@@ -198,6 +210,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       wildcardPhrase: this.state.phrase
     });
 
+    this.updateFilters();
+
     if(!this.props.searchTriggered) {
       this.props.triggerSearch();
     }
@@ -209,34 +223,71 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     });
   };
 
-  setCategories = (categories: Array<Option>) => {
+  setCategories = (categories: Array<Option>, update?: Boolean) => {
     this.setState({
       categories: categories
     });
+
+    if (update) {
+      this.setState({
+        selectedCategories: categories,
+        queryCategories: categories
+      });
+    }
   }
 
-  setDm = (dm: Option|null) => {
+  setDm = (dm: Option|null, update?: Boolean) => {
     this.setState({
       dm: dm
     });
+
+    if (update) {
+      this.setState({
+        selectedDm: dm,
+        queryDm: dm
+      });
+    }
   }
 
-  setFrom = (from: any) => {
+  setFrom = (from: any, update ?: Boolean) => {
     this.setState({
       from: from
     });
+
+    if (update) {
+      this.setState({
+        selectedFrom: from,
+        queryFrom: from
+      })
+    }
   }
 
-  setTo = (to: any) => {
+  setTo = (to: any, update ?: Boolean) => {
     this.setState({
       to: to
     });
+
+    if (update) {
+      this.setState({
+        queryTo: to,
+        selectedTo: to
+      })
+    }
   }
 
   setSelection = (date_selection: any) => {
     this.setState({
       date_selection: date_selection
     });
+  }
+
+  updateFilters = () => {
+    this.setState({
+      selectedFrom: this.state.from,
+      selectedTo: this.state.to,
+      selectedDm: this.state.dm,
+      selectedCategories: this.state.categories
+    })
   }
 
   setErrors = (errors: FormErrors) => this.setState({errors});
@@ -248,7 +299,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
   }
 
   render() {
-    const { errors, phrase, categories, queryCategories, dm, queryDm, from, to, date_selection, queryFrom, queryTo, isDesktop, wildcardPhrase, koroRef } = this.state;
+    const { errors, phrase, categories, queryCategories, selectedCategories, dm, queryDm, selectedDm, from, to, date_selection, queryFrom, queryTo, selectedFrom, selectedTo, isDesktop, wildcardPhrase, koroRef } = this.state;
 
     let containerStyle: any = {};
     let koroStyle: any = {};
@@ -283,6 +334,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 setValue={this.changePhrase}
                 URLParams={true}
                 searchLabel={undefined}
+                triggerSearch={this.props.triggerSearch}
               />
               <SubmitButton
                 type='desktop'
@@ -323,6 +375,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     top_category_code: {
                       terms: {
                         field: 'top_category_code',
+                        size: 100,
                         order: { _key: 'asc' }
                       }
                     }
@@ -346,6 +399,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     [IndexFields.SECTOR_ID]: {
                       terms: {
                         field: IndexFields.SECTOR_ID,
+                        size: 100,
                         order: { _key: 'asc'}
                       }
                     }
@@ -398,13 +452,13 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           }
         </div>
         <SelectedFiltersContainer
-          categories={categories}
+          categories={selectedCategories}
           setCategories={this.setCategories}
-          dm={dm}
+          dm={selectedDm}
           setDm={this.setDm}
-          from={from}
+          from={selectedFrom}
           setFrom={this.setFrom}
-          to={to}
+          to={selectedTo}
           setTo={this.setTo}
           setSelection={this.setSelection}
         />

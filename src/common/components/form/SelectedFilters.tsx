@@ -39,8 +39,8 @@ const SelectedFiltersContainer = ({ filters, clearAll }: Props) => {
               type='button'
               onClick={() => filter.deleteFilter(filter.value, filter.type)}
             >
-              <IconCross />
               {filter.value}
+              <IconCross />
             </button>
           ));
 
@@ -61,6 +61,7 @@ const SelectedFiltersContainer = ({ filters, clearAll }: Props) => {
                 onClick={() => clearAll()}
                 type='button'
               >
+                <IconCross />
                 {t('SEARCH:clear-all')}
               </button>
             </div>

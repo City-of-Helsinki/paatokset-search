@@ -34,6 +34,12 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }
   };
 
+  handleSelectedValue = (value: any) => {
+    if (value) {
+      window.location.href = this.props.searchRedirect + '"' + encodeURIComponent(value) + '"';
+    }
+  }
+
   changePhrase = (value: any) => {
     this.setState({
       phrase: value
@@ -67,6 +73,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 setValue={this.changePhrase}
                 URLParams={false}
                 searchLabel={this.props.searchLabel}
+                triggerSearch={this.handleSelectedValue}
               />
               <SubmitButton
                 type='desktop'

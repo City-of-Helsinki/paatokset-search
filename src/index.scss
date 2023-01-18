@@ -23,9 +23,9 @@ body {
 }
 
 @mixin focus-outline {
-  border: solid 2px #1a1a1a;
-  transition: border-color 85ms ease-out;
-  box-shadow: 0 0 0 3px #0072c6;
+  border-color: #000;
+  outline: 2px solid #000;
+  outline-offset: 2px;
 }
 
 .MultiDropdownList__item {

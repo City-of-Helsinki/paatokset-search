@@ -35,7 +35,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
         }
         return true;
       });
-      setCategories(current);
+      setCategories(current, true);
     }
 
     return categories.map(category => (
@@ -44,8 +44,8 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
         key={category.value}
         onClick={() => deleteCategory(category.value)}
       >
-        <IconCross />
         {category.label}
+        <IconCross />
       </button>
     ));
   }
@@ -57,7 +57,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
     }
 
     const deleteDm = (dm: any) => {
-      setDm(null);
+      setDm(null, true);
     }
 
     return (
@@ -66,8 +66,8 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
         key={dm.value}
         onClick={() => deleteDm(dm.value)}
       >
-        <IconCross />
         {dm.label}
+        <IconCross />
       </button>
     );
   }
@@ -78,8 +78,8 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
     }
 
     const deleteDateQuery = () => {
-      setTo(null);
-      setFrom(null);
+      setTo(null, true);
+      setFrom(null, true);
       setSelection(null);
     }
 
@@ -89,8 +89,8 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
         key="{{ dateLabel }}"
         onClick={() => deleteDateQuery()}
       >
-        <IconCross />
         { from } - { to }
+        <IconCross />
       </button>
     );
   }
@@ -107,8 +107,9 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
               {getDmFilter()}
               <button
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
-                onClick={() => {setCategories([]); setDm(null); setFrom(null); setTo(null); setSelection(null)}}
+                onClick={() => {setCategories([], true); setDm(null, true); setFrom(null, true); setTo(null, true); setSelection(null)}}
               >
+                <IconCross />
                 {t('SEARCH:clear-all')}
               </button>
             </div>

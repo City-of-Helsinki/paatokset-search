@@ -12,7 +12,8 @@
       "invalid-date": "Invalid date",
       "results-count": "Search results for case:",
       "clear-all": "Clear all",
-      "filters": "Filters"
+      "filters": "Filters",
+      "loading": "Loading results..."
     },
     "DECISIONS": {
       "show-all": "All decisionmakers",
@@ -93,7 +94,8 @@
       "invalid-date": "Päivämäärä ei ole oikeassa muodossa",
       "results-count": "hakutulosta",
       "clear-all": "Tyhjennä valinnat",
-      "filters": "Rajaus"
+      "filters": "Rajaus",
+      "loading": "Ladataan tuloksia..."
     },
     "DECISIONS": {
       "results-count": "Hakutuloksia asiassa:",
@@ -175,7 +177,8 @@
       "invalid-date": "Datumet är inte i rätt format",
       "results-count": "träffar",
       "clear-all": "Rensa alla",
-      "filters": "Avgränsa"
+      "filters": "Avgränsa",
+      "loading": "Loading results..."
     },
     "DECISIONS": {
       "results-count": "Sökresultat i ärendet:",

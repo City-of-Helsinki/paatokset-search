@@ -29,7 +29,17 @@ const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix,
   const colorClass = useDepartmentClasses(color_class);
 
   const handleClick = () => {
-    window.location.href = href.toString().replace('/fi/', lang_prefix).replace('asia', url_prefix).replace('paatos', url_query);
+    let redirect_url = href.toString();
+    if (redirect_url.startsWith('/en/')) {
+      redirect_url = redirect_url.replace('/en/', lang_prefix).replace('case', url_prefix).replace('decision', url_query);
+    }
+    else if (redirect_url.startsWith('/sv/')) {
+      redirect_url = redirect_url.replace('/sv/', lang_prefix).replace('arende', url_prefix).replace('beslut', url_query);
+    }
+    else {
+      redirect_url = redirect_url.replace('/fi/', lang_prefix).replace('asia', url_prefix).replace('paatos', url_query);
+    }
+    window.location.href = redirect_url;
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

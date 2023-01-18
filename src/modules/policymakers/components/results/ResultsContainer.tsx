@@ -7,11 +7,16 @@ import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
 import ResultCard from './ResultCard';
 import Pagination from '../../../../common/components/results/Pagination';
+import SearchLoader from '../../../../common/components/results/SearchLoader';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
 import styles from './ResultsContainer.module.scss';
 
-const ResultsContainer = () => {
+type Props = {
+  getLastRefreshed: Function,
+}
+
+const ResultsContainer = ({getLastRefreshed}: Props) => {
   const { t } = useTranslation();
   const resultsContainer = useRef<HTMLDivElement|null>(null);
 
@@ -37,6 +42,7 @@ const ResultsContainer = () => {
         componentId={SearchComponents.RESULTS}
         size={10}
         pages={3}
+        loader={<SearchLoader />}
         pagination={true}
         dataField={IndexFields.TITLE}
         onPageChange={scrollToResults}
@@ -52,7 +58,12 @@ const ResultsContainer = () => {
                   {
                     "match": {"has_translation": false}
                   }
-                ]
+                ],
+                "must_not": {
+                  "term": {
+                    "force_refresh": getLastRefreshed()
+                  }
+                }
               }
             }
           }
@@ -63,8 +74,7 @@ const ResultsContainer = () => {
             SearchComponents.WILDCARD
           ],
           and: [
-            SearchComponents.SECTOR,
-            SearchComponents.ORGAN
+            SearchComponents.SECTOR
           ]
         }}
         renderResultStats={(stats) => (
