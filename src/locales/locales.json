@@ -61,7 +61,8 @@
       "U420300": "Kasvatuksen ja koulutuksen toimiala",
       "U480400": "Kulttuurin ja vapaa-ajan toimiala",
       "U50": "Keskushallinto",
-      "U541000": "Kaupunkiympäristön toimiala"
+      "U541000": "Kaupunkiympäristön toimiala",
+      "U321200": "Sosiaali-, terveys- ja pelastustoimiala"
     },
     "CATEGORIES": {
       "00": "Hallintoasiat",
@@ -144,7 +145,8 @@
       "U420300": "Kasvatuksen ja koulutuksen toimiala",
       "U480400": "Kulttuurin ja vapaa-ajan toimiala",
       "U50": "Keskushallinto",
-      "U541000": "Kaupunkiympäristön toimiala"
+      "U541000": "Kaupunkiympäristön toimiala",
+      "U321200": "Sosiaali-, terveys- ja pelastustoimiala"
     },
     "CATEGORIES": {
       "00": "Hallintoasiat",
@@ -215,7 +217,8 @@
       "U420300": "Sektorn för fostran och utbildning",
       "U480400": "Kultur- och fritidssektorn",
       "U50": "Centralförvaltningen",
-      "U541000": "Stadsmiljösektorn"
+      "U541000": "Stadsmiljösektorn",
+      "U321200": "Social-, hälsovårds- och räddningssektorn"
     },
     "POLICYMAKERS": {
       "url-prefix": "beslutsfattare",
