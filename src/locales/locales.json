@@ -229,8 +229,8 @@
       "choose-organ": "Välj organ",
       "field": "Sektor",
       "choose-field": "Välj sektor",
-      "councillor": "Councillor",
-      "deputy-councillor": "Deputy councillor"
+      "councillor": "Ledamot",
+      "deputy-councillor": "Ersättare"
     },
     "CATEGORIES": {
       "00": "Förvaltningsärenden",
