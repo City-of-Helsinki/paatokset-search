@@ -36,9 +36,8 @@ const SearchContainer = ({ url }: Props) => {
           langcode={t('SEARCH:langcode')}
           searchTriggered={searchTriggered}
           triggerSearch={triggerSearch}/>
-        {searchTriggered &&
-          <ResultsContainer />
-        }
+        
+        <ResultsContainer />
       </ReactiveBase>
   )
 }
