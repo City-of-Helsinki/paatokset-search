@@ -23,12 +23,15 @@ const ResultsContainer = () => {
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
   const resultsContainer = useRef<HTMLDivElement|null>(null);
-
+  
   const pages = width < 768 ? 3 : 5;
+  let pageLoads = 0;
   const scrollToResults = () => {
-    if(resultsContainer.current) {
+    // Don't scroll to results on first page load.
+    if(resultsContainer.current && pageLoads > 1) {
       resultsContainer.current.scrollIntoView();
     }
+    pageLoads++;
   }
 
   const cardWrapperStyles: any = {
@@ -113,6 +116,7 @@ const ResultsContainer = () => {
               }
             }
           }
+          scrollOnChange={false}
           componentId={SearchComponents.RESULTS}
           size={size}
           pagination={true}
