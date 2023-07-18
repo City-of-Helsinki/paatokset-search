@@ -1,12 +1,14 @@
+.ResultCard,
+.ResultCard__link {
+  display: flex;
+  flex-direction: column;
+  min-height: 378px;
+}
 .ResultCard {
   cursor: pointer;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
   margin-bottom: 24px;
   width: 100%;
-  min-height: 378px;
-  overflow: hidden;
 
   &:hover {
     .ResultCard__title h2 {
@@ -24,6 +26,12 @@
   @media (min-width: 1200px) {
     max-width: 384px;
   }
+}
+.ResultCard__link {
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  flex-grow: 1;
 }
 
 .MultipleResults {

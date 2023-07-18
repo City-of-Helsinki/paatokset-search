@@ -28,26 +28,20 @@ type Props = {
 const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix, url_query, amount_label, issue_id, unique_issue_id, doc_count, organization_name, subject, issue_subject, _score}: Props) => {
   const colorClass = useDepartmentClasses(color_class);
 
-  const handleClick = () => {
-    let redirect_url = href.toString();
-    if (redirect_url.startsWith('/en/')) {
-      redirect_url = redirect_url.replace('/en/', lang_prefix).replace('case', url_prefix).replace('decision', url_query);
+  let url = '';
+  if (typeof href !== 'undefined') {
+    url = href.toString();
+    if (url.startsWith('/en/')) {
+      url = url.replace('/en/', lang_prefix).replace('case', url_prefix).replace('decision', url_query);
     }
-    else if (redirect_url.startsWith('/sv/')) {
-      redirect_url = redirect_url.replace('/sv/', lang_prefix).replace('arende', url_prefix).replace('beslut', url_query);
+    else if (url.startsWith('/sv/')) {
+      url = url.replace('/sv/', lang_prefix).replace('arende', url_prefix).replace('beslut', url_query);
     }
     else {
-      redirect_url = redirect_url.replace('/fi/', lang_prefix).replace('asia', url_prefix).replace('paatos', url_query);
-    }
-    window.location.href = redirect_url;
-  }
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if(e.key === 'Enter') {
-      handleClick();
+      url = url.replace('/fi/', lang_prefix).replace('asia', url_prefix).replace('paatos', url_query);
     }
   }
-
+  
   let formattedDate;
   if(date) {
     formattedDate = format(new Date(date * 1000), 'dd.MM.yyyy');
@@ -59,36 +53,32 @@ const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix,
   }
 
   return (
-    <div
-      className={cardClass}
-      onClick={handleClick}
-      onKeyPress={handleKeyPress}
-      tabIndex={0}
-    >
-      <div className={style.ResultCard__label} style={{backgroundColor: colorClass}}>
-        { organization_name }
-      </div>
-      <div className={style.ResultCard__container}>
-        <div>
-          <div className={style.ResultCard__date}>
-            { formattedDate }
+    <div className={cardClass}>
+      <a href={ url } className={style.ResultCard__link} tabIndex={0}>
+        <div className={style.ResultCard__label} style={{backgroundColor: colorClass}}>
+          { organization_name }
+        </div>
+        <div className={style.ResultCard__container}>
+          <div>
+            <div className={style.ResultCard__date}>
+              { formattedDate }
+            </div>
+          </div>
+          <div className={style.ResultCard__title}>
+            {process.env.REACT_APP_DEVELOPER_MODE &&
+              <span style={{color: 'red'}}>Score: { _score }, Diary number: { issue_id }, Unique issue ID: { unique_issue_id }, Doc Count: { doc_count } <br /> URL: { href }</span>
+            }
+            <h2>{ subject }</h2>
+            {
+              doc_count > 1 && issue_subject &&
+                <div className={style.ResultCard__amount}>
+                  <p><strong>{amount_label}</strong>
+                  <br />{ issue_subject }</p>
+                </div>
+            }
           </div>
         </div>
-        <div className={style.ResultCard__title}>
-          {process.env.REACT_APP_DEVELOPER_MODE &&
-            <span style={{color: 'red'}}>Score: { _score }, Diary number: { issue_id }, Unique issue ID: { unique_issue_id }, Doc Count: { doc_count } <br /> URL: { href }</span>
-          }
-          <h2>{ subject }</h2>
-          {
-            doc_count > 1 && issue_subject &&
-              <div className={style.ResultCard__amount}>
-                <p><strong>{amount_label}</strong>
-                <br />{ issue_subject }</p>
-              </div>
-          }
-        </div>
-      </div>
-      <div className={style.ResultCard__footer}>
+        <div className={style.ResultCard__footer}>
           {
             category &&
               <div className={classNames(
@@ -102,6 +92,7 @@ const ResultCard = ({category, color_class, date, href, lang_prefix, url_prefix,
               <IconArrowRight size={'l'}/>
           </div>
         </div>
+      </a>
     </div>
   );
 }
