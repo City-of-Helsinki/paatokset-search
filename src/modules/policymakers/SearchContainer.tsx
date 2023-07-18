@@ -45,6 +45,7 @@ const SearchContainer = ({ url }: Props) => {
       >
         <FormContainer
           langcode={t('SEARCH:langcode')}
+          formDescription={t('POLICYMAKERS:form-description')}
           searchTriggered={searchTriggered}
           triggerSearch={triggerSearch}
           setLastRefreshed={setLastRefreshed} />

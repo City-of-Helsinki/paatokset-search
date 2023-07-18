@@ -25,6 +25,7 @@ import classNames from 'classnames';
 type FormContainerProps = {
   langcode: string,
   searchTriggered: boolean,
+  formDescription: string,
   triggerSearch: Function,
   t?: Function
 };
@@ -321,6 +322,11 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           style={containerStyle}
         >
           <FormTitle />
+          { this.props.formDescription && (
+            <div className="container">
+              <p className={formStyles['FormContainer__description']}>{ this.props.formDescription }</p>
+            </div>
+          )}
           <form className={classNames(
               formStyles.FormContainer__form,
               'container'

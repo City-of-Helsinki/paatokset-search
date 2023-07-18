@@ -14,6 +14,7 @@ import classNames from 'classnames';
 
 type Props = {
   langcode: string,
+  formDescription: string,
   searchTriggered: boolean,
   triggerSearch: Function,
   setLastRefreshed: Function
@@ -166,6 +167,9 @@ class FormContainer extends Component<Props> {
           )}
           onSubmit={this.handleSubmit}
         >
+          { this.props.formDescription && (
+            <p className={formStyles['FormContainer__description']}>{ this.props.formDescription }</p>
+          )}
           <div className={formStyles['FormContainer__upper-fields']}>
             <SearchBar
               ref={this.searchBar}
