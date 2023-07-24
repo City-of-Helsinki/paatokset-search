@@ -17,6 +17,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       componentId={SearchComponents.SEARCH_BAR}
       dataField={[
         IndexFields.TITLE,
+        IndexFields.COMBINED_TITLE,
         IndexFields.TRUSTEE_NAME,
         IndexFields.DM_FIRST_NAME,
         IndexFields.DM_LAST_NAME

@@ -1,5 +1,6 @@
 export const IndexFields = {
   TITLE: 'title',
+  COMBINED_TITLE: 'decisionmaker_combined_title',
   LANGUAGE: '_language',
   ORGANIZATION_TYPE: 'field_organization_type.keyword',
   SECTOR: 'sector',
