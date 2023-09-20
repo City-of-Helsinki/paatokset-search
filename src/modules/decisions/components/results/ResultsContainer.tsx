@@ -187,44 +187,43 @@ const ResultsContainer = () => {
               >
                 {
                   data.map((item: any) => {
+                    // Item mapping.
+                    const {id} = item;
+                    // Check document count for collapsed search results.
+                    const aggregations = rawData.aggregations;
+                    let doc_count = 1;
 
-                  // Item mapping.
-                  const {id} = item;
-                  // Check document count for collapsed search results.
-                  const aggregations = rawData.aggregations;
-                  let doc_count = 1;
-
-                  if (item.unique_issue_id && item.unique_issue_id[0] && aggregations && aggregations.unique_issue_id && aggregations.unique_issue_id.buckets.length) {
-                    const buckets = aggregations.unique_issue_id.buckets;
-                    for (let i = 0; i < buckets.length; i++) {
-                      if (buckets[i].key === item.unique_issue_id[0]) {
-                        doc_count = buckets[i].doc_count;
+                    if (item.unique_issue_id && item.unique_issue_id[0] && aggregations && aggregations.unique_issue_id && aggregations.unique_issue_id.buckets.length) {
+                      const buckets = aggregations.unique_issue_id.buckets;
+                      for (let i = 0; i < buckets.length; i++) {
+                        if (buckets[i].key === item.unique_issue_id[0]) {
+                          doc_count = buckets[i].doc_count;
+                        }
                       }
                     }
-                  }
 
-                  const resultProps = {
-                    category: item.top_category_name,
-                    color_class: item.color_class,
-                    organization_name: item.organization_name,
-                    date: item.meeting_date,
-                    href: item.decision_url,
-                    lang_prefix: t('SEARCH:prefix'),
-                    url_prefix: t('DECISIONS:url-prefix'),
-                    url_query: t('DECISIONS:url-query'),
-                    amount_label: t('DECISIONS:amount-label'),
-                    issue_id: item.issue_id,
-                    unique_issue_id: item.unique_issue_id,
-                    doc_count: doc_count,
-                    policymaker: '',
-                    subject: item.subject,
-                    issue_subject: item.issue_subject,
-                    _score: item._score
-                  };
-                  return <ResultCard
-                    key={id}
-                    {...resultProps}
-                  />
+                    const resultProps = {
+                      category: item.top_category_name,
+                      color_class: item.color_class,
+                      organization_name: item.organization_name,
+                      date: item.meeting_date,
+                      href: item.decision_url,
+                      lang_prefix: t('SEARCH:prefix'),
+                      url_prefix: t('DECISIONS:url-prefix'),
+                      url_query: t('DECISIONS:url-query'),
+                      amount_label: t('DECISIONS:amount-label'),
+                      issue_id: item.issue_id,
+                      unique_issue_id: item.unique_issue_id,
+                      doc_count: doc_count,
+                      policymaker: '',
+                      subject: item.subject,
+                      issue_subject: item.issue_subject,
+                      _score: item._score
+                    };
+                    return <ResultCard
+                      key={id}
+                      {...resultProps}
+                    />
                 })}
                 {data.length % 3 !== 0 &&
                   <PhantomCard />
