@@ -64,10 +64,16 @@ const ResultsContainer = () => {
             bool: {
               must: [
                 {"exists": {"field": "meeting_date"}},
-              ],
-              should: [
-                {"match": {"_language": t('SEARCH:langcode')}},
-                {"match": {"has_translation": false}}
+                {
+                  // Query for documents that are translated to current
+                  // language, or they are not translated at all.
+                  bool: {
+                    should: [
+                      {"term": {"_language": t('SEARCH:langcode')}},
+                      {"term": {"has_translation": false}}
+                    ]
+                  }
+                }
               ]
             }
           },
