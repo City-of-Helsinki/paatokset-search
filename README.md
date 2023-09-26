@@ -16,6 +16,21 @@ Since this app is used as an embedded app inside Drupal, some settings for the s
 - The data-url -attribute should be the URL for your elastic cluster. You can also change this to point to the proxy app server in test/prod environments to test the app with real data.
 - Data-type -attribute determines if the app is used for searching policymakers or decisions. Naturally the available options for this attribute are `decisions` and `policymakers`.
 
+## Creating new releases
+
+Switch to develop branch and stash any uncommitted files. Then do a clean install and build a release `.zip` file.
+
+```sh
+git checkout develop
+git pull
+git stash --include-untracked
+npm i
+npm run create-release
+git stash pop
+```
+
+Draft new release from Github: [City-of-Helsinki/paatokset-search/releases/new](https://github.com/City-of-Helsinki/paatokset-search/releases/new). Remember to include the generated `.zip` file from `dist/paatokset_search.zip`. Once the release is published, edit the [`composer.json`](https://github.com/City-of-Helsinki/helsinki-paatokset/blob/develop/composer.json) file of the paatokset drupal project to update the search app.
+
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
