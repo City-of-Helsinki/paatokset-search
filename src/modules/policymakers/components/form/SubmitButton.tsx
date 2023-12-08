@@ -9,21 +9,10 @@ import SearchComponents from '../../enum/SearchComponents';
 import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './SubmitButton.module.scss';
 
-type Props = {
-  isDesktop?: boolean
-};
-
-const SubmitButton = ({ isDesktop }: Props) => {
+const SubmitButton = () => {
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
-  const customClass = isDesktop ? styles.SubmitButton__desktop : styles.SubmitButton__mobile;
-  
-  if(isDesktop && width < 1248) {
-    return null;
-  }
-  if(!isDesktop &&  width >= 1248) {
-    return null;
-  }
+  const customClass = width >= 1248 ? styles.SubmitButton__desktop : styles.SubmitButton__mobile;
 
   return (
     <ReactiveComponent

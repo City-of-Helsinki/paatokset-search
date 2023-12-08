@@ -3,10 +3,6 @@
 .SearchBarWrapper {
   flex: 1;
 
-  @media (min-width: 1248px) {
-    max-width: 894px;
-  }
-
   label {
     font-weight: bold;
     display: inline-block;
