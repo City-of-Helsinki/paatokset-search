@@ -361,10 +361,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 searchLabel={undefined}
                 triggerSearch={this.props.triggerSearch}
               />
-              <SubmitButton
-                type='desktop'
-                disabled={errors.to !== undefined || errors.from !== undefined}
-              />
             </div>
             <div className={formStyles['FormContainer__lower-fields']}>
               <ReactiveComponent
@@ -453,7 +449,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
               />
             </div>
             <SubmitButton
-              type='mobile'
               disabled={errors.to !== undefined || errors.from !== undefined}
             />
           </form>
