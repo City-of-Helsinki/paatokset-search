@@ -300,7 +300,26 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
   }
 
   render() {
-    const { errors, phrase, categories, queryCategories, selectedCategories, dm, queryDm, selectedDm, from, to, date_selection, queryFrom, queryTo, selectedFrom, selectedTo, isDesktop, wildcardPhrase, koroRef } = this.state;
+    const {
+      errors,
+      phrase,
+      categories,
+      queryCategories,
+      selectedCategories,
+      dm,
+      queryDm,
+      selectedDm,
+      from,
+      to,
+      date_selection,
+      queryFrom,
+      queryTo,
+      selectedFrom,
+      selectedTo,
+      isDesktop,
+      wildcardPhrase,
+      koroRef
+    } = this.state;
 
     let containerStyle: any = {};
     let koroStyle: any = {};
