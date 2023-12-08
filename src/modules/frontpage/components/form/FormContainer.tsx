@@ -75,14 +75,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 searchLabel={this.props.searchLabel}
                 triggerSearch={this.handleSelectedValue}
               />
-              <SubmitButton
-                type='desktop'
-                disabled={false}
-              />
             </div>
-
             <SubmitButton
-              type='mobile'
               disabled={false}
             />
           </form>
