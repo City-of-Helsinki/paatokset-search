@@ -5,6 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "@appbaseio/reactivesearch": "^3.24.3",
+    "@sentry/react": "^7.86.0",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
