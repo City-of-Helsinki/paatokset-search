@@ -24,8 +24,9 @@ Switch to develop branch and stash any uncommitted files. Then do a clean instal
 git checkout develop
 git pull
 git stash --include-untracked
+nvm use
 npm i
-npm run create-release
+NODE_OPTIONS=--openssl-legacy-provider npm run create-release
 git stash pop
 ```
 
