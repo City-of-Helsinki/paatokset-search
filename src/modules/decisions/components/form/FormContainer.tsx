@@ -16,11 +16,12 @@ import IndexFields from '../../enum/IndexFields';
 import SpecialCases from '../../enum/SpecialCases';
 import CategoryMap from '../../enum/CategoryMap';
 import SectorMap from '../../enum/SectorMap';
-import { Option } from '../../types/types';
+import { Option, Options } from '../../types/types';
 
 import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
+import DecisionmakerSelect from './filters/DecisionmakerSelect';
 
 type FormContainerProps = {
   langcode: string,
@@ -36,8 +37,11 @@ type FormContainerState = {
   queryCategories: Array<Option>,
   selectedCategories: Array<Option>,
   dm: Option|null,
+  dms: Options|null,
   queryDm: Option|null,
+  queryDms: Options|null,
   selectedDm: Option|null,
+  selectedDms: Options|null,
   from: any,
   queryFrom: any,
   selectedFrom: any,
@@ -58,8 +62,11 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     queryCategories: [],
     selectedCategories: [],
     dm: null,
+    dms: null,
     queryDm: null,
+    queryDms: null,
     selectedDm: null,
+    selectedDms: null,
     errors: {},
     from: undefined,
     to: undefined,
@@ -120,10 +127,15 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       });
     }
 
+    // todo: mapping with multiple dms
     const initialDm = getQueryParam(SearchComponents.DM);
+    const initialDms = getQueryParam(SearchComponents.DM);
+
     if(initialDm) {
+      // @todo päättäjä mappaus
       const { t } = this.props;
       let dm = JSON.parse(initialDm);
+      let dms = JSON.parse(initialDm);
 
       let foundDm = SectorMap.find((element) => {
         if (element.label === dm) {
@@ -152,7 +164,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
       if (typeof foundDm !== 'undefined') {
         this.setState({
-          dm: foundDm,
+          // dm: foundDm,
           selectedDm: foundDm,
           queryDm: foundDm
         });
@@ -206,6 +218,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     this.setState({
       queryCategories: this.state.categories,
       queryDm: this.state.dm,
+      queryDms: this.state.dms,
       queryFrom: this.state.from,
       queryTo: this.state.to,
       wildcardPhrase: this.state.phrase
@@ -237,15 +250,15 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }
   }
 
-  setDm = (dm: Option|null, update?: Boolean) => {
+  setDms = (dms: Options|null, update?: Boolean) => {
     this.setState({
-      dm: dm
+      dms: dms
     });
 
     if (update) {
       this.setState({
-        selectedDm: dm,
-        queryDm: dm
+        selectedDms: dms,
+        queryDms: dms
       });
     }
   }
@@ -287,6 +300,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       selectedFrom: this.state.from,
       selectedTo: this.state.to,
       selectedDm: this.state.dm,
+      selectedDms: this.state.dms,
       selectedCategories: this.state.categories
     })
   }
@@ -307,8 +321,11 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       queryCategories,
       selectedCategories,
       dm,
+      dms,
       queryDm,
+      queryDms,
       selectedDm,
+      selectedDms,
       from,
       to,
       date_selection,
@@ -416,22 +433,24 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
               <ReactiveComponent
                 componentId={SearchComponents.DM}
                 defaultQuery={() => ({
-                  aggs: {
-                    [IndexFields.SECTOR_ID]: {
-                      terms: {
-                        field: IndexFields.SECTOR_ID,
-                        size: 100,
-                        order: { _key: 'asc'}
+                    aggs: ({
+                      [IndexFields.SECTOR_ID]: {
+                        terms: {
+                          field: IndexFields.SECTOR_ID,
+                          size: 100,
+                          order: { _key: 'asc'}
+                        }
                       }
-                    }
-                  }
-                })}
-                render={({ aggregations, setQuery }) => (
-                  <DMSelect
+                    })
+                  })}
+                render={({aggregations, setQuery}) => (
+                  <DecisionmakerSelect
                     aggregations={aggregations}
                     setQuery={setQuery}
-                    setValue={this.setDm}
+                    setValue={this.setDms}
+                    setValues={this.setDms}
                     value={dm}
+                    values={dms}
                     queryValue={queryDm}
                   />
                 )}
@@ -474,8 +493,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         <SelectedFiltersContainer
           categories={selectedCategories}
           setCategories={this.setCategories}
-          dm={selectedDm}
-          setDm={this.setDm}
+          dms={selectedDms}
+          setDms={this.setDms}
           from={selectedFrom}
           setFrom={this.setFrom}
           to={selectedTo}
