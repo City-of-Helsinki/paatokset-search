@@ -1,33 +1,48 @@
-import { useEffect, useCallback } from 'react';
-import { Select } from 'hds-react';
+import { Combobox } from 'hds-react';
+import { Option, Options } from '../../../types/types';
 import { useTranslation } from 'react-i18next';
-
 import SpecialCases from '../../../enum/SpecialCases';
-import { Option } from '../../../types/types';
+
+import { useEffect, useCallback, useState } from 'react';
+
+/*
+import { Select } from 'hds-react';
+import SpecialCases from '../../../enum/SpecialCases';
 
 import formStyles from '../../../../../common/styles/Form.module.scss';
 import multiSelectStyles from './Multiselect.module.scss';
 import classNames from 'classnames';
+*/
 
 type Props = {
   aggregations: any
   setQuery: Function,
   setValue: Function,
+  setValues: Function,
   value: Option|null,
+  values: Options|null,
   queryValue: Option|null
 };
 
-const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props) => {
-  let sectors: Array<any> = [];
-  const { t } = useTranslation();
+const DecisionmakerSelect = ({aggregations, setQuery, setValue, setValues, value, values, queryValue}: Props) => {
 
+  // Hardcoded values in the list.
+  const { t } = useTranslation();
   const specialCases = [
     {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL},
     {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL},
     {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE},
   ];
 
-  if(
+  // todo dynamically add values to the dropdown
+
+  const initialDropdownData: any[] = []
+
+  const [decisionMakers , setDecisionMakers] = useState(initialDropdownData);
+
+  let sectors: any[] = [];
+
+  if (
     aggregations &&
     aggregations.sector_id &&
     aggregations.sector_id.buckets.length
@@ -77,32 +92,36 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
     triggerQuery();
   }, [queryValue, setQuery, triggerQuery])
 
-  const currentValue: Option|Option[] = value || [];
-
-  const onChange = (dm: any) => {
-    if (value !== null && dm !== null && value.value === dm.value) {
+  const onChange = (selected: any) => {
+    setDecisionMakers(selected);
+    // todo this if needs changes.
+    if (value !== null && selected !== null && value.value === selected.value) {
       setValue(null);
     }
     else {
-      setValue(dm);
+      setValues(selected)
     }
   }
 
   return (
-    <Select
-      className={classNames(
-          formStyles['form-element'],
-          multiSelectStyles.Multiselect
-      )}
-      value={currentValue}
-      options={options}
-      label={t('DECISIONS:decisionmaker')}
-      placeholder={t('DECISIONS:choose-decisionmaker')}
-      clearButtonAriaLabel='Clear all selections'
-      selectedItemRemoveButtonAriaLabel={`Remove value`}
+    <Combobox
+      multiselect
+      id="asd"
+      value={decisionMakers}
       onChange={onChange}
+      label={'Päättäjä'}
+      placeholder={'Valitse päättäjä'}
+      clearButtonAriaLabel={'Clear button'}
+      selectedItemRemoveButtonAriaLabel={'selected item remove button area label'}
+      toggleButtonAriaLabel={'waht is this'}
+      theme={{
+        '--focus-outline-color': 'var(--hdbt-color-black)',
+        '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
+        '--placeholder-color': 'var(--hdbt-color-black)',
+      }}
+      options={options}
     />
-  )
+  );
 }
 
-export default DMSelect;
+export default DecisionmakerSelect;

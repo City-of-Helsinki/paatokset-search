@@ -184,7 +184,7 @@ const ResultsContainer = () => {
           )}
           defaultQuery={customQuery}
           render={({ data, rawData }) => (
-            <React.Fragment>
+            <>
               <SortSelect
                 setSort={setSort}
               />
@@ -235,7 +235,7 @@ const ResultsContainer = () => {
                   <PhantomCard />
                 }
               </ReactiveList.ResultCardsWrapper>
-            </React.Fragment>
+            </>
           )}
       />
       </div>
