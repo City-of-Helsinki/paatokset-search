@@ -16,6 +16,7 @@
   .titleContainer {
     display: flex;
     flex-flow: column nowrap;
+    width: 100%;
   }
 
   .departmentHighlight {
@@ -36,6 +37,19 @@
   
     svg {
      transform: translate(10px);
+    }
+
+    .ResultCard__sub-title {
+      svg {
+        transform: none;
+      }
+    }
+  }
+
+  .ResultCard__sub-title {
+    svg {
+      --icon-size: 18px;
+      margin-top: 6px;
     }
   }
 }

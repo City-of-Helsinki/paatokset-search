@@ -1,4 +1,4 @@
-import { IconArrowRight } from 'hds-react';
+import { IconArrowRight, IconAngleRight } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import useDepartmentClasses from '../../../../hooks/useDepartmentClasses';
 
@@ -6,16 +6,15 @@ import style from './ResultCard.module.scss';
 
 type Props = {
   color_class: string[],
-  field_dm_org_name?: string,
-  sector ?: string,
   key: string,
   title: string,
   trustee_name?: string,
   trustee_title?: string,
-  url?: string
+  url?: string,
+  organization_hierarchy?: string[]
 }
 
-const ResultCard = ({color_class, field_dm_org_name, sector, key, title, trustee_name, trustee_title, url}: Props) => {
+const ResultCard = ({color_class, key, title, trustee_name, trustee_title, url, organization_hierarchy}: Props) => {
   const { t } = useTranslation();
   const colorClass = useDepartmentClasses(color_class);
   const translatedTrusteeTitle = (trustee_title:string) => {
@@ -29,19 +28,16 @@ const ResultCard = ({color_class, field_dm_org_name, sector, key, title, trustee
       return trustee_title;
     }
   }
-  const formattedSectorAndOrg = (sector:string|undefined, field_dm_org_name:string|undefined) => {
-    if (sector && field_dm_org_name) {
-      if (sector.toString() === field_dm_org_name.toString()) {
-        return sector;
-      }
-      return sector + ' - ' + field_dm_org_name;
+
+  const formattedOrganizations = (organization_hierarchy:string[]|undefined) => {
+    if (organization_hierarchy) {
+      let organization_path = organization_hierarchy.map((organization, index) => (  
+        <span>{index !== 0 ? <IconAngleRight /> : ''}{organization}</span>  
+      ))
+
+      return organization_path;
     }
-    else if (field_dm_org_name) {
-      return field_dm_org_name;
-    }
-    else if (sector) {
-      return sector;
-    }
+
     return false;
   }
 
@@ -87,8 +83,8 @@ const ResultCard = ({color_class, field_dm_org_name, sector, key, title, trustee
             <div className={style['ResultCard__sub-title']}>{ translatedTrusteeTitle(trustee_title) }</div>
           }
           {
-            formattedSectorAndOrg(sector, field_dm_org_name) &&
-            <div className={style['ResultCard__sub-title']}>{ formattedSectorAndOrg(sector, field_dm_org_name) }</div>
+            formattedOrganizations(organization_hierarchy) &&
+            <div className={style['ResultCard__sub-title']}>{ formattedOrganizations(organization_hierarchy) }</div>
           }
         </div>
         <IconArrowRight size='m' />
