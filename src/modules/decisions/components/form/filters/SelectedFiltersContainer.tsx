@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SelectedFilters } from '@appbaseio/reactivesearch';
 import { IconCross } from 'hds-react';
 import { useTranslation } from 'react-i18next';

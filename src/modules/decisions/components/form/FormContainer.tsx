@@ -35,11 +35,8 @@ type FormContainerState = {
   categories: Array<Option>,
   queryCategories: Array<Option>,
   selectedCategories: Array<Option>,
-  dm: Option|null,
   dms: Options|null,
-  queryDm: Option|null,
   queryDms: Options|null,
-  selectedDm: Option|null,
   selectedDms: Options|null,
   from: any,
   queryFrom: any,
@@ -52,7 +49,7 @@ type FormContainerState = {
   isDesktop: boolean,
   wildcardPhrase: string,
   koroRef: any,
-  decisionmakers: any
+  decisionmakers: any,
 };
 
 class FormContainer extends React.Component<FormContainerProps, FormContainerState> {
@@ -61,11 +58,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     categories: [],
     queryCategories: [],
     selectedCategories: [],
-    dm: null,
     dms: null,
-    queryDm: null,
     queryDms: null,
-    selectedDm: null,
     selectedDms: null,
     errors: {},
     from: undefined,
@@ -78,7 +72,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     isDesktop: window.matchMedia('(min-width: 1248px)').matches,
     wildcardPhrase: '',
     koroRef: null,
-    decisionmakers: []
+    decisionmakers: [],
   };
 
   componentDidMount() {
@@ -128,7 +122,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       });
     }
 
-    // todo: mapping with multiple dms
     const initialDms = getQueryParam(SearchComponents.DM);
 
     if(initialDms) {
@@ -140,7 +133,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       dms.forEach((dm:string)=> {
         let foundDm= SectorMap.find((element) => element.label === dm);
         if(typeof foundDm === 'undefined' && t) {
-          // ne query parametrit on käännetty id:ks eikä tekstiks
           switch(dm) {
             case t('DECISIONS:city-council'):
               foundDm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
@@ -214,7 +206,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     this.searchBar.current.triggerQuery();
     this.setState({
       queryCategories: this.state.categories,
-      queryDm: this.state.dm,
       queryDms: this.state.dms,
       queryFrom: this.state.from,
       queryTo: this.state.to,
@@ -296,7 +287,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     this.setState({
       selectedFrom: this.state.from,
       selectedTo: this.state.to,
-      selectedDm: this.state.dm,
       selectedDms: this.state.dms,
       selectedCategories: this.state.categories
     })
@@ -310,6 +300,68 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     });
   }
 
+  handleDecisionMakerLabels = (data: any) => {
+    const aggregations = data?.aggregations;
+
+    if (
+      aggregations &&
+      aggregations["decisionmaker_searchfield_data.keyword"].buckets.length
+    ) {
+      // handle query parameters.
+      if (this.state.dms) {
+        const updated = this.state.dms.map((option) => {
+          if(option && option.label !== option.value) {
+            return option;
+          }
+
+          const keyValueString = aggregations["decisionmaker_searchfield_data.keyword"].buckets.find((keyValueString: {key: string}) => {
+            return keyValueString.key.split(':')[0] === option.value
+          });
+
+          if (!keyValueString) {
+            return option
+          }
+
+          const key = keyValueString.key.split(':')[0];
+          const label = keyValueString.key.split(':')[1];
+
+          return {label: label, value: key}
+        });
+        updated && this.setDms(updated, true)
+      }
+
+      const decisionmakers = aggregations["decisionmaker_searchfield_data.keyword"].buckets
+        .reduce((acc: any[], curr: {key: string})=> {
+          let exists = false;
+          acc.some((data: {key: string})=> {
+            if (data.key.split(':')[0] === curr.key.split(':')[0]) {
+              exists = true;
+              return true;
+            }
+          });
+          if (!exists) {
+            acc.push(curr)
+          }
+          return acc
+        }, [])
+        .map((data: {key: string}) => ({
+          label: data.key.split(':')[1],
+          value: data.key.split(':')[0]
+        }));
+
+      let dms: Options = [];
+      if (this.state.dms) {
+        dms = decisionmakers.concat(this.state.dms);
+      } else {
+        dms = decisionmakers;
+      }
+
+      this.setState({
+        dms: dms,
+      });
+    }
+  }
+
   render() {
     const {
       errors,
@@ -317,7 +369,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       categories,
       queryCategories,
       selectedCategories,
-      dm,
       dms,
       queryDms,
       selectedDms,
@@ -427,6 +478,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
               />
               <ReactiveComponent
                 componentId={SearchComponents.DM}
+                onData={this.handleDecisionMakerLabels}
                 defaultQuery={() => ({
                     aggs: ({
                       [IndexFields.SECTOR_ID]: {
