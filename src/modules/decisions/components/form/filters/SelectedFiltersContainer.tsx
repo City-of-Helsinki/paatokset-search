@@ -56,8 +56,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms, from
     }
 
     const deleteSingleDm = (dm: any) => {
-      const filteredDms = dms.filter(_dm => _dm.value != dm );
-      setDms(filteredDms, true);
+      setDms(dms.filter(_dm => _dm.value !== dm ), true);
     }
 
     return dms.map((dm: Option) => (

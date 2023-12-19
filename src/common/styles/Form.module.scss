@@ -38,16 +38,18 @@
 .FormContainer__lower-fields {
   @media (min-width: 1248px) {
     display: flex;
-    width: 894px;
     align-items: flex-start;
     margin-bottom: 16px;
 
     .form-element {
-      width: 282px;
+      flex-basis: 282px;
       margin-bottom: 0;
 
       &:not(:first-child) {
         margin-left: 24px;
+      }
+      &:last-of-type {
+        flex-grow:2;
       }
     }
   }  
