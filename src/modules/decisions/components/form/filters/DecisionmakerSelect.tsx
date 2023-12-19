@@ -22,8 +22,7 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
     {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE},
   ];
 
-  const [decisionMakers, setDecisionmakers] = useState(values);
-  // const [decisionMakerIds, setDecisionmakerIds] = useState([]);
+  const [decisionMakers, setDecisionMakers] = useState(values);
 
   let sectors: any[] = [];
 
@@ -38,38 +37,7 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
     }));
   }
 
-  let decisionmakers = [];
-  let decisionmakerIds: string[] = [];
-
-
-  if (
-    aggregations &&
-    aggregations["decisionmaker_searchfield_data.keyword"] &&
-    aggregations["decisionmaker_searchfield_data.keyword"].buckets.length
-  ) {
-    // Create options for decisionmakers dropdown. Reduce duplicates and then map for combobox.
-    decisionmakers = aggregations["decisionmaker_searchfield_data.keyword"].buckets
-    .reduce((acc: any[], curr: {key: string})=> {
-      decisionmakerIds.push(curr.key.split(':')[0]);
-      let exists = false;
-      const ex = acc.some((data: {key: string})=> {
-        if (data.key.split(':')[0] === curr.key.split(':')[0]) {
-          exists = true;
-          return true;
-        }
-      });
-      if (!exists) {
-        acc.push(curr)
-      }
-      return acc
-    }, [])
-    .map((data: {key: string}) => ({
-      label: data.key.split(':')[1],
-      value: data.key.split(':')[0]
-    }));
-  }
-
-  const options = sectors.concat(specialCases, decisionmakers).sort((a, b) => a.label.localeCompare(b.label));
+  const options = sectors.concat(specialCases, values ?? []).sort((a, b) => a.label.localeCompare(b.label));
   options.unshift({label: t('DECISIONS:show-all'), value: null});
 
   const triggerQuery = useCallback(() => {
@@ -83,18 +51,18 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
       let value: string|null = null;
 
       const values: string[] = [];
-      queryValues.forEach((queryValue)=> {
+      queryValues.forEach((queryValue) => {
         if(specialCaseValues.includes(queryValue.value)) {
           finalQuery.bool.should.push({ term: { special_status: queryValue.value }});
           value = queryValue.value;
           values.push(value);
         }
-        else if (decisionmakerIds.includes(queryValue.value)){
+        else if(decisionMakers?.find((option: Option) => option.value === queryValue.value )) {
           finalQuery.bool.should.push({ term: { field_policymaker_id: queryValue.value }});
           value = queryValue.value;
           values.push(value);
         }
-        else if (queryValue.value !== null) {
+        else if(queryValue.value !== null) {
           finalQuery.bool.should.push({ term: { sector_id: queryValue.value }});
           value = queryValue.value;
           values.push(value);
@@ -115,29 +83,12 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
   }, [queryValues, setQuery]);
 
   useEffect(() => {
+    setDecisionMakers(queryValues)
     triggerQuery();
   }, [queryValues, setQuery, triggerQuery]);
 
-  useEffect(() => {
-    updateDecisionmakerLabelById();
-    setDecisionmakers(values);
-    triggerQuery();
-  }, [values, aggregations]);
-
-  const updateDecisionmakerLabelById = () => {
-    values?.forEach((option: Option, index)=> {
-      if (aggregations &&
-        aggregations["decisionmaker_searchfield_data.keyword"] &&
-        option.value === option.label
-      ) {
-        const item = aggregations["decisionmaker_searchfield_data.keyword"].buckets.find((item: {key: string})=> item.key.split(':')[0] === option.value)
-        values[index].label = item.key.split(':')[1];
-      }
-    });
-  }
-
   const onChange = (selected: any) => {
-    setDecisionmakers(selected);
+    setDecisionMakers(selected);
     if (selected.length) {
       setValues(selected);
     } else {
