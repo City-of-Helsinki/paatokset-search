@@ -11,7 +11,7 @@ type Props = {
   trustee_name?: string,
   trustee_title?: string,
   url?: string,
-  organization_hierarchy?: string[]
+  organization_hierarchy: string[]
 }
 
 const ResultCard = ({color_class, key, title, trustee_name, trustee_title, url, organization_hierarchy}: Props) => {
@@ -29,17 +29,13 @@ const ResultCard = ({color_class, key, title, trustee_name, trustee_title, url, 
     }
   }
 
-  const formattedOrganizations = (organization_hierarchy:string[]|undefined) => {
-    if (organization_hierarchy) {
-      let organization_path = organization_hierarchy.map((organization, index) => (  
+  const formattedOrganizations = (organization_hierarchy:string[]) => (
+    organization_hierarchy.map(
+      (organization, index) => (  
         <span>{index !== 0 ? <IconAngleRight /> : ''}{organization}</span>  
-      ))
-
-      return organization_path;
-    }
-
-    return false;
-  }
+      )
+    )
+  )
 
   if (typeof url !== 'undefined') {
     url = url.toString();
@@ -47,20 +43,20 @@ const ResultCard = ({color_class, key, title, trustee_name, trustee_title, url, 
       url = url.toString().replace('/fi/', t('SEARCH:prefix')).replace('paattajat', t('POLICYMAKERS:url-prefix'));
     }
     else if (url.includes('/sv/')) {
-      url = url.toString().replace('/sv/', t('SEARCH:prefix')).replace('beslutsfattare', t('POLICYMAKERS:url-prefix'));;
+      url = url.toString().replace('/sv/', t('SEARCH:prefix')).replace('beslutsfattare', t('POLICYMAKERS:url-prefix'));
     }
     else if (url.includes('/en/')) {
-      url = url.toString().replace('/en/', t('SEARCH:prefix')).replace('decisionmakers', t('POLICYMAKERS:url-prefix'));;
+      url = url.toString().replace('/en/', t('SEARCH:prefix')).replace('decisionmakers', t('POLICYMAKERS:url-prefix'));
     }
 
     if (url.includes('paattajat')) {
       url = url.toString().replace('paattajat', t('POLICYMAKERS:url-prefix'));
     }
     else if (url.includes('beslutsfattare')) {
-      url = url.toString().replace('beslutsfattare', t('POLICYMAKERS:url-prefix'));;
+      url = url.toString().replace('beslutsfattare', t('POLICYMAKERS:url-prefix'));
     }
     else if (url.includes('decisionmakers')) {
-      url = url.toString().replace('decisionmakers', t('POLICYMAKERS:url-prefix'));;
+      url = url.toString().replace('decisionmakers', t('POLICYMAKERS:url-prefix'));
     }
 
   }
@@ -83,7 +79,7 @@ const ResultCard = ({color_class, key, title, trustee_name, trustee_title, url, 
             <div className={style['ResultCard__sub-title']}>{ translatedTrusteeTitle(trustee_title) }</div>
           }
           {
-            formattedOrganizations(organization_hierarchy) &&
+            organization_hierarchy &&
             <div className={style['ResultCard__sub-title']}>{ formattedOrganizations(organization_hierarchy) }</div>
           }
         </div>

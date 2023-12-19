@@ -33,8 +33,10 @@
   }
 
   &:hover {
-    text-decoration: underline;
-  
+    .ResultCard__title {
+      text-decoration: underline;
+    }
+
     svg {
      transform: translate(10px);
     }
