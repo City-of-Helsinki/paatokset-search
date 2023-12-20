@@ -3,7 +3,7 @@ import { Option, Options } from '../../../types/types';
 import { useTranslation } from 'react-i18next';
 import SpecialCases from '../../../enum/SpecialCases';
 
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useMemo } from 'react';
 import formStyles from '../../../../../common/styles/Form.module.scss';
 
 type Props = {
@@ -11,21 +11,21 @@ type Props = {
   setQuery: Function,
   setValues: Function,
   values: Options|null,
+  opts: Options|null,
   queryValues: Options|null
 };
 
-const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryValues}: Props) => {
+const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, opts, queryValues}: Props) => {
   const { t } = useTranslation();
   const specialCases = [
-    {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL},
-    {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL},
-    {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE},
+    {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL, key:SpecialCases.CITY_COUNCIL},
+    {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL, key: SpecialCases.CITY_HALL},
+    {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE, key: SpecialCases.TRUSTEE},
   ];
 
-  const [decisionMakers, setDecisionMakers] = useState(values);
+  const [selected, setSelected] = useState(queryValues);
 
   let sectors: any[] = [];
-
   if (
     aggregations &&
     aggregations.sector_id &&
@@ -33,18 +33,17 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
   ) {
     sectors = aggregations.sector_id.buckets.map((sector: any) => ({
       label: t('SECTORS:' + sector.key),
-      value: sector.key
+      value: sector.key,
+      key: sector.key
     }));
   }
 
-  const options = sectors.concat(specialCases, values ?? []).sort((a, b) => a.label.localeCompare(b.label));
+  let options = sectors.concat(specialCases, opts ?? []).sort((a, b) => a.label.localeCompare(b.label));
   options.unshift({label: t('DECISIONS:show-all'), value: null});
 
   const triggerQuery = useCallback(() => {
     if(queryValues) {
       const specialCaseValues = [
-        SpecialCases.CITY_COUNCIL,
-        SpecialCases.CITY_HALL,
         SpecialCases.TRUSTEE
       ];
       let finalQuery: any = {bool: {should: []}};
@@ -57,7 +56,7 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
           value = queryValue.value;
           values.push(value);
         }
-        else if(decisionMakers?.find((option: Option) => option.value === queryValue.value )) {
+        else if(queryValues?.find((option: Option) => option.value === queryValue.value )) {
           finalQuery.bool.should.push({ term: { field_policymaker_id: queryValue.value }});
           value = queryValue.value;
           values.push(value);
@@ -80,15 +79,15 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
         values: null
       });
     }
-  }, [queryValues, setQuery]);
+  }, [queryValues, setQuery, values]);
 
   useEffect(() => {
-    setDecisionMakers(queryValues)
-    triggerQuery();
-  }, [queryValues, setQuery, triggerQuery]);
+    setSelected(queryValues);
+    triggerQuery()
+  }, [queryValues, setQuery]);
 
   const onChange = (selected: any) => {
-    setDecisionMakers(selected);
+    setSelected(selected);
     if (selected.length) {
       setValues(selected);
     } else {
@@ -101,7 +100,7 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
       <Combobox
         multiselect
         id="decisionmakerselect"
-        value={decisionMakers}
+        value={selected}
         onChange={onChange}
         label={t('DECISIONS:decisionmaker')}
         placeholder={t('DECISIONS:choose-decisionmaker')}
@@ -110,8 +109,7 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, queryVa
         toggleButtonAriaLabel={'Toggle'}
         theme={{
           '--focus-outline-color': 'var(--hdbt-color-black)',
-          '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
-          '--placeholder-color': 'var(--hdbt-color-black)',
+          '--multiselect-checkbox-background-selected': 'black',
         }}
         options={options}
       />

@@ -123,7 +123,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }
 
     const initialDms = getQueryParam(SearchComponents.DM);
-
     if(initialDms) {
       const { t } = this.props;
       let dmsString = JSON.parse(initialDms);
@@ -302,62 +301,61 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
   handleDecisionMakerLabels = (data: any) => {
     const aggregations = data?.aggregations;
-
     if (
       aggregations &&
       aggregations["decisionmaker_searchfield_data.keyword"].buckets.length
     ) {
-      // handle query parameters.
+
+      const langcode = this.props.langcode;
+      // Create the dropdown values
+      const decisionMakers = aggregations["decisionmaker_searchfield_data.keyword"].buckets
+        .map((item: {key: string})=>{
+          return JSON.parse(item.key);
+        })
+        .map((object: {id: string, organization: {[key: string]: string}, organization_above: {[key: string]: string}})=>{
+          let label = '';
+          if (object.organization[langcode]) {
+            label = `${object.organization[langcode]}`;
+          }
+          if (object.organization_above[langcode]) {
+            label = `${label} - ${object.organization_above[langcode]}`
+          }
+
+          // label and key is used by hds-react combobox. Value is used in option-enum.
+          return {label: label, key: object.id, value: object.id}
+        })
+        .filter((notEmpty: string) => {
+          return notEmpty;
+        })
+        .filter((duplicate: string) => {
+          //  might be unnecessary
+          return true;
+        });
+
+      // handle query parameters, select correct dropdown options for the query parameters
       if (this.state.dms) {
-        const updated = this.state.dms.map((option) => {
+        const queryParams = this.state.dms.map((option) => {
           if(option && option.label !== option.value) {
             return option;
           }
 
-          const keyValueString = aggregations["decisionmaker_searchfield_data.keyword"].buckets.find((keyValueString: {key: string}) => {
-            return keyValueString.key.split(':')[0] === option.value
+          const dmObject = decisionMakers.find((object: {key: string, value: string, label: string})=>{
+            return object.key === option.value
           });
 
-          if (!keyValueString) {
-            return option
+          if (!dmObject) {
+            return option;
           }
 
-          const key = keyValueString.key.split(':')[0];
-          const label = keyValueString.key.split(':')[1];
-
-          return {label: label, value: key}
+          return dmObject;
         });
-        updated && this.setDms(updated, true)
-      }
 
-      const decisionmakers = aggregations["decisionmaker_searchfield_data.keyword"].buckets
-        .reduce((acc: any[], curr: {key: string})=> {
-          let exists = false;
-          acc.some((data: {key: string})=> {
-            if (data.key.split(':')[0] === curr.key.split(':')[0]) {
-              exists = true;
-              return true;
-            }
-          });
-          if (!exists) {
-            acc.push(curr)
-          }
-          return acc
-        }, [])
-        .map((data: {key: string}) => ({
-          label: data.key.split(':')[1],
-          value: data.key.split(':')[0]
-        }));
-
-      let dms: Options = [];
-      if (this.state.dms) {
-        dms = decisionmakers.concat(this.state.dms);
-      } else {
-        dms = decisionmakers;
+        queryParams && this.setDms(queryParams, true)
       }
 
       this.setState({
-        dms: dms,
+        decisionmakers: decisionMakers,
+        dms: decisionMakers,
       });
     }
   }
@@ -509,7 +507,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     aggregations={aggregations}
                     setQuery={setQuery}
                     setValues={this.setDms}
-                    values={dms}
+                    values={selectedDms}
+                    opts={this.state.decisionmakers}
                     queryValues={queryDms}
                   />
                 )}
