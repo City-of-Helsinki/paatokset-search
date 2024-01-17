@@ -304,9 +304,9 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       aggregations["decisionmaker_searchfield_data.keyword"].buckets.length
     ) {
 
-      const removed: string[] = [];
       const langcode = this.props.langcode;
-      // Create the dropdown values
+
+      // Filter and create the combobox values.
       const decisionMakers = aggregations["decisionmaker_searchfield_data.keyword"].buckets
         .map((item: {key: string}) => {
           return JSON.parse(item.key);
@@ -328,22 +328,19 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           // label and key is used by hds-react combobox. Value is used in option-enum.
           return {label: label, key: object.id, value: object.id}
         })
-        .reduce((acc: combobox_item[], curr: combobox_item)=> {
-          // Remove and track items with duplicate label.
-          let addItem = true;
-          acc.forEach((o:combobox_item) => {
-            if (o.label == curr.label) {
-              addItem = false;
-              removed.push(o.key);
+        .reduce((accumulator: combobox_item[], current: combobox_item) => {
+          // Add ID to combobox label if the item label is duplicate.
+          accumulator.forEach((item:combobox_item) => {
+            if (item.label == current.label) {
+              current.label = `${current.label} (${current.key})`
             }
           });
-          addItem && acc.push(curr)
-          return acc;
+          accumulator.push(current)
+          return accumulator;
         }, []);
 
       // handle query parameters, select correct dropdown options for the query parameters
-      const initialDms = getQueryParam(SearchComponents.DM);
-      if (this.state.dms && initialDms) {
+      if (this.state.dms) {
         const queryParams = this.state.dms.map((option) => {
           if(option && option.label !== option.value) {
             return option;
