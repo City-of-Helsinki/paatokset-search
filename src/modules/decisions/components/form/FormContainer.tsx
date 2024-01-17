@@ -8,15 +8,13 @@ import SubmitButton from './SubmitButton';
 import SelectedFiltersContainer from './filters/SelectedFiltersContainer';
 import DateSelect from './filters/date/DateSelect';
 import CategorySelect from './filters/CategorySelect';
-import { FormErrors } from '../../types/types';
 import { updateQueryParam, getQueryParam, deleteQueryParam } from '../../../../utils/QueryString';
 import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
 import SpecialCases from '../../enum/SpecialCases';
 import CategoryMap from '../../enum/CategoryMap';
 import SectorMap from '../../enum/SectorMap';
-import { Option, Options } from '../../types/types';
-
+import { Option, Options, aggregate, combobox_item, FormErrors } from '../../types/types';
 import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
@@ -306,13 +304,19 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       aggregations["decisionmaker_searchfield_data.keyword"].buckets.length
     ) {
 
+      const removed: string[] = [];
       const langcode = this.props.langcode;
       // Create the dropdown values
       const decisionMakers = aggregations["decisionmaker_searchfield_data.keyword"].buckets
-        .map((item: {key: string})=>{
+        .map((item: {key: string}) => {
           return JSON.parse(item.key);
         })
-        .map((object: {id: string, organization: {[key: string]: string}, organization_above: {[key: string]: string}})=>{
+        .filter((object: aggregate) => {
+          // Filter items which don't have organization above.
+          return object.organization_above[langcode]
+        })
+        .map((object: aggregate): combobox_item => {
+          // Create objects suitable for combobox.
           let label = '';
           if (object.organization[langcode]) {
             label = `${object.organization[langcode]}`;
@@ -324,16 +328,22 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           // label and key is used by hds-react combobox. Value is used in option-enum.
           return {label: label, key: object.id, value: object.id}
         })
-        .filter((notEmpty: string) => {
-          return notEmpty;
-        })
-        .filter((duplicate: string) => {
-          //  might be unnecessary
-          return true;
-        });
+        .reduce((acc: combobox_item[], curr: combobox_item)=> {
+          // Remove and track items with duplicate label.
+          let addItem = true;
+          acc.forEach((o:combobox_item) => {
+            if (o.label == curr.label) {
+              addItem = false;
+              removed.push(o.key);
+            }
+          });
+          addItem && acc.push(curr)
+          return acc;
+        }, []);
 
       // handle query parameters, select correct dropdown options for the query parameters
-      if (this.state.dms) {
+      const initialDms = getQueryParam(SearchComponents.DM);
+      if (this.state.dms && initialDms) {
         const queryParams = this.state.dms.map((option) => {
           if(option && option.label !== option.value) {
             return option;
@@ -346,16 +356,14 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           if (!dmObject) {
             return option;
           }
-
           return dmObject;
         });
 
-        queryParams && this.setDms(queryParams, true)
+        queryParams && this.setDms(queryParams, true);
       }
 
       this.setState({
         decisionmakers: decisionMakers,
-        dms: decisionMakers,
       });
     }
   }
@@ -367,7 +375,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       categories,
       queryCategories,
       selectedCategories,
-      dms,
       queryDms,
       selectedDms,
       from,
