@@ -126,19 +126,18 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       let dmsString = JSON.parse(initialDms);
       let dms = dmsString.split(',');
       const foundDms : {value: string, label: string}[] = []
-
-      dms.forEach((dm:string)=> {
-        let foundDm= SectorMap.find((element) => element.label === dm);
+      dms.forEach((dm:string) => {
+        let foundDm = SectorMap.find((element) => element.label === dm);
         if(typeof foundDm === 'undefined' && t) {
           switch(dm) {
-            case t('DECISIONS:city-council'):
+            case SpecialCases.CITY_COUNCIL:
               foundDm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
               break;
-            case t('DECISIONS:city-hall'):
+            case SpecialCases.CITY_HALL:
               foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
               break;
-            case t('DECISIONS:trustee'):
-              foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
+            case SpecialCases.TRUSTEE:
+              foundDm = {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE};
               break;
             default:
               foundDm = {label: dm, value: dm}

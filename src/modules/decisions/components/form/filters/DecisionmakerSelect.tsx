@@ -44,6 +44,8 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, opts, q
   const triggerQuery = useCallback(() => {
     if(queryValues) {
       const specialCaseValues = [
+        SpecialCases.CITY_COUNCIL,
+        SpecialCases.CITY_HALL,
         SpecialCases.TRUSTEE
       ];
       let finalQuery: any = {bool: {should: []}};
