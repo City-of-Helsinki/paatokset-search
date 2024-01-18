@@ -19,6 +19,7 @@ import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
 import DecisionmakerSelect from './filters/DecisionmakerSelect';
+import sectorMap from '../../enum/SectorMap';
 
 type FormContainerProps = {
   langcode: string,
@@ -349,10 +350,19 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
             return object.key === option.value
           });
 
-          if (!dmObject) {
-            return option;
+          if (dmObject) {
+            return dmObject;
           }
-          return dmObject;
+
+          const sector = sectorMap.find((item: {label: string, value: string})=>{
+            return item.value === option.value;
+          });
+
+          if (sector) {
+            return sector;
+          }
+
+          return option;
         });
 
         queryParams && this.setDms(queryParams, true);
