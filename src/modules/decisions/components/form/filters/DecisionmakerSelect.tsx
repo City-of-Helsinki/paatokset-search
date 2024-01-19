@@ -5,6 +5,7 @@ import SpecialCases from '../../../enum/SpecialCases';
 
 import { useEffect, useCallback, useState, useMemo } from 'react';
 import formStyles from '../../../../../common/styles/Form.module.scss';
+import sectorMap from '../../../enum/SectorMap';
 
 type Props = {
   aggregations: any
@@ -53,18 +54,23 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, opts, q
 
       const values: string[] = [];
       queryValues.forEach((queryValue) => {
-        if(specialCaseValues.includes(queryValue.value)) {
+
+        const sector = sectorMap.find((item)=>{
+          return item.value === queryValue.value;
+        });
+
+        if (sector) {
+          finalQuery.bool.should.push({ term: { sector_id: queryValue.value }});
+          value = queryValue.value;
+          values.push(value);
+        }
+        else if(specialCaseValues.includes(queryValue.value)) {
           finalQuery.bool.should.push({ term: { special_status: queryValue.value }});
           value = queryValue.value;
           values.push(value);
         }
         else if(queryValues?.find((option: Option) => option.value === queryValue.value )) {
           finalQuery.bool.should.push({ term: { field_policymaker_id: queryValue.value }});
-          value = queryValue.value;
-          values.push(value);
-        }
-        else if(queryValue.value !== null) {
-          finalQuery.bool.should.push({ term: { sector_id: queryValue.value }});
           value = queryValue.value;
           values.push(value);
         }
