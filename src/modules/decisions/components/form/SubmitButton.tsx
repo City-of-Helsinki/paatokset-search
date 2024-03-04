@@ -9,22 +9,13 @@ import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './SubmitButton.module.scss';
 
 type Props = {
-  disabled: boolean,
-  type: string
+  disabled: boolean
 }
 
-const SubmitButton = ({ disabled, type = 'default' }: Props) => {
+const SubmitButton = ({ disabled }: Props) => {
   const { width } = useWindowDimensions();
   const { t } = useTranslation();
-  const customClass = type === 'desktop' ? styles.SubmitButton__desktop : styles.SubmitButton__mobile;
-
-  if(type === 'mobile' && width > 1248) {
-    return null;
-  }
-
-  if(type === 'desktop' && width <= 1248) {
-    return null;
-  }
+  const customClass= width > 1248 ? styles.SubmitButton__desktop : styles.SubmitButton__mobile;
 
   return (
     <ReactiveComponent

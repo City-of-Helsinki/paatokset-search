@@ -80,7 +80,7 @@ const DMSelect = ({ aggregations, setQuery, setValue, value, queryValue }: Props
   const currentValue: Option|Option[] = value || [];
 
   const onChange = (dm: any) => {
-    if (value !== null && dm !== null && value.value === dm.value) {
+    if (value !== null && dm !== null && value.value === dm.value) {
       setValue(null);
     }
     else {

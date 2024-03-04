@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SelectedFilters } from '@appbaseio/reactivesearch';
 import { IconCross } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import { Option } from '../../../types/types';
+import { Option, Options } from '../../../types/types';
 
 import './SelectedFiltersContainer.scss';
 
 type Props = {
   categories: Array<Option>,
   setCategories: Function,
-  dm: Option|null,
-  setDm: Function
+  dms: Options|null,
+  setDms: Function,
   to: any,
   setTo: Function,
   from: any,
@@ -19,10 +19,10 @@ type Props = {
   setSelection: Function,
 }
 
-const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, setFrom, to, setTo, setSelection }: Props) => {
+const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms, from, setFrom, to, setTo, setSelection }: Props) => {
   const { t } = useTranslation();
 
-  if(categories.length <= 0 && !dm && !to && !from) {
+  if(categories.length <= 0 && !dms && !to && !from) {
     return null;
   }
 
@@ -50,26 +50,29 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
     ));
   }
 
-  const getDmFilter = () => {
-    // When dm is unset, it's an empty array
-    if(!dm || dm instanceof Array) {
+  const getDmFilters = () => {
+    if(!dms) {
       return null;
     }
 
-    const deleteDm = (dm: any) => {
-      setDm(null, true);
+    const deleteSingleDm = (dm: any) => {
+      setDms(dms.filter(_dm => _dm.value !== dm ), true);
     }
 
-    return (
-      <button
-        className='SelectedFilters__filter'
-        key={dm.value}
-        onClick={() => deleteDm(dm.value)}
-      >
-        {dm.label}
-        <IconCross />
-      </button>
-    );
+    return dms.map((dm: Option) => (
+        <button
+          className="SelectedFilters__filter"
+          key={dm.value}
+          onClick={() => deleteSingleDm(dm.value)}
+        >
+          {dm.label}
+          <IconCross />
+        </button>
+      ));
+  }
+
+  const clearDms = () => {
+    setDms(null, true);
   }
 
   const getDateFilter = () => {
@@ -104,10 +107,10 @@ const SelectedFiltersContainer = ({ categories, setCategories, dm, setDm, from, 
             <div className='SelectedFilters__container'>
               {getDateFilter()}
               {getCategoryFilters()}
-              {getDmFilter()}
+              {getDmFilters()}
               <button
                 className='SelectedFilters__filter SelectedFilters__clear-filters'
-                onClick={() => {setCategories([], true); setDm(null, true); setFrom(null, true); setTo(null, true); setSelection(null)}}
+                onClick={() => {setCategories([], true); clearDms(); setFrom(null, true); setTo(null, true); setSelection(null)}}
               >
                 <IconCross />
                 {t('SEARCH:clear-all')}

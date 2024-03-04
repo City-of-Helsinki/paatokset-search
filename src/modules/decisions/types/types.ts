@@ -15,3 +15,17 @@ export type Option = {
   label: string,
   value: string
 };
+
+export type Options = Array<Option>;
+
+export type aggregate = {
+  id: string,
+  organization: {[key: string]: string},
+  organization_above: {[key: string]: string}
+};
+
+export type combobox_item = {
+  label: string,
+  key: string,
+  value: string
+}

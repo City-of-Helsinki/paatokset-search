@@ -176,7 +176,6 @@ class FormContainer extends Component<Props> {
               value={phrase}
               setValue={this.setPhrase}
             />
-            <SubmitButton isDesktop={true} />
           </div>
           <div className={formStyles['FormContainer__lower-fields']}>
             <ReactiveComponent
