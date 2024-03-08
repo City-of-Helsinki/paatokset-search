@@ -131,12 +131,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         let foundDm = SectorMap.find((element) => element.label === dm);
         if(typeof foundDm === 'undefined' && t) {
           switch(dm) {
-            // case SpecialCases.CITY_COUNCIL:
-              // foundDm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
-              // break;
-            // case SpecialCases.CITY_HALL:
-              // foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
-              // break;
             case SpecialCases.TRUSTEE:
               foundDm = {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE};
               break;
@@ -316,7 +310,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           })
           data.sector = JSON.parse(sector.key).sector;
 
-          return data
+          return data;
         })
         .filter((object: aggregate) => {
           return object?.organization_above?.[langcode]
