@@ -3,7 +3,7 @@ import { Option, Options } from '../../../types/types';
 import { useTranslation } from 'react-i18next';
 import SpecialCases from '../../../enum/SpecialCases';
 
-import { useEffect, useCallback, useState, useMemo } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import formStyles from '../../../../../common/styles/Form.module.scss';
 import sectorMap from '../../../enum/SectorMap';
 
