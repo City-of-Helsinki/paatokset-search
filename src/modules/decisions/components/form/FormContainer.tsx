@@ -131,12 +131,12 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         let foundDm = SectorMap.find((element) => element.label === dm);
         if(typeof foundDm === 'undefined' && t) {
           switch(dm) {
-            case SpecialCases.CITY_COUNCIL:
-              foundDm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
-              break;
-            case SpecialCases.CITY_HALL:
-              foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
-              break;
+            // case SpecialCases.CITY_COUNCIL:
+              // foundDm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
+              // break;
+            // case SpecialCases.CITY_HALL:
+              // foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
+              // break;
             case SpecialCases.TRUSTEE:
               foundDm = {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE};
               break;
@@ -299,30 +299,40 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
   handleDecisionMakerLabels = (data: any) => {
     const aggregations = data?.aggregations;
+
     if (
       aggregations &&
       aggregations["decisionmaker_searchfield_data.keyword"].buckets.length
     ) {
-
       const langcode = this.props.langcode;
 
       // Filter and create the combobox values.
       const decisionMakers = aggregations["decisionmaker_searchfield_data.keyword"].buckets
         .map((item: {key: string}) => {
-          return JSON.parse(item.key);
+          const data = JSON.parse(item.key);
+
+          const sector = aggregations["sector_data.keyword"].buckets.find((sector_data: any)=>{
+            return JSON.parse(sector_data.key).id === data.id;
+          })
+          data.sector = JSON.parse(sector.key).sector;
+
+          return data
         })
         .filter((object: aggregate) => {
-          // Filter items which don't have organization above.
-          return object.organization_above[langcode]
+          return object?.organization_above?.[langcode]
         })
         .map((object: aggregate): combobox_item => {
           // Create objects suitable for combobox.
           let label = '';
+
+          if (object.sector[langcode]){
+            label = `${object.sector[langcode]}`;
+          }
           if (object.organization[langcode]) {
-            label = `${object.organization[langcode]}`;
+            label = label ? `${label} - ${object.organization[langcode]}` : object.organization[langcode];
           }
           if (object.organization_above[langcode]) {
-            label = `${label} - ${object.organization_above[langcode]}`
+            label = label ? `${label} - ${object.organization_above[langcode]}` : object.organization_above[langcode];
           }
 
           // label and key is used by hds-react combobox. Value is used in option-enum.
@@ -337,7 +347,10 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           });
           accumulator.push(current)
           return accumulator;
-        }, []);
+        }, [])
+        .map((object: aggregate)=>{
+          return object;
+        });
 
       // handle query parameters, select correct dropdown options for the query parameters
       if (this.state.dms) {
@@ -487,10 +500,10 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 )}
                 URLParams={true}
               />
-              <ReactiveComponent
-                componentId={SearchComponents.DM}
-                onData={this.handleDecisionMakerLabels}
-                defaultQuery={() => ({
+                <ReactiveComponent
+                  componentId={SearchComponents.DM}
+                  onData={this.handleDecisionMakerLabels}
+                  defaultQuery={() => ({
                     aggs: ({
                       [IndexFields.SECTOR_ID]: {
                         terms: {
@@ -513,20 +526,27 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                           order: { _key: 'asc'}
                         }
                       },
+                      [IndexFields.SECTOR_DATA]: {
+                        terms: {
+                          field: IndexFields.SECTOR_DATA,
+                          size: 1000,
+                          order: { _key: 'asc'}
+                        }
+                      },
                     })
                   })}
-                render={({aggregations, setQuery}) => (
-                  <DecisionmakerSelect
-                    aggregations={aggregations}
-                    setQuery={setQuery}
-                    setValues={this.setDms}
-                    values={selectedDms}
-                    opts={this.state.decisionmakers}
-                    queryValues={queryDms}
-                  />
-                )}
-                URLParams={true}
-              />
+                  render={({aggregations, setQuery}) => (
+                    <DecisionmakerSelect
+                      aggregations={aggregations}
+                      setQuery={setQuery}
+                      setValues={this.setDms}
+                      values={selectedDms}
+                      opts={this.state.decisionmakers}
+                      queryValues={queryDms}
+                    />
+                  )}
+                  URLParams={true}
+                />
               <ReactiveComponent
                 componentId={SearchComponents.WILDCARD}
                 customQuery={(props) => {

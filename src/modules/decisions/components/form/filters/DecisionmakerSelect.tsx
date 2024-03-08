@@ -19,8 +19,6 @@ type Props = {
 const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, opts, queryValues}: Props) => {
   const { t } = useTranslation();
   const specialCases = [
-    {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL, key:SpecialCases.CITY_COUNCIL},
-    {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL, key: SpecialCases.CITY_HALL},
     {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE, key: SpecialCases.TRUSTEE},
   ];
 
@@ -45,8 +43,6 @@ const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, opts, q
   const triggerQuery = useCallback(() => {
     if(queryValues) {
       const specialCaseValues = [
-        SpecialCases.CITY_COUNCIL,
-        SpecialCases.CITY_HALL,
         SpecialCases.TRUSTEE
       ];
       let finalQuery: any = {bool: {should: []}};

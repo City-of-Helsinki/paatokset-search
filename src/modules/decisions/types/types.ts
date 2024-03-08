@@ -20,6 +20,7 @@ export type Options = Array<Option>;
 
 export type aggregate = {
   id: string,
+  sector: {[key: string]: string},
   organization: {[key: string]: string},
   organization_above: {[key: string]: string}
 };
