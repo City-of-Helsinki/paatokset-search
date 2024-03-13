@@ -1,44 +1,47 @@
 import { Combobox } from 'hds-react';
-import { Option, Options } from '../../../types/types';
+import { combobox_item, Option, Options } from '../../../types/types';
 import { useTranslation } from 'react-i18next';
 import SpecialCases from '../../../enum/SpecialCases';
 
 import { useEffect, useCallback, useState } from 'react';
 import formStyles from '../../../../../common/styles/Form.module.scss';
-import sectorMap from '../../../enum/SectorMap';
+import sectorMap, { SectorMap } from '../../../enum/SectorMap';
 
 type Props = {
-  aggregations: any
   setQuery: Function,
   setValues: Function,
-  values: Options|null,
-  opts: Options|null,
-  queryValues: Options|null
+  values: Options,
+  opts: Options,
+  queryValues: Options,
+  langcode: string
 };
 
-const DecisionmakerSelect = ({aggregations, setQuery, setValues, values, opts, queryValues}: Props) => {
+const DecisionmakerSelect = ({setQuery, setValues, values, opts, queryValues, langcode}: Props) => {
   const { t } = useTranslation();
   const specialCases = [
     {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE, key: SpecialCases.TRUSTEE},
   ];
 
+  // opts = opts ?? [];
+  // values = values ?? [];
+
   const [selected, setSelected] = useState(queryValues);
 
-  let sectors: any[] = [];
-  if (
-    aggregations &&
-    aggregations.sector_id &&
-    aggregations.sector_id.buckets.length
-  ) {
-    sectors = aggregations.sector_id.buckets.map((sector: any) => ({
-      label: t('SECTORS:' + sector.key),
-      value: sector.key,
-      key: sector.key
-    }));
-  }
+  let sectors: Options = SectorMap.filter((sector) => {
+    return sector.langcode === langcode;
+  })
+  .map((sector:any) => {
+    return {
+      label: t('SECTORS:' + sector.value),
+      value: sector.value,
+      key: sector.value
+    };
+  })
+  .filter((sector)=>{ return sector });
 
-  let options = sectors.concat(specialCases, opts ?? []).sort((a, b) => a.label.localeCompare(b.label));
-  options.unshift({label: t('DECISIONS:show-all'), value: null});
+  let options: Options = [];
+  options = sectors.concat(specialCases, opts);
+  options.sort((a, b) => a.label.localeCompare(b.label));
 
   const triggerQuery = useCallback(() => {
     if(queryValues) {

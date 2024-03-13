@@ -19,7 +19,6 @@ import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
 import DecisionmakerSelect from './filters/DecisionmakerSelect';
-import sectorMap from '../../enum/SectorMap';
 import Indices from '../../../../Indices';
 
 type FormContainerProps = {
@@ -35,9 +34,9 @@ type FormContainerState = {
   categories: Array<Option>,
   queryCategories: Array<Option>,
   selectedCategories: Array<Option>,
-  dms: Options|null,
-  queryDms: Options|null,
-  selectedDms: Options|null,
+  dms: Options,
+  queryDms: Options,
+  selectedDms: Options,
   from: any,
   queryFrom: any,
   selectedFrom: any,
@@ -58,9 +57,9 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     categories: [],
     queryCategories: [],
     selectedCategories: [],
-    dms: null,
-    queryDms: null,
-    selectedDms: null,
+    dms: [],
+    queryDms: [],
+    selectedDms: [],
     errors: {},
     from: undefined,
     to: undefined,
@@ -121,22 +120,23 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         queryCategories: formattedCategories
       });
     }
-
     const initialDms = getQueryParam(SearchComponents.DM);
+
     if(initialDms) {
       const { t } = this.props;
       let dmsString = JSON.parse(initialDms);
       let dms = dmsString.split(',');
-      const foundDms : {value: string, label: string}[] = []
+      // TODO
+      const foundDms : {value: string, label: string, langcode: string}[] = []
       dms.forEach((dm:string) => {
         let foundDm = SectorMap.find((element) => element.label === dm);
         if(typeof foundDm === 'undefined' && t) {
           switch(dm) {
             case SpecialCases.TRUSTEE:
-              foundDm = {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE};
+              foundDm = {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE, langcode: 'fi'};
               break;
             default:
-              foundDm = {label: dm, value: dm}
+              foundDm = {label: dm, value: dm, langcode: 'fi'}
               break;
           }
           foundDms.push(foundDm);
@@ -230,7 +230,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }
   }
 
-  setDms = (dms: Options|null, update?: Boolean) => {
+  setDms = (dms: Options, update?: Boolean) => {
     this.setState({
       dms: dms,
     });
@@ -341,6 +341,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         return a.label < b.label
       })
 
+
       //return decisionMakers;
 
       // handle query parameters, select correct dropdown options for the query parameters
@@ -358,7 +359,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
             return dmObject;
           }
 
-          const sector = sectorMap.find((item: {label: string, value: string})=>{
+          const sector = SectorMap.find((item: {label: string, value: string})=>{
             return item.value === option.value;
           });
 
@@ -512,14 +513,14 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                       "include": [IndexFields.POLICYMAKER_STRING]
                     }
                   })}
-                  render={({aggregations, setQuery}) => (
+                  render={({setQuery}) => (
                     <DecisionmakerSelect
-                      aggregations={aggregations}
                       setQuery={setQuery}
                       setValues={this.setDms}
                       values={selectedDms}
                       opts={this.state.decisionmakers}
                       queryValues={queryDms}
+                      langcode={this.props.langcode}
                     />
                   )}
                   URLParams={true}
