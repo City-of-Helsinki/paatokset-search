@@ -22,9 +22,6 @@ const DecisionmakerSelect = ({setQuery, setValues, values, opts, queryValues, la
     {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE, key: SpecialCases.TRUSTEE},
   ];
 
-  // opts = opts ?? [];
-  // values = values ?? [];
-
   const [selected, setSelected] = useState(queryValues);
 
   let sectors: Options = SectorMap.filter((sector) => {
@@ -34,12 +31,11 @@ const DecisionmakerSelect = ({setQuery, setValues, values, opts, queryValues, la
     return {
       label: t('SECTORS:' + sector.value),
       value: sector.value,
-      key: sector.value
     };
   })
   .filter((sector)=>{ return sector });
 
-  let options: Options = [];
+  let options: any[] = [];
   options = sectors.concat(specialCases, opts);
   options.sort((a, b) => a.label.localeCompare(b.label));
 

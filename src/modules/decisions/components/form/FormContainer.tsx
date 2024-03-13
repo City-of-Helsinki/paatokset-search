@@ -48,7 +48,7 @@ type FormContainerState = {
   isDesktop: boolean,
   wildcardPhrase: string,
   koroRef: any,
-  decisionmakers: any,
+  decisionmakers: [],
 };
 
 class FormContainer extends React.Component<FormContainerProps, FormContainerState> {
@@ -340,9 +340,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       .sort((a:combobox_item, b:combobox_item) => {
         return a.label < b.label
       })
-
-
-      //return decisionMakers;
 
       // handle query parameters, select correct dropdown options for the query parameters
       if (this.state.dms) {
