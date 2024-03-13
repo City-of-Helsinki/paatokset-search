@@ -29,7 +29,7 @@ const SearchContainer = ({ url }: Props) => {
   return (
     <ReactiveBase
       url={url}
-      app={Indices.PAATOKSET_DECISIONS}
+      app={`${Indices.PAATOKSET_DECISIONS},${Indices.PAATOKSET_POLICYMAKERS}`}
       theme={baseTheme}
       >
         <FormContainer

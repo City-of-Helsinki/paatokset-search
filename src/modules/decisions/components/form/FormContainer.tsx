@@ -20,6 +20,7 @@ import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
 import DecisionmakerSelect from './filters/DecisionmakerSelect';
 import sectorMap from '../../enum/SectorMap';
+import Indices from '../../../../Indices';
 
 type FormContainerProps = {
   langcode: string,
@@ -291,48 +292,42 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     });
   }
 
-  handleDecisionMakerLabels = (data: any) => {
-    const aggregations = data?.aggregations;
+  handleDecisionMakerLabels = (_data: any) => {
+    const data = _data.data;
 
-    if (
-      aggregations &&
-      aggregations["decisionmaker_searchfield_data.keyword"].buckets.length
-    ) {
+    if (data && data.length) {
       const langcode = this.props.langcode;
 
-      // Filter and create the combobox values.
-      const decisionMakers = aggregations["decisionmaker_searchfield_data.keyword"].buckets
-        .map((item: {key: string}) => {
-          const data = JSON.parse(item.key);
+      const decisionMakers = data.map((item: any) => {
+        return JSON.parse(item.decisionmaker_searchfield_data);
+      })
+      .filter((item: any)=>{
+        return item.id;
+      })
+      .map((searchfield_data: any): combobox_item => {
+        const sector = searchfield_data.sector;
+        const organization = searchfield_data.organization;
+        const organization_above = searchfield_data.organization_above;
 
-          const sector = aggregations["sector_data.keyword"].buckets.find((sector_data: any)=>{
-            return JSON.parse(sector_data.key).id === data.id;
-          })
-          data.sector = JSON.parse(sector.key).sector;
+        let label = '';
 
-          return data;
-        })
-        .filter((object: aggregate) => {
-          return object?.organization_above?.[langcode]
-        })
-        .map((object: aggregate): combobox_item => {
-          // Create objects suitable for combobox.
-          let label = '';
+        if (sector && sector[langcode]){
+          label = `${sector[langcode]}`;
+        }
+        if (organization && organization[langcode]) {
+          label = label ? `${label} - ${organization[langcode]}` : organization[langcode];
+        }
+        if (organization_above && organization_above[langcode]) {
+          label = label ? `${label} - ${organization_above[langcode]}` : organization_above[langcode];
+        }
 
-          if (object.sector[langcode]){
-            label = `${object.sector[langcode]}`;
-          }
-          if (object.organization[langcode]) {
-            label = label ? `${label} - ${object.organization[langcode]}` : object.organization[langcode];
-          }
-          if (object.organization_above[langcode]) {
-            label = label ? `${label} - ${object.organization_above[langcode]}` : object.organization_above[langcode];
-          }
-
-          // label and key is used by hds-react combobox. Value is used in option-enum.
-          return {label: label, key: object.id, value: object.id}
-        })
-        .reduce((accumulator: combobox_item[], current: combobox_item) => {
+        return {
+          key: searchfield_data.id,
+          value: searchfield_data.id,
+          label: label
+        }
+      })
+      .reduce((accumulator: combobox_item[], current: combobox_item) => {
           // Add ID to combobox label if the item label is duplicate.
           accumulator.forEach((item:combobox_item) => {
             if (item.label == current.label) {
@@ -341,10 +336,12 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
           });
           accumulator.push(current)
           return accumulator;
-        }, [])
-        .map((object: aggregate)=>{
-          return object;
-        });
+      }, [])
+      .sort((a:combobox_item, b:combobox_item) => {
+        return a.label < b.label
+      })
+
+      //return decisionMakers;
 
       // handle query parameters, select correct dropdown options for the query parameters
       if (this.state.dms) {
@@ -498,36 +495,22 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                   componentId={SearchComponents.DM}
                   onData={this.handleDecisionMakerLabels}
                   defaultQuery={() => ({
-                    aggs: ({
-                      [IndexFields.SECTOR_ID]: {
+                    size: 10000,
+                    query: [
+                      {
                         terms: {
-                          field: IndexFields.SECTOR_ID,
-                          size: 100,
-                          order: { _key: 'asc'}
-                        }
+                            "_index": [Indices.PAATOKSET_POLICYMAKERS]
+                          }
                       },
-                      [IndexFields.POLICYMAKER_ID]: {
+                      {
                         terms: {
-                          field: IndexFields.POLICYMAKER_ID,
-                          size: 1000,
-                          order: { _key: 'asc'}
-                        }
-                      },
-                      [IndexFields.POLICYMAKER_STRING]: {
-                        terms: {
-                          field: IndexFields.POLICYMAKER_STRING,
-                          size: 1000,
-                          order: { _key: 'asc'}
-                        }
-                      },
-                      [IndexFields.SECTOR_DATA]: {
-                        terms: {
-                          field: IndexFields.SECTOR_DATA,
-                          size: 1000,
-                          order: { _key: 'asc'}
-                        }
-                      },
-                    })
+                            "_language": [this.props.langcode]
+                          }
+                        },
+                    ],
+                    _source: {
+                      "include": [IndexFields.POLICYMAKER_STRING]
+                    }
                   })}
                   render={({aggregations, setQuery}) => (
                     <DecisionmakerSelect

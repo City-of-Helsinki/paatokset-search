@@ -21,8 +21,7 @@ export const IndexFields = {
   SECTOR_ID: 'sector_id',
   HAS_TRANSLATION: 'has_translation',
   POLICYMAKER_ID: 'field_policymaker_id',
-  POLICYMAKER_STRING: 'decisionmaker_searchfield_data.keyword',
-  SECTOR_DATA: 'sector_data.keyword'
+  POLICYMAKER_STRING: 'decisionmaker_searchfield_data',
 };
 
 export default IndexFields;
