@@ -126,7 +126,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       const { t } = this.props;
       let dmsString = JSON.parse(initialDms);
       let dms = dmsString.split(',');
-      // TODO
+
       const foundDms : {value: string, label: string, langcode: string}[] = []
       dms.forEach((dm:string) => {
         let foundDm = SectorMap.find((element) => element.label === dm);
