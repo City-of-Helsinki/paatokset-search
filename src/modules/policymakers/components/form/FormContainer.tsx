@@ -184,11 +184,18 @@ class FormContainer extends Component<Props> {
                 {
                   query: {
                     "bool": {
-                      "must": {
-                        "match": {
-                          "_language": this.props.langcode,
+                      "must": [
+                        {
+                          "match": {
+                            "_language": this.props.langcode
+                          }
+                        },
+                        {
+                          "match": {
+                            "field_policymaker_existing": true
+                          }
                         }
-                      }
+                      ]
                     }
                   },
                   aggs: {
