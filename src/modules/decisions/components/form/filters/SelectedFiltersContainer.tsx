@@ -97,7 +97,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms, from
       </button>
     );
   }
-
+  console.log(dms);
   return (
     <div className='SelectedFilters form-element container'>
       <SelectedFilters
@@ -108,13 +108,22 @@ const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms, from
               {getDateFilter()}
               {getCategoryFilters()}
               {getDmFilters()}
-              <button
-                className='SelectedFilters__filter SelectedFilters__clear-filters'
-                onClick={() => {setCategories([], true); clearDms(); setFrom(null, true); setTo(null, true); setSelection(null)}}
-              >
-                <IconCross />
-                {t('SEARCH:clear-all')}
-              </button>
+              {dms && dms.length > 0 &&
+                <button
+                  className='SelectedFilters__filter SelectedFilters__clear-filters'
+                  onClick={() => {
+                    setCategories([], true);
+                    clearDms();
+                    setFrom(null, true);
+                    setTo(null, true);
+                    setSelection(null)
+                  }}
+                >
+                  <IconCross />
+                  {t('SEARCH:clear-all')}
+                </button>
+              }
+
             </div>
           )
         }}
