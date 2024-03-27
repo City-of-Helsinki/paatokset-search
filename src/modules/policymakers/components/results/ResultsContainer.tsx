@@ -51,12 +51,23 @@ const ResultsContainer = ({getLastRefreshed}: Props) => {
           {
             query: {
               "bool": {
-                "should": [
+                "must": [
                   {
-                    "match": {"_language": t('SEARCH:langcode')}
+                    "match": {
+                      "field_policymaker_existing": true
+                    }
                   },
                   {
-                    "match": {"has_translation": false}
+                    "bool": {
+                      "should": [
+                        {
+                          "match": {"_language": t('SEARCH:langcode')}
+                        },
+                        {
+                          "match": {"has_translation": false}
+                        }
+                      ]
+                    },
                   }
                 ],
                 "must_not": {
@@ -66,8 +77,24 @@ const ResultsContainer = ({getLastRefreshed}: Props) => {
                 }
               }
             }
-          }
+          }          
         )}
+        /*defaultQuery={() => (
+          {
+            query: {
+              "bool": {
+                "should": [
+                  
+                ],
+                "must_not": {
+                  "term": {
+                    "force_refresh": getLastRefreshed()
+                  }
+                }
+              }
+            }
+          }
+        )}*/
         react={{
           or: [
             SearchComponents.SEARCH_BAR,
