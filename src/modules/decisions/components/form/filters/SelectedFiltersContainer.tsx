@@ -97,7 +97,7 @@ const SelectedFiltersContainer = ({ categories, setCategories, dms, setDms, from
       </button>
     );
   }
-  console.log(dms);
+  
   return (
     <div className='SelectedFilters form-element container'>
       <SelectedFilters

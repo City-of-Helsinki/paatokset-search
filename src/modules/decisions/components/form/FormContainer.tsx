@@ -294,12 +294,16 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
 
   handleDecisionMakerLabels = (_data: any) => {
     const data = _data.data;
-
+    
     if (data && data.length) {
       const langcode = this.props.langcode;
 
       const decisionMakers = data.map((item: any) => {
-        return JSON.parse(item.decisionmaker_searchfield_data);
+        if (item.decisionmaker_searchfield_data) {
+          return JSON.parse(item.decisionmaker_searchfield_data);
+        } else {
+          return {};
+        }
       })
       .filter((item: any)=>{
         return item.id;
