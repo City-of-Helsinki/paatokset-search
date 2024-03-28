@@ -4,6 +4,7 @@ export const IndexFields = {
   CONTENT_RESOLUTION: 'content_resolution',
   DECISION_CONTENT: 'decision_content',
   DECISION_MOTION: 'decision_motion',
+  IS_DECISION: 'field_is_decision',
   ISSUE_ID: 'issue_id',
   UNIQUE_ISSUE_ID: 'unique_issue_id',
   ISSUE_SUBJECT: 'issue_subject',
@@ -18,7 +19,9 @@ export const IndexFields = {
   ORG_TYPE: 'organization_type',
   SECTOR: 'sector',
   SECTOR_ID: 'sector_id',
-  HAS_TRANSLATION: 'has_translation'
+  HAS_TRANSLATION: 'has_translation',
+  POLICYMAKER_ID: 'field_policymaker_id',
+  POLICYMAKER_STRING: 'decisionmaker_searchfield_data',
 };
 
 export default IndexFields;

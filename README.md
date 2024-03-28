@@ -7,6 +7,9 @@ First, make sure you have installed the helfi-paatokset project and have set it 
 ```console
 foo@bar:~$ npm i
 foo@bar:~$ npm start
+
+# In case of ERR_OSSL_EVP_UNSUPPOERTED error, instead of 'npm start' run:
+NODE_OPTIONS=--openssl-legacy-provider npm start
 ```
 
 Make sure your elastic container is up and running.

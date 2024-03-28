@@ -8,19 +8,18 @@ import SubmitButton from './SubmitButton';
 import SelectedFiltersContainer from './filters/SelectedFiltersContainer';
 import DateSelect from './filters/date/DateSelect';
 import CategorySelect from './filters/CategorySelect';
-import DMSelect from './filters/DMSelect';
-import { FormErrors } from '../../types/types';
 import { updateQueryParam, getQueryParam, deleteQueryParam } from '../../../../utils/QueryString';
 import SearchComponents from '../../enum/SearchComponents';
 import IndexFields from '../../enum/IndexFields';
 import SpecialCases from '../../enum/SpecialCases';
 import CategoryMap from '../../enum/CategoryMap';
 import SectorMap from '../../enum/SectorMap';
-import { Option } from '../../types/types';
-
+import { Option, Options, aggregate, combobox_item, FormErrors } from '../../types/types';
 import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
+import DecisionmakerSelect from './filters/DecisionmakerSelect';
+import Indices from '../../../../Indices';
 
 type FormContainerProps = {
   langcode: string,
@@ -35,9 +34,9 @@ type FormContainerState = {
   categories: Array<Option>,
   queryCategories: Array<Option>,
   selectedCategories: Array<Option>,
-  dm: Option|null,
-  queryDm: Option|null,
-  selectedDm: Option|null,
+  dms: Options,
+  queryDms: Options,
+  selectedDms: Options,
   from: any,
   queryFrom: any,
   selectedFrom: any,
@@ -48,7 +47,8 @@ type FormContainerState = {
   errors: FormErrors,
   isDesktop: boolean,
   wildcardPhrase: string,
-  koroRef: any
+  koroRef: any,
+  decisionmakers: [],
 };
 
 class FormContainer extends React.Component<FormContainerProps, FormContainerState> {
@@ -57,9 +57,9 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     categories: [],
     queryCategories: [],
     selectedCategories: [],
-    dm: null,
-    queryDm: null,
-    selectedDm: null,
+    dms: [],
+    queryDms: [],
+    selectedDms: [],
     errors: {},
     from: undefined,
     to: undefined,
@@ -70,7 +70,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     selectedTo: undefined,
     isDesktop: window.matchMedia('(min-width: 1248px)').matches,
     wildcardPhrase: '',
-    koroRef: null
+    koroRef: null,
+    decisionmakers: [],
   };
 
   componentDidMount() {
@@ -119,42 +120,34 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         queryCategories: formattedCategories
       });
     }
+    const initialDms = getQueryParam(SearchComponents.DM);
 
-    const initialDm = getQueryParam(SearchComponents.DM);
-    if(initialDm) {
+    if(initialDms) {
       const { t } = this.props;
-      let dm = JSON.parse(initialDm);
+      let dmsString = JSON.parse(initialDms);
+      let dms = dmsString.split(',');
 
-      let foundDm = SectorMap.find((element) => {
-        if (element.label === dm) {
-          return true;
+      const foundDms : {value: string, label: string, langcode: string}[] = []
+      dms.forEach((dm:string) => {
+        let foundDm = SectorMap.find((element) => element.label === dm);
+        if(typeof foundDm === 'undefined' && t) {
+          switch(dm) {
+            case SpecialCases.TRUSTEE:
+              foundDm = {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE, langcode: 'fi'};
+              break;
+            default:
+              foundDm = {label: dm, value: dm, langcode: 'fi'}
+              break;
+          }
+          foundDms.push(foundDm);
         }
-        return false;
       });
 
-      // Decision maker values need to be transformed
-      if(typeof foundDm === 'undefined' && t) {
-        switch(dm) {
-          case t('DECISIONS:city-council'):
-            foundDm = {label: t('DECISIONS:city-council'), value: SpecialCases.CITY_COUNCIL};
-            break;
-          case t('DECISIONS:city-hall'):
-            foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
-            break;
-          case t('DECISIONS:trustee'):
-            foundDm = {label: t('DECISIONS:city-hall'), value: SpecialCases.CITY_HALL};
-            break;
-          default:
-            foundDm = {label: dm, value: dm}
-            break;
-        }
-      }
-
-      if (typeof foundDm !== 'undefined') {
+      if (foundDms) {
         this.setState({
-          dm: foundDm,
-          selectedDm: foundDm,
-          queryDm: foundDm
+          dms: foundDms,
+          selectedDms: foundDms,
+          queryDms: foundDms
         });
       }
     }
@@ -168,7 +161,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }
 
     const initialPage = getQueryParam('results');
-    if(![from, to, initialCategories, initialDm, keyword, initialPage].every(value => Number(value) === 0)) {
+    if(![from, to, initialCategories, initialDms, keyword, initialPage].every(value => Number(value) === 0)) {
       if(!this.props.searchTriggered) {
         this.props.triggerSearch();
       }
@@ -205,7 +198,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     this.searchBar.current.triggerQuery();
     this.setState({
       queryCategories: this.state.categories,
-      queryDm: this.state.dm,
+      queryDms: this.state.dms,
       queryFrom: this.state.from,
       queryTo: this.state.to,
       wildcardPhrase: this.state.phrase
@@ -237,15 +230,15 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     }
   }
 
-  setDm = (dm: Option|null, update?: Boolean) => {
+  setDms = (dms: Options, update?: Boolean) => {
     this.setState({
-      dm: dm
+      dms: dms,
     });
 
     if (update) {
       this.setState({
-        selectedDm: dm,
-        queryDm: dm
+        selectedDms: dms,
+        queryDms: dms
       });
     }
   }
@@ -286,7 +279,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     this.setState({
       selectedFrom: this.state.from,
       selectedTo: this.state.to,
-      selectedDm: this.state.dm,
+      selectedDms: this.state.dms,
       selectedCategories: this.state.categories
     })
   }
@@ -299,8 +292,114 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
     });
   }
 
+  handleDecisionMakerLabels = (_data: any) => {
+    const data = _data.data;
+    
+    if (data && data.length) {
+      const langcode = this.props.langcode;
+
+      const decisionMakers = data.map((item: any) => {
+        if (item.decisionmaker_searchfield_data) {
+          return JSON.parse(item.decisionmaker_searchfield_data);
+        } else {
+          return {};
+        }
+      })
+      .filter((item: any)=>{
+        return item.id;
+      })
+      .map((searchfield_data: any): combobox_item => {
+        const sector = searchfield_data.sector;
+        const organization = searchfield_data.organization;
+        const organization_above = searchfield_data.organization_above;
+
+        let label = '';
+
+        if (sector && sector[langcode]){
+          label = `${sector[langcode]}`;
+        }
+        if (organization && organization[langcode]) {
+          label = label ? `${label} - ${organization[langcode]}` : organization[langcode];
+        }
+        if (organization_above && organization_above[langcode]) {
+          label = label ? `${label} - ${organization_above[langcode]}` : organization_above[langcode];
+        }
+
+        return {
+          key: searchfield_data.id,
+          value: searchfield_data.id,
+          label: label
+        }
+      })
+      .reduce((accumulator: combobox_item[], current: combobox_item) => {
+          // Add ID to combobox label if the item label is duplicate.
+          accumulator.forEach((item:combobox_item) => {
+            if (item.label == current.label) {
+              current.label = `${current.label} (${current.key})`
+            }
+          });
+          accumulator.push(current)
+          return accumulator;
+      }, [])
+      .sort((a:combobox_item, b:combobox_item) => {
+        return a.label < b.label
+      })
+
+      // handle query parameters, select correct dropdown options for the query parameters
+      if (this.state.dms) {
+        const queryParams = this.state.dms.map((option) => {
+          if(option && option.label !== option.value) {
+            return option;
+          }
+
+          const dmObject = decisionMakers.find((object: {key: string, value: string, label: string})=>{
+            return object.key === option.value
+          });
+
+          if (dmObject) {
+            return dmObject;
+          }
+
+          const sector = SectorMap.find((item: {label: string, value: string})=>{
+            return item.value === option.value;
+          });
+
+          if (sector) {
+            return sector;
+          }
+
+          return option;
+        });
+
+        queryParams && this.setDms(queryParams, true);
+      }
+
+      this.setState({
+        decisionmakers: decisionMakers,
+      });
+    }
+  }
+
   render() {
-    const { errors, phrase, categories, queryCategories, selectedCategories, dm, queryDm, selectedDm, from, to, date_selection, queryFrom, queryTo, selectedFrom, selectedTo, isDesktop, wildcardPhrase, koroRef } = this.state;
+    const {
+      errors,
+      phrase,
+      categories,
+      queryCategories,
+      selectedCategories,
+      queryDms,
+      selectedDms,
+      from,
+      to,
+      date_selection,
+      queryFrom,
+      queryTo,
+      selectedFrom,
+      selectedTo,
+      isDesktop,
+      wildcardPhrase,
+      koroRef
+    } = this.state;
 
     let containerStyle: any = {};
     let koroStyle: any = {};
@@ -341,10 +440,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 URLParams={true}
                 searchLabel={undefined}
                 triggerSearch={this.props.triggerSearch}
-              />
-              <SubmitButton
-                type='desktop'
-                disabled={errors.to !== undefined || errors.from !== undefined}
               />
             </div>
             <div className={formStyles['FormContainer__lower-fields']}>
@@ -398,30 +493,39 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 )}
                 URLParams={true}
               />
-              <ReactiveComponent
-                componentId={SearchComponents.DM}
-                defaultQuery={() => ({
-                  aggs: {
-                    [IndexFields.SECTOR_ID]: {
-                      terms: {
-                        field: IndexFields.SECTOR_ID,
-                        size: 100,
-                        order: { _key: 'asc'}
-                      }
+                <ReactiveComponent
+                  componentId={SearchComponents.DM}
+                  onData={this.handleDecisionMakerLabels}
+                  defaultQuery={() => ({
+                    size: 10000,
+                    query: [
+                      {
+                        terms: {
+                            "_index": [Indices.PAATOKSET_POLICYMAKERS]
+                          }
+                      },
+                      {
+                        terms: {
+                            "_language": [this.props.langcode]
+                          }
+                        },
+                    ],
+                    _source: {
+                      "include": [IndexFields.POLICYMAKER_STRING]
                     }
-                  }
-                })}
-                render={({ aggregations, setQuery }) => (
-                  <DMSelect
-                    aggregations={aggregations}
-                    setQuery={setQuery}
-                    setValue={this.setDm}
-                    value={dm}
-                    queryValue={queryDm}
-                  />
-                )}
-                URLParams={true}
-              />
+                  })}
+                  render={({setQuery}) => (
+                    <DecisionmakerSelect
+                      setQuery={setQuery}
+                      setValues={this.setDms}
+                      values={selectedDms}
+                      opts={this.state.decisionmakers}
+                      queryValues={queryDms}
+                      langcode={this.props.langcode}
+                    />
+                  )}
+                  URLParams={true}
+                />
               <ReactiveComponent
                 componentId={SearchComponents.WILDCARD}
                 customQuery={(props) => {
@@ -434,7 +538,6 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
               />
             </div>
             <SubmitButton
-              type='mobile'
               disabled={errors.to !== undefined || errors.from !== undefined}
             />
           </form>
@@ -460,8 +563,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         <SelectedFiltersContainer
           categories={selectedCategories}
           setCategories={this.setCategories}
-          dm={selectedDm}
-          setDm={this.setDm}
+          dms={selectedDms}
+          setDms={this.setDms}
           from={selectedFrom}
           setFrom={this.setFrom}
           to={selectedTo}

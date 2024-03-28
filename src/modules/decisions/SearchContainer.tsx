@@ -29,15 +29,15 @@ const SearchContainer = ({ url }: Props) => {
   return (
     <ReactiveBase
       url={url}
-      app={Indices.PAATOKSET_DECISIONS}
+      app={`${Indices.PAATOKSET_DECISIONS},${Indices.PAATOKSET_POLICYMAKERS}`}
       theme={baseTheme}
       >
         <FormContainer
           langcode={t('SEARCH:langcode')}
           formDescription={t('DECISIONS:form-description')}
           searchTriggered={searchTriggered}
-          triggerSearch={triggerSearch}/>
-        
+          triggerSearch={triggerSearch}
+        />
         <ResultsContainer />
       </ReactiveBase>
   )

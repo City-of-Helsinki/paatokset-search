@@ -38,6 +38,9 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
           if (typeof data[i].source.trustee_name === 'undefined' && data[i].source.has_translation[0] === true && data[i].source._language !== t('SEARCH:langcode')) {
             continue;
           }
+          if (data[i].source.field_policymaker_existing === undefined || data[i].source.field_policymaker_existing[0] === false) {
+            continue;
+          }
 
           // Always show combined title if one exists.
           if (data[i].source.decisionmaker_combined_title && data[i].source.decisionmaker_combined_title[0]) {

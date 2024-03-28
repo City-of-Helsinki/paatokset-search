@@ -11,7 +11,8 @@ export const IndexFields = {
   DM_LAST_NAME: 'field_last_name',
   TRUSTEE_NAME: 'trustee_name',
   TRUSTEE_TITLE: 'trustee_title',
-  HAS_TRANSLATION: 'has_translation'
+  HAS_TRANSLATION: 'has_translation',
+  POLICYMAKER_EXISTING: 'field_policymaker_existing'
 };
 
 export default IndexFields;
