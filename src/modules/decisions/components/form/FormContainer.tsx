@@ -313,37 +313,47 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         const organization = searchfield_data.organization;
         const organization_above = searchfield_data.organization_above;
 
+        let sort_label = '';
         let label = '';
 
-        if (sector && sector[langcode]){
-          label = `${sector[langcode]}`;
+        // Special cases for city council and board
+        if (searchfield_data.id === '02900' || searchfield_data.id === '00400') {
+          label = `${organization[langcode]}`;
+          sort_label = `0 - ${organization[langcode]}`;
+        } else {
+          // Formatting for 
+          if (organization && organization[langcode]) {
+            label = `${organization[langcode]}`;
+            sort_label = `${organization[langcode]}`;
+          }
+          if (organization_above && organization_above[langcode]) {
+            label = `${label}, ${organization_above[langcode]}`;
+            sort_label = `${sort_label}, ${organization_above[langcode]}`;
+          }
+          if (sector && sector[langcode]){
+            label = `${label} - ${sector[langcode]}`;
+            sort_label = `${sector[langcode]} - ${sort_label}`;
+          }
         }
-        if (organization && organization[langcode]) {
-          label = label ? `${label} - ${organization[langcode]}` : organization[langcode];
-        }
-        if (organization_above && organization_above[langcode]) {
-          label = label ? `${label} - ${organization_above[langcode]}` : organization_above[langcode];
-        }
+        
 
         return {
           key: searchfield_data.id,
           value: searchfield_data.id,
-          label: label
+          label: label,
+          sort_label: sort_label
         }
       })
       .reduce((accumulator: combobox_item[], current: combobox_item) => {
           // Add ID to combobox label if the item label is duplicate.
           accumulator.forEach((item:combobox_item) => {
-            if (item.label == current.label) {
+            if (item.label === current.label) {
               current.label = `${current.label} (${current.key})`
             }
           });
           accumulator.push(current)
           return accumulator;
       }, [])
-      .sort((a:combobox_item, b:combobox_item) => {
-        return a.label < b.label
-      })
 
       // handle query parameters, select correct dropdown options for the query parameters
       if (this.state.dms) {
