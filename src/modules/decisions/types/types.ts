@@ -27,6 +27,7 @@ export type aggregate = {
 
 export type combobox_item = {
   label: string,
+  sort_label: string,
   key: string,
   value: string
 }

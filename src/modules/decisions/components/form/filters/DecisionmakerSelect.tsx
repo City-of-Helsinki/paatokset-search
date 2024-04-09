@@ -18,9 +18,12 @@ type Props = {
 
 const DecisionmakerSelect = ({setQuery, setValues, values, opts, queryValues, langcode}: Props) => {
   const { t } = useTranslation();
-  const specialCases = [
-    {label: t('DECISIONS:trustee'), value: SpecialCases.TRUSTEE, key: SpecialCases.TRUSTEE},
-  ];
+  const specialCases = [{
+    label: t('DECISIONS:trustee'),
+    sort_label: '0 - ' + t('DECISIONS:trustee'),
+    value: SpecialCases.TRUSTEE,
+    key: SpecialCases.TRUSTEE,
+  }];
 
   const [selected, setSelected] = useState(queryValues);
 
@@ -30,6 +33,7 @@ const DecisionmakerSelect = ({setQuery, setValues, values, opts, queryValues, la
   .map((sector:any) => {
     return {
       label: t('SECTORS:' + sector.value),
+      sort_label: t('SECTORS:' + sector.value),
       value: sector.value,
     };
   })
@@ -37,8 +41,8 @@ const DecisionmakerSelect = ({setQuery, setValues, values, opts, queryValues, la
 
   let options: any[] = [];
   options = sectors.concat(specialCases, opts);
-  options.sort((a, b) => a.label.localeCompare(b.label));
-
+  options.sort((a, b) => a.sort_label.localeCompare(b.sort_label));
+  
   const triggerQuery = useCallback(() => {
     if(queryValues) {
       const specialCaseValues = [
