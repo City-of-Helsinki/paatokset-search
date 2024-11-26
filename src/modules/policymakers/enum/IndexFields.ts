@@ -3,7 +3,7 @@ export const IndexFields = {
   COMBINED_TITLE: 'decisionmaker_combined_title',
   LANGUAGE: '_language',
   ORGANIZATION_TYPE: 'field_organization_type.keyword',
-  SECTOR: 'sector',
+  SECTOR: 'field_sector_name',
   HREF: 'search_api_url',
   ORGAN: 'organ',
   COLOR_CLASS: 'color_class',
