@@ -227,7 +227,7 @@ const ResultsContainer = () => {
                       _score: item._score
                     };
                     return <ResultCard
-                      key={id}
+                      key={id.toString()}
                       {...resultProps}
                     />
                 })}

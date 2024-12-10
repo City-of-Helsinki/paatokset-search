@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { IconArrowRight, IconAngleRight } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import useDepartmentClasses from '../../../../hooks/useDepartmentClasses';
@@ -6,7 +7,6 @@ import style from './ResultCard.module.scss';
 
 type Props = {
   color_class: string[],
-  key: string,
   title: string,
   trustee_name?: string,
   trustee_title?: string,
@@ -14,7 +14,7 @@ type Props = {
   organization_hierarchy: string[]
 }
 
-const ResultCard = ({color_class, key, title, trustee_name, trustee_title, url, organization_hierarchy}: Props) => {
+const ResultCard: FC<Props> = ({color_class, title, trustee_name, trustee_title, url, organization_hierarchy}) => {
   const { t } = useTranslation();
   const colorClass = useDepartmentClasses(color_class);
   const translatedTrusteeTitle = (trustee_title:string) => {
@@ -32,7 +32,7 @@ const ResultCard = ({color_class, key, title, trustee_name, trustee_title, url, 
   const formattedOrganizations = (organization_hierarchy:string[]) => (
     organization_hierarchy.map(
       (organization, index) => (  
-        <span>{index !== 0 ? <IconAngleRight /> : ''}{organization}</span>  
+        <span key={index}>{index !== 0 ? <IconAngleRight /> : ''}{organization}</span>
       )
     )
   )
@@ -62,10 +62,7 @@ const ResultCard = ({color_class, key, title, trustee_name, trustee_title, url, 
   }
 
   return (
-    <article
-      className={style.ResultCard}
-      key={key}
-    >
+    <article className={style.ResultCard}>
       <a
         href={url}
         data-color-class={colorClass}

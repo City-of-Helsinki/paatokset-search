@@ -127,7 +127,7 @@ const ResultsContainer = ({getLastRefreshed}: Props) => {
             {data.map((item: any) => (
               <ResultCard
                 {...item}
-                key={item.id}
+                key={item._id}
               />
             ))}
           </ReactiveList.ResultCardsWrapper>
