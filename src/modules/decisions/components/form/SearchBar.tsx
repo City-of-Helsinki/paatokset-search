@@ -40,7 +40,11 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
             continue;
           }
 
-          if (typeof data[i].source.has_translation !== 'undefined' && data[i].source.has_translation[0] === true && data[i].source._language !== t('SEARCH:langcode')) {
+          if (
+            typeof data[i].source.has_translation !== 'undefined' &&
+            data[i].source.has_translation[0] === true &&
+            data[i].source._language.toString() !== t('SEARCH:langcode')
+          ) {
             continue;
           }
 

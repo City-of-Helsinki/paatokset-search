@@ -35,7 +35,11 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         const parsedData = [];
         for (let i = 0; i < data.length; i++) {
           let subject = data[i].value;
-          if (typeof data[i].source.trustee_name === 'undefined' && data[i].source.has_translation[0] === true && data[i].source._language[0] !== t('SEARCH:langcode')) {
+          if (
+            typeof data[i].source.trustee_name !== 'undefined' &&
+            data[i].source.has_translation[0] === true &&
+            data[i].source._language.toString() !== t('SEARCH:langcode')
+          ) {
             continue;
           }
           if (data[i].source.field_policymaker_existing === undefined || data[i].source.field_policymaker_existing[0] === false) {
