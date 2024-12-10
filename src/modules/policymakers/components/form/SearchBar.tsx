@@ -4,6 +4,7 @@ import { DataSearchProps } from '@appbaseio/reactivesearch/lib/components/search
 import { useTranslation } from 'react-i18next';
 
 import SearchBarWrapper from '../../../../common/components/form/SearchBarWrapper';
+import SearchBarAutocomplete from '../../../../common/components/form/SearchBarAutocomplete';
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
 
@@ -58,22 +59,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
           });
         }
         return isOpen && parsedData.length > 0 && (
-          <div className="search-autocomplete__wrapper">
-            <div className="search-autocomplete">
-              { parsedData.map((suggestion: any, index: Number) => (
-                <div className="search-autocomplete__item" key={suggestion.value} {...getItemProps({
-                    item: suggestion,
-                    style: {
-                      color: highlightedIndex === index ? 'white' : 'black',
-                      backgroundColor: highlightedIndex === index ? 'black' : 'white',
-                      fontWeight: selectedItem === suggestion ? 'bold' : 'normal',
-                    }
-                  })}>
-                  {suggestion.value}
-                </div>
-              ))}
-            </div>
-          </div>
+          <SearchBarAutocomplete parsedData={parsedData} getItemProps={getItemProps} highlightedIndex={highlightedIndex} selectedItem={selectedItem} />
         );
       }}
 
