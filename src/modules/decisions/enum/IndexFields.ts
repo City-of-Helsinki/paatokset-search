@@ -1,4 +1,7 @@
 export const IndexFields = {
+  // TODO: Change to search_api_language.
+  // _language is a custom field. Elasticsearch connector
+  // creates search_api_language by default.
   LANGUAGE: '_language',
   CONTENT_DRAFT_PROPOSAL: 'content_draft_proposal',
   CONTENT_PRESENTER: 'content_presenter',
