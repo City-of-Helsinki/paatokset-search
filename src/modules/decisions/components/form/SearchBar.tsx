@@ -35,15 +35,15 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         const uniqueSuggestions:string[] = [];
         const parsedData = [];
         for (let i = 0; i < data.length; i++) {
-          let subject:string = data[i].source.subject[0];
+          let subject:string = data[i].source[IndexFields.SUBJECT][0];
           if (uniqueSuggestions.includes(subject)) {
             continue;
           }
 
           if (
-            typeof data[i].source.has_translation !== 'undefined' &&
-            data[i].source.has_translation[0] === true &&
-            data[i].source._language.toString() !== t('SEARCH:langcode')
+            typeof data[i].source[IndexFields.HAS_TRANSLATION] !== 'undefined' &&
+            data[i].source[IndexFields.HAS_TRANSLATION][0] === true &&
+            data[i].source[IndexFields.LANGUAGE].toString() !== t('SEARCH:langcode')
           ) {
             continue;
           }

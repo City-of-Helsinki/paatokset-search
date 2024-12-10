@@ -63,14 +63,14 @@ const ResultsContainer = () => {
           query: {
             bool: {
               must: [
-                {"exists": {"field": "meeting_date"}},
+                {"exists": {"field": IndexFields.MEETING_DATE}},
                 {
                   // Query for documents that are translated to current
                   // language, or they are not translated at all.
                   bool: {
                     should: [
-                      {"term": {"_language": t('SEARCH:langcode')}},
-                      {"term": {"has_translation": false}}
+                      {"term": {[IndexFields.LANGUAGE]: t('SEARCH:langcode')}},
+                      {"term": {[IndexFields.HAS_TRANSLATION]: false}}
                     ]
                   }
                 }
@@ -80,7 +80,7 @@ const ResultsContainer = () => {
           functions: [
             {gauss:
               {
-                meeting_date: {
+                [IndexFields.MEETING_DATE]: {
                   scale: '30d'
                 }
               }
@@ -98,7 +98,7 @@ const ResultsContainer = () => {
         }
       },
       collapse: {
-        field: "unique_issue_id"
+        field: IndexFields.UNIQUE_ISSUE_ID
       }
     }
   };

@@ -54,17 +54,17 @@ const ResultsContainer = ({getLastRefreshed}: Props) => {
                 "must": [
                   {
                     "match": {
-                      "field_policymaker_existing": true
+                      [IndexFields.POLICYMAKER_EXISTING]: true
                     }
                   },
                   {
                     "bool": {
                       "should": [
                         {
-                          "match": {"_language": t('SEARCH:langcode')}
+                          "match": {[IndexFields.LANGUAGE]: t('SEARCH:langcode')}
                         },
                         {
-                          "match": {"has_translation": false}
+                          "match": {[IndexFields.HAS_TRANSLATION]: false}
                         }
                       ]
                     },

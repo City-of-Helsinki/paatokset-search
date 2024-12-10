@@ -1,4 +1,5 @@
 export const IndexFields = {
+  LANGUAGE: '_language',
   CONTENT_DRAFT_PROPOSAL: 'content_draft_proposal',
   CONTENT_PRESENTER: 'content_presenter',
   CONTENT_RESOLUTION: 'content_resolution',
