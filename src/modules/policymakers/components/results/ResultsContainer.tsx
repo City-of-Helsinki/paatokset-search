@@ -54,17 +54,17 @@ const ResultsContainer = ({getLastRefreshed}: Props) => {
                 "must": [
                   {
                     "match": {
-                      "field_policymaker_existing": true
+                      [IndexFields.POLICYMAKER_EXISTING]: true
                     }
                   },
                   {
                     "bool": {
                       "should": [
                         {
-                          "match": {"_language": t('SEARCH:langcode')}
+                          "match": {[IndexFields.LANGUAGE]: t('SEARCH:langcode')}
                         },
                         {
-                          "match": {"has_translation": false}
+                          "match": {[IndexFields.HAS_TRANSLATION]: false}
                         }
                       ]
                     },
@@ -79,22 +79,6 @@ const ResultsContainer = ({getLastRefreshed}: Props) => {
             }
           }          
         )}
-        /*defaultQuery={() => (
-          {
-            query: {
-              "bool": {
-                "should": [
-                  
-                ],
-                "must_not": {
-                  "term": {
-                    "force_refresh": getLastRefreshed()
-                  }
-                }
-              }
-            }
-          }
-        )}*/
         react={{
           or: [
             SearchComponents.SEARCH_BAR,
@@ -143,7 +127,7 @@ const ResultsContainer = ({getLastRefreshed}: Props) => {
             {data.map((item: any) => (
               <ResultCard
                 {...item}
-                key={item.id}
+                key={item._id}
               />
             ))}
           </ReactiveList.ResultCardsWrapper>

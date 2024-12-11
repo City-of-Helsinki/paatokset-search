@@ -4,6 +4,7 @@ import { DataSearchProps } from '@appbaseio/reactivesearch/lib/components/search
 import { useTranslation } from 'react-i18next';
 
 import SearchBarWrapper from '../../../../common/components/form/SearchBarWrapper';
+import SearchBarAutocomplete from '../../../../common/components/form/SearchBarAutocomplete';
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
 
@@ -35,12 +36,16 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         const uniqueSuggestions:string[] = [];
         const parsedData = [];
         for (let i = 0; i < data.length; i++) {
-          let subject:string = data[i].source.subject[0];
+          let subject:string = data[i].source[IndexFields.SUBJECT][0];
           if (uniqueSuggestions.includes(subject)) {
             continue;
           }
 
-          if (typeof data[i].source.has_translation !== 'undefined' && data[i].source.has_translation[0] === true && data[i].source._language !== t('SEARCH:langcode')) {
+          if (
+            typeof data[i].source[IndexFields.HAS_TRANSLATION] !== 'undefined' &&
+            data[i].source[IndexFields.HAS_TRANSLATION][0] === true &&
+            data[i].source[IndexFields.LANGUAGE].toString() !== t('SEARCH:langcode')
+          ) {
             continue;
           }
 
@@ -51,22 +56,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
           });
         }
         return isOpen && parsedData.length > 0 && (
-          <div className="search-autocomplete__wrapper">
-            <div className="search-autocomplete">
-              { parsedData.map((suggestion: any, index: Number) => (
-                <div className="search-autocomplete__item" key={suggestion.value} {...getItemProps({
-                    item: suggestion,
-                    style: {
-                      color: highlightedIndex === index ? 'white' : 'black',
-                      backgroundColor: highlightedIndex === index ? 'black' : 'white',
-                      fontWeight: selectedItem === suggestion ? 'bold' : 'normal',
-                    }
-                  })}>
-                  {suggestion.value}
-                </div>
-              ))}
-            </div>
-          </div>
+          <SearchBarAutocomplete parsedData={parsedData} getItemProps={getItemProps} highlightedIndex={highlightedIndex} selectedItem={selectedItem} />
         );
       }}
     />

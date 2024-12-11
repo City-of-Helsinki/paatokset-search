@@ -187,12 +187,12 @@ class FormContainer extends Component<Props> {
                       "must": [
                         {
                           "match": {
-                            "_language": this.props.langcode
+                            [IndexFields.LANGUAGE]: this.props.langcode
                           }
                         },
                         {
                           "match": {
-                            "field_policymaker_existing": true
+                            [IndexFields.POLICYMAKER_EXISTING]: true
                           }
                         }
                       ]

@@ -516,7 +516,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                       },
                       {
                         terms: {
-                            "_language": [this.props.langcode]
+                            [IndexFields.LANGUAGE]: [this.props.langcode]
                           }
                         },
                     ],
