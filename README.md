@@ -5,6 +5,7 @@ First, make sure you have installed the helfi-paatokset project and have set it 
 ## Getting started
 
 ```console
+foo@bar:~$ nvm use
 foo@bar:~$ npm i
 foo@bar:~$ npm start
 
