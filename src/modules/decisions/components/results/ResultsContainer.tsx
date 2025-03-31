@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ReactiveList, StateProvider } from '@appbaseio/reactivesearch';
 import { useTranslation } from 'react-i18next';
+import { isOperatorSearch } from '../../../../utils/OperatorSearch';
 
 import ResultCard from './ResultCard';
 import SortSelect from './SortSelect';
@@ -12,6 +13,7 @@ import { Sort } from '../../enum/Sort';
 import Pagination from '../../../../common/components/results/PaginationBundled';
 import PhantomCard from './PhantomCard';
 import SearchLoader from '../../../../common/components/results/SearchLoader';
+import { Notification } from 'hds-react';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
 import styles from './ResultsContainer.module.scss';
@@ -50,7 +52,7 @@ const ResultsContainer = () => {
     if (searchState.results.aggregations && searchState.results.aggregations.unique_issue_id && searchState.results.aggregations.unique_issue_id.buckets.length > 0) {
       return searchState.results.aggregations.unique_issue_id.buckets.length;
     }
-    return searchState.results.hits.total;
+    return searchState.results.hits?.total || 0;
   }
 
   const dataField = sort === Sort.SCORE ? IndexFields.SCORE : IndexFields.MEETING_DATE;
@@ -140,7 +142,8 @@ const ResultsContainer = () => {
               and: [
                 SearchComponents.CATEGORY,
                 SearchComponents.MEETING_DATE,
-                SearchComponents.DM
+                SearchComponents.DM,
+                SearchComponents.OPERATORS
               ]
           }}
           renderResultStats={(stats) => (
@@ -183,11 +186,25 @@ const ResultsContainer = () => {
             </div>
           )}
           defaultQuery={customQuery}
-          render={({ data, rawData }) => (
+          render={({ data, rawData, resultStats }) => (
             <>
               <SortSelect
                 setSort={setSort}
               />
+              <StateProvider includeKeys={['value']} render={({ searchState }) => (
+                <>
+                  {searchState[SearchComponents.SEARCH_BAR]?.value && isOperatorSearch(searchState[SearchComponents.SEARCH_BAR]?.value) &&
+                    <Notification
+                      label={t('SEARCH:notification-label')}
+                      notificationAriaLabel={t('SEARCH:notification-label')}
+                      size="small"
+                      className={styles.ResultsContainer__status}
+                    >
+                      {t('SEARCH:operators-enabled')} <a href="/help/search-operators" target="_blank" rel="noopener noreferrer">{t('SEARCH:operators-enabled-read-more')}</a>.
+                    </Notification>
+                  }
+                </>
+              )} />
               <ReactiveList.ResultCardsWrapper
                 style={cardWrapperStyles}
               >
@@ -238,7 +255,7 @@ const ResultsContainer = () => {
             </>
           )}
       />
-      </div>
+    </div>
   );
 };
 

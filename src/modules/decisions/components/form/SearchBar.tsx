@@ -7,6 +7,7 @@ import SearchBarWrapper from '../../../../common/components/form/SearchBarWrappe
 import SearchBarAutocomplete from '../../../../common/components/form/SearchBarAutocomplete';
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
+import { isOperatorSearch } from '../../../../utils/OperatorSearch';
 
 const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any, URLParams: any, searchLabel: string|undefined, triggerSearch: any}>((props, ref) => {
   const { value, setValue, URLParams, searchLabel, triggerSearch } = props;
@@ -16,15 +17,68 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
     <DataSearch
       ref={ref}
       componentId={SearchComponents.SEARCH_BAR}
+      placeholder={t('DECISIONS:search-bar-placeholder')}
+      autosuggest={true}
       dataField={[
         IndexFields.SUBJECT,
         IndexFields.ISSUE_SUBJECT,
         IndexFields.DECISION_CONTENT,
         IndexFields.DECISION_MOTION
       ]}
-      fieldWeights={[100,50,10,1]}
-      placeholder={t('DECISIONS:search-bar-placeholder')}
-      autosuggest={true}
+      defaultQuery = {(value) => {
+        const dataFields = [
+          `${IndexFields.SUBJECT}^100`,
+          `${IndexFields.ISSUE_SUBJECT}^50`,
+          `${IndexFields.DECISION_CONTENT}^10`,
+          `${IndexFields.DECISION_MOTION}^1`
+        ];
+        const query = {
+          "bool": {
+            // Add simple query string filter if the value contains an operator.
+            ...((value && isOperatorSearch(value)) ? {
+              "filter": {
+                "simple_query_string": {
+                  "query": value,
+                  "default_operator": 'or',
+                  "analyze_wildcard": true,
+                }
+              }} : {}),
+            "should": [
+              {
+                "multi_match": {
+                  "query": value,
+                  "fields": dataFields,
+                  "type": "best_fields",
+                  "operator": "or",
+                  "fuzziness": 0
+                }
+              },
+              {
+                "multi_match": {
+                  "query": value,
+                  "fields": dataFields,
+                  "type": "phrase",
+                  "operator": "or"
+                }
+              },
+              {
+                "multi_match": {
+                  "query": value,
+                  "fields": dataFields,
+                  "type": "phrase_prefix",
+                  "operator": "or"
+                }
+              }
+            ],
+          },
+        };
+
+        return {
+          "query": query,
+          "size": 10,
+          "_source": { "includes": ['*'], "excludes": [] },
+        };
+      }}
       value={value}
       onChange={setValue}
       onValueSelected={function(value:any) {
@@ -63,11 +117,21 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
   );
 
   const label = searchLabel ? searchLabel : t('DECISIONS:search-bar-label');
+  const status = {
+    label: t('SEARCH:notification-label'),
+    messageVisible: (value && isOperatorSearch(value) && (
+      <>
+        {t('SEARCH:operators-enabled')} <a href="/help/search-operators" target="_blank" rel="noopener noreferrer">{t('SEARCH:operators-enabled-read-more')}</a>.
+      </>
+    )) || '',
+    messageAnnounced: t('SEARCH:operators-enabled')
+  };
 
   return (
     <SearchBarWrapper
       label={label}
       dataSearch={dataSearch}
+      status={status}
     />
   );
 });
