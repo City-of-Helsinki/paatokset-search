@@ -17,8 +17,9 @@ Make sure your elastic container is up and running.
 
 Since this app is used as an embedded app inside Drupal, some settings for the standalone app are set in the `public/index.html` file. Edit the div with id `paatokset_search` to modify these settings:
 
-- The data-url -attribute should be the URL for your elastic cluster. You can also change this to point to the proxy app server in test/prod environments to test the app with real data.
-- Data-type -attribute determines if the app is used for searching policymakers or decisions. Naturally the available options for this attribute are `decisions` and `policymakers`.
+- `data-url`-attribute should be the URL for your elastic cluster. You can also change this to point to the proxy app server in test/prod environments to test the app with real data.
+- `data-type`-attribute determines if the app is used for searching policymakers or decisions. Naturally the available options for this attribute are `decisions` and `policymakers`.
+- `data-operator-guide-url`-attribute can be used to provide a url for a page with further instructions on how to use search operators. This url will be used in the "Learn more about using special characters"-link that is displayed for the user when the search query includes certain special characters.
 
 ## Creating new releases
 

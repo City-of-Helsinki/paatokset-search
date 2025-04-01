@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { DataSearch } from '@appbaseio/reactivesearch';
 import { DataSearchProps } from '@appbaseio/reactivesearch/lib/components/search/DataSearch';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import SearchBarAutocomplete from '../../../../common/components/form/SearchBarA
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
 import { isOperatorSearch } from '../../../../utils/OperatorSearch';
+import { OperatorGuideContext } from '../../../../index';
 
 const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any, URLParams: any, searchLabel: string|undefined, triggerSearch: any}>((props, ref) => {
   const { value, setValue, URLParams, searchLabel, triggerSearch } = props;
@@ -117,11 +118,16 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
   );
 
   const label = searchLabel ? searchLabel : t('DECISIONS:search-bar-label');
+  const operatorGuideUrl = useContext(OperatorGuideContext);
   const status = {
     label: t('SEARCH:notification-label'),
     messageVisible: (value && isOperatorSearch(value) && (
       <>
-        {t('SEARCH:operators-enabled')} <a href="/help/search-operators" target="_blank" rel="noopener noreferrer">{t('SEARCH:operators-enabled-read-more')}</a>.
+        {t('SEARCH:operators-enabled')} {operatorGuideUrl && (
+          <>
+            <a href={operatorGuideUrl} target="_blank" rel="noopener noreferrer">{t('SEARCH:operators-enabled-read-more')}</a>.
+          </>
+        )}
       </>
     )) || '',
     messageAnnounced: t('SEARCH:operators-enabled')

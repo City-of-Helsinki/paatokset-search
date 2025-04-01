@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { ReactiveList, StateProvider } from '@appbaseio/reactivesearch';
 import { useTranslation } from 'react-i18next';
 import { isOperatorSearch } from '../../../../utils/OperatorSearch';
@@ -14,6 +14,7 @@ import Pagination from '../../../../common/components/results/PaginationBundled'
 import PhantomCard from './PhantomCard';
 import SearchLoader from '../../../../common/components/results/SearchLoader';
 import { Notification } from 'hds-react';
+import { OperatorGuideContext } from '../../../../index';
 
 import resultsStyles from '../../../../common/styles/Results.module.scss';
 import styles from './ResultsContainer.module.scss';
@@ -25,6 +26,7 @@ const ResultsContainer = () => {
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
   const resultsContainer = useRef<HTMLDivElement|null>(null);
+  const operatorGuideUrl = useContext(OperatorGuideContext);
   
   const pages = width < 768 ? 3 : 5;
   let pageLoads = 0;
@@ -200,7 +202,11 @@ const ResultsContainer = () => {
                       size="small"
                       className={styles.ResultsContainer__status}
                     >
-                      {t('SEARCH:operators-enabled')} <a href="/help/search-operators" target="_blank" rel="noopener noreferrer">{t('SEARCH:operators-enabled-read-more')}</a>.
+                      {t('SEARCH:operators-enabled')} {operatorGuideUrl && (
+                        <>
+                          <a href={operatorGuideUrl} target="_blank" rel="noopener noreferrer">{t('SEARCH:operators-enabled-read-more')}</a>.
+                        </>
+                      )}
                     </Notification>
                   }
                 </>
