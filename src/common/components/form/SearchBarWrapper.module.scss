@@ -15,15 +15,21 @@
 }
 
 .SearchBarWrapper__label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-3-xs);
   margin-bottom: var(--spacing-3-xs);
-  font-size: 14px;
-  font-style: italic;
 
-  @media (min-width: 1200px) {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  label {
+    flex: 0 0 auto;
+    margin-bottom: 0;
   }
+}
+
+.SearchBarWrapper__label__status {
+  font-size: 14px;
 }
 
 .SearchBar__input {
