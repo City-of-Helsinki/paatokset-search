@@ -197,8 +197,8 @@ const ResultsContainer = () => {
                 <>
                   {searchState[SearchComponents.SEARCH_BAR]?.value && isOperatorSearch(searchState[SearchComponents.SEARCH_BAR]?.value) &&
                     <Notification
-                      label={t('SEARCH:notification-label')}
-                      notificationAriaLabel={t('SEARCH:notification-label')}
+                      label={t('SEARCH:operators-enabled-label')}
+                      notificationAriaLabel={t('SEARCH:operators-enabled-label')}
                       size="small"
                       className={styles.ResultsContainer__status}
                     >

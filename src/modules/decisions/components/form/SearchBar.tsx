@@ -120,7 +120,7 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
   const label = searchLabel ? searchLabel : t('DECISIONS:search-bar-label');
   const operatorGuideUrl = useContext(OperatorGuideContext);
   const status = {
-    label: t('SEARCH:notification-label'),
+    label: t('SEARCH:operators-enabled-label'),
     messageVisible: (value && isOperatorSearch(value) && (
       <>
         {t('SEARCH:operators-enabled')} {operatorGuideUrl && (
