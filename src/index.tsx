@@ -1,5 +1,5 @@
 import './i18n';
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import DecisionsContainer from './modules/decisions/SearchContainer';
 import PolicymakersContainer from './modules/policymakers/SearchContainer';
@@ -15,6 +15,8 @@ const rootElement = document.getElementById('paatokset_search');
 let searchContainer;
 
 initSentry()
+
+export const OperatorGuideContext = createContext(rootElement?.dataset.operatorGuideUrl || process.env.REACT_APP_OPERATOR_GUIDE_URL || '');
 
 if(rootElement) {
   const type = rootElement.dataset.type;
