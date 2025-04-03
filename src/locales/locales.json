@@ -13,7 +13,10 @@
       "results-count": "Search results for case:",
       "clear-all": "Clear all",
       "filters": "Filters",
-      "loading": "Loading results..."
+      "loading": "Loading results...",
+      "operators-enabled": "Your search contains special characters, such as “ or +. For more results, try searching without special characters.",
+      "operators-enabled-read-more": "Learn more about using special characters",
+      "operators-enabled-label": "Information on refining the search"
     },
     "DECISIONS": {
       "show-all": "All decisionmakers",
@@ -98,7 +101,10 @@
       "results-count": "hakutulosta",
       "clear-all": "Tyhjennä valinnat",
       "filters": "Rajaus",
-      "loading": "Ladataan tuloksia..."
+      "loading": "Ladataan tuloksia...",
+      "operators-enabled": "Haussasi on erikoismerkkejä, kuten “ tai +. Jos haluat enemmän tuloksia, kokeile hakua ilman erikoismerkkejä.",
+      "operators-enabled-read-more": "Lue lisää erikoismerkkien käytöstä",
+      "operators-enabled-label": "Tietoa haun tarkentamisesta"
     },
     "DECISIONS": {
       "results-count": "Hakutuloksia asiassa:",
@@ -184,7 +190,10 @@
       "results-count": "träffar",
       "clear-all": "Rensa alla",
       "filters": "Avgränsa",
-      "loading": "Loading results..."
+      "loading": "Loading results...",
+      "operators-enabled": "Ditt sökord innehåller specialtecken, såsom “ eller +. För fler resultat, prova att söka utan specialtecken.",
+      "operators-enabled-read-more": "Läs mer om användningen av specialtecken",
+      "operators-enabled-label": "Information om att precisera sökningen"
     },
     "DECISIONS": {
       "results-count": "Sökresultat i ärendet:",

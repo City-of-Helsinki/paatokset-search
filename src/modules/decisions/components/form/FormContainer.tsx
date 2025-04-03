@@ -14,12 +14,13 @@ import IndexFields from '../../enum/IndexFields';
 import SpecialCases from '../../enum/SpecialCases';
 import CategoryMap from '../../enum/CategoryMap';
 import SectorMap from '../../enum/SectorMap';
-import { Option, Options, aggregate, combobox_item, FormErrors } from '../../types/types';
+import { Option, Options, combobox_item, FormErrors } from '../../types/types';
 import formStyles from '../../../../common/styles/Form.module.scss';
 import styles from './FormContainer.module.scss';
 import classNames from 'classnames';
 import DecisionmakerSelect from './filters/DecisionmakerSelect';
 import Indices from '../../../../Indices';
+import { isOperatorSearch } from '../../../../utils/OperatorSearch';
 
 type FormContainerProps = {
   langcode: string,
@@ -544,6 +545,22 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                       'subject.keyword': `*${wildcardPhrase}*`
                     }
                   }}
+                }}
+              />
+              <ReactiveComponent
+                componentId={SearchComponents.OPERATORS}
+                customQuery={(props) => {
+                  if (isOperatorSearch(wildcardPhrase)) {
+                    return {
+                      query: {
+                        'simple_query_string': {
+                          'query': wildcardPhrase,
+                          'default_operator': 'or',
+                          'analyze_wildcard': true,
+                        }
+                      }
+                    }
+                  }
                 }}
               />
             </div>

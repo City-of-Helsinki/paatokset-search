@@ -1,5 +1,5 @@
 import { Combobox } from 'hds-react';
-import { combobox_item, Option, Options } from '../../../types/types';
+import { Option, Options } from '../../../types/types';
 import { useTranslation } from 'react-i18next';
 import SpecialCases from '../../../enum/SpecialCases';
 
@@ -86,12 +86,12 @@ const DecisionmakerSelect = ({setQuery, setValues, values, opts, queryValues, la
         values: null
       });
     }
-  }, [queryValues, setQuery, values]);
+  }, [queryValues, setQuery]);
 
   useEffect(() => {
     setSelected(queryValues);
     triggerQuery()
-  }, [queryValues, setQuery]);
+  }, [queryValues, setQuery, triggerQuery]);
 
   const onChange = (selected: any) => {
     setSelected(selected);
