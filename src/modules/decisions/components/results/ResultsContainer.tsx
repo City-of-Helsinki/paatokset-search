@@ -137,16 +137,16 @@ const ResultsContainer = () => {
         URLParams={true}
         loader={<SearchLoader />}
         react={{
-            or: [
-              SearchComponents.SEARCH_BAR,
-              SearchComponents.WILDCARD,
-            ],
-            and: [
-              SearchComponents.CATEGORY,
-              SearchComponents.MEETING_DATE,
-              SearchComponents.DM,
-              SearchComponents.OPERATORS
-            ]
+          or: [
+            SearchComponents.SEARCH_BAR,
+            SearchComponents.WILDCARD,
+          ],
+          and: [
+            SearchComponents.CATEGORY,
+            SearchComponents.MEETING_DATE,
+            SearchComponents.DM,
+            SearchComponents.OPERATORS
+          ]
         }}
         renderResultStats={(stats) => (
           <StateProvider includeKeys={['aggregations', 'hits', 'took']} render={({ searchState }) => (
