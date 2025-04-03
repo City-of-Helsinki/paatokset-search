@@ -15,11 +15,11 @@
 }
 
 .SearchBarWrapper__label {
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
   gap: var(--spacing-3-xs);
+  justify-content: space-between;
   margin-bottom: var(--spacing-3-xs);
 
   label {
