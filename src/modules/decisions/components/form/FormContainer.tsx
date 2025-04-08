@@ -504,59 +504,47 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 )}
                 URLParams={true}
               />
-                <ReactiveComponent
-                  componentId={SearchComponents.DM}
-                  onData={this.handleDecisionMakerLabels}
-                  defaultQuery={() => ({
-                    size: 10000,
-                    query: [
-                      {
-                        terms: {
-                            "_index": [Indices.PAATOKSET_POLICYMAKERS]
-                          }
+              <ReactiveComponent
+                componentId={SearchComponents.DM}
+                onData={this.handleDecisionMakerLabels}
+                defaultQuery={() => ({
+                  size: 10000,
+                  query: [
+                    {
+                      terms: {
+                          "_index": [Indices.PAATOKSET_POLICYMAKERS]
+                        }
+                    },
+                    {
+                      terms: {
+                          [IndexFields.LANGUAGE]: [this.props.langcode]
+                        }
                       },
-                      {
-                        terms: {
-                            [IndexFields.LANGUAGE]: [this.props.langcode]
-                          }
-                        },
-                    ],
-                    _source: {
-                      "include": [IndexFields.POLICYMAKER_STRING]
-                    }
-                  })}
-                  render={({setQuery}) => (
-                    <DecisionmakerSelect
-                      setQuery={setQuery}
-                      setValues={this.setDms}
-                      values={selectedDms}
-                      opts={this.state.decisionmakers}
-                      queryValues={queryDms}
-                      langcode={this.props.langcode}
-                    />
-                  )}
-                  URLParams={true}
-                />
+                  ],
+                  _source: {
+                    "include": [IndexFields.POLICYMAKER_STRING]
+                  }
+                })}
+                render={({setQuery}) => (
+                  <DecisionmakerSelect
+                    setQuery={setQuery}
+                    setValues={this.setDms}
+                    values={selectedDms}
+                    opts={this.state.decisionmakers}
+                    queryValues={queryDms}
+                    langcode={this.props.langcode}
+                  />
+                )}
+                URLParams={true}
+              />
               <ReactiveComponent
                 componentId={SearchComponents.WILDCARD}
                 customQuery={(props) => {
-                  return {query: {
-                    wildcard: {
-                      'subject.keyword': `*${wildcardPhrase}*`
-                    }
-                  }}
-                }}
-              />
-              <ReactiveComponent
-                componentId={SearchComponents.OPERATORS}
-                customQuery={(props) => {
-                  if (isOperatorSearch(wildcardPhrase)) {
+                  if (!isOperatorSearch(wildcardPhrase)) {
                     return {
                       query: {
-                        'simple_query_string': {
-                          'query': wildcardPhrase,
-                          'default_operator': 'or',
-                          'analyze_wildcard': true,
+                        wildcard: {
+                          'subject.keyword': `*${wildcardPhrase}*`
                         }
                       }
                     }

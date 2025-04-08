@@ -4,7 +4,6 @@ export const SearchComponents = {
   MEETING_DATE: 'meeting_date',
   RESULTS: 'results',
   WILDCARD: 'wildcard',
-  OPERATORS: 'operators',
   DM: 'dm'
 };
 
