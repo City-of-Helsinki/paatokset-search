@@ -13,6 +13,56 @@ import { OperatorGuideContext } from '../../../../index';
 const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value: string|undefined, setValue: any, URLParams: any, searchLabel: string|undefined, triggerSearch: any}>((props, ref) => {
   const { value, setValue, URLParams, searchLabel, triggerSearch } = props;
   const { t } = useTranslation();
+  const query = (value: string) => {
+    const dataFields = [
+      `${IndexFields.SUBJECT}^100`,
+      `${IndexFields.ISSUE_SUBJECT}^50`,
+      `${IndexFields.DECISION_CONTENT}^10`,
+      `${IndexFields.DECISION_MOTION}^1`
+    ];
+    const query = {
+      "bool": {
+        // Add simple query string filter if the value contains an operator.
+        ...((value && isOperatorSearch(value)) ? {
+          "filter": {
+            "simple_query_string": {
+              "query": value,
+              "default_operator": 'or',
+              "analyze_wildcard": true,
+            }
+          }} : {}),
+        "should": [
+          {
+            "multi_match": {
+              "query": value,
+              "fields": dataFields,
+              "type": "best_fields",
+              "operator": "or",
+              "fuzziness": 0
+            }
+          },
+          {
+            "multi_match": {
+              "query": value,
+              "fields": dataFields,
+              "type": "phrase",
+              "operator": "or"
+            }
+          },
+          {
+            "multi_match": {
+              "query": value,
+              "fields": dataFields,
+              "type": "phrase_prefix",
+              "operator": "or"
+            }
+          }
+        ],
+      },
+    };
+
+    return query;
+  };
 
   const dataSearch = (
     <DataSearch
@@ -26,58 +76,16 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         IndexFields.DECISION_CONTENT,
         IndexFields.DECISION_MOTION
       ]}
-      defaultQuery = {(value) => {
-        const dataFields = [
-          `${IndexFields.SUBJECT}^100`,
-          `${IndexFields.ISSUE_SUBJECT}^50`,
-          `${IndexFields.DECISION_CONTENT}^10`,
-          `${IndexFields.DECISION_MOTION}^1`
-        ];
-        const query = {
-          "bool": {
-            // Add simple query string filter if the value contains an operator.
-            ...((value && isOperatorSearch(value)) ? {
-              "filter": {
-                "simple_query_string": {
-                  "query": value,
-                  "default_operator": 'or',
-                  "analyze_wildcard": true,
-                }
-              }} : {}),
-            "should": [
-              {
-                "multi_match": {
-                  "query": value,
-                  "fields": dataFields,
-                  "type": "best_fields",
-                  "operator": "or",
-                  "fuzziness": 0
-                }
-              },
-              {
-                "multi_match": {
-                  "query": value,
-                  "fields": dataFields,
-                  "type": "phrase",
-                  "operator": "or"
-                }
-              },
-              {
-                "multi_match": {
-                  "query": value,
-                  "fields": dataFields,
-                  "type": "phrase_prefix",
-                  "operator": "or"
-                }
-              }
-            ],
-          },
-        };
-
+      defaultQuery={(value) => {
         return {
-          "query": query,
+          "query": query(value),
           "size": 10,
           "_source": { "includes": ['*'], "excludes": [] },
+        };
+      }}
+      customQuery={(value) => {
+        return {
+          "query": query(value),
         };
       }}
       value={value}

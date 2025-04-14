@@ -145,7 +145,6 @@ const ResultsContainer = () => {
             SearchComponents.CATEGORY,
             SearchComponents.MEETING_DATE,
             SearchComponents.DM,
-            SearchComponents.OPERATORS
           ]
         }}
         renderResultStats={(stats) => (
@@ -253,7 +252,8 @@ const ResultsContainer = () => {
                     key={id.toString()}
                     {...resultProps}
                   />
-              })}
+                })
+              }
               {data.length % 3 !== 0 &&
                 <PhantomCard />
               }
