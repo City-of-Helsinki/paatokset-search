@@ -18,7 +18,8 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
       `${IndexFields.SUBJECT}^100`,
       `${IndexFields.ISSUE_SUBJECT}^50`,
       `${IndexFields.DECISION_CONTENT}^10`,
-      `${IndexFields.DECISION_MOTION}^1`
+      `${IndexFields.DECISION_MOTION}^1`,
+      `${IndexFields.ISSUE_ID}^100`,
     ];
     const query = {
       "bool": {
@@ -74,7 +75,8 @@ const SearchBar = React.forwardRef<Component<DataSearchProps, any, any>, {value:
         IndexFields.SUBJECT,
         IndexFields.ISSUE_SUBJECT,
         IndexFields.DECISION_CONTENT,
-        IndexFields.DECISION_MOTION
+        IndexFields.DECISION_MOTION,
+        IndexFields.ISSUE_ID,
       ]}
       defaultQuery={(value) => {
         return {
