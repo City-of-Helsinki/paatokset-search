@@ -34,7 +34,7 @@ const SearchContainer = ({ url }: Props) => {
       >
         <FormContainer
           langcode={t('SEARCH:langcode')}
-          formDescription={t('DECISIONS:form-description')}
+          formDescription={drupalSettings?.paatokset_search?.default_texts?.description}
           searchTriggered={searchTriggered}
           triggerSearch={triggerSearch}
         />

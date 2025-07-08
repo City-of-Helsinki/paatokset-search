@@ -21,6 +21,7 @@ import classNames from 'classnames';
 import DecisionmakerSelect from './filters/DecisionmakerSelect';
 import Indices from '../../../../Indices';
 import { isOperatorSearch } from '../../../../utils/OperatorSearch';
+import DOMPurify from 'dompurify';
 
 type FormContainerProps = {
   langcode: string,
@@ -421,28 +422,21 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
       koroStyle.bottom = `-${koroRef.clientHeight}px`;
     }
 
-    return(
-      <div style={{background: '#f7f7f8'}}>
-        <div
-          className={classNames(
-            formStyles.FormContainer,
-            styles.FormContainer,
-            'wrapper'
-          )}
-          style={containerStyle}
-        >
+    return (
+      <div style={{ background: '#f7f7f8' }}>
+        <div className={classNames(formStyles.FormContainer, styles.FormContainer, 'wrapper')} style={containerStyle}>
           <FormTitle />
-          { this.props.formDescription && (
-            <div className="container">
-              <p className={formStyles['FormContainer__description']}>{ this.props.formDescription }</p>
+          {this.props.formDescription && (
+            <div className="container container--search-description">
+              <div
+                className={formStyles['FormContainer__description']}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(this.props.formDescription, { USE_PROFILES: { html: true } }),
+                }}
+              ></div>
             </div>
           )}
-          <form className={classNames(
-              formStyles.FormContainer__form,
-              'container'
-            )}
-            onSubmit={this.handleSubmit}
-          >
+          <form className={classNames(formStyles.FormContainer__form, 'container')} onSubmit={this.handleSubmit}>
             <div className={formStyles['FormContainer__upper-fields']}>
               <SearchBar
                 ref={this.searchBar}
@@ -459,9 +453,9 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 defaultQuery={() => ({
                   query: {
                     range: {
-                      meeting_date: {}
-                    }
-                  }
+                      meeting_date: {},
+                    },
+                  },
                 })}
                 render={({ setQuery }) => (
                   <DateSelect
@@ -488,10 +482,10 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                       terms: {
                         field: 'top_category_code',
                         size: 100,
-                        order: { _key: 'asc' }
-                      }
-                    }
-                  }
+                        order: { _key: 'asc' },
+                      },
+                    },
+                  },
                 })}
                 render={({ aggregations, setQuery }) => (
                   <CategorySelect
@@ -512,20 +506,20 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                   query: [
                     {
                       terms: {
-                          "_index": [Indices.PAATOKSET_POLICYMAKERS]
-                        }
+                        _index: [Indices.PAATOKSET_POLICYMAKERS],
+                      },
                     },
                     {
                       terms: {
-                          [IndexFields.LANGUAGE]: [this.props.langcode]
-                        }
+                        [IndexFields.LANGUAGE]: [this.props.langcode],
                       },
+                    },
                   ],
                   _source: {
-                    "include": [IndexFields.POLICYMAKER_STRING]
-                  }
+                    include: [IndexFields.POLICYMAKER_STRING],
+                  },
                 })}
-                render={({setQuery}) => (
+                render={({ setQuery }) => (
                   <DecisionmakerSelect
                     setQuery={setQuery}
                     setValues={this.setDms}
@@ -544,24 +538,23 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                     return {
                       query: {
                         wildcard: {
-                          'subject.keyword': `*${wildcardPhrase}*`
-                        }
-                      }
-                    }
+                          'subject.keyword': `*${wildcardPhrase}*`,
+                        },
+                      },
+                    };
                   }
                 }}
               />
             </div>
-            <SubmitButton
-              disabled={errors.to !== undefined || errors.from !== undefined}
-            />
+            <SubmitButton disabled={errors.to !== undefined || errors.from !== undefined} />
           </form>
-          {isDesktop &&
+          {isDesktop && (
             <div className={styles['FormContainer__koro-wrapper']} ref={this.onRefChange} style={koroStyle}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
-                width="100%" height="50"
+                width="100%"
+                height="50"
                 fill="currentColor"
                 className={styles.FormContainer__koro}
               >
@@ -573,7 +566,7 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
                 <rect fill="url(#koros1164540240)" width="100%" height="50"></rect>
               </svg>
             </div>
-          }
+          )}
         </div>
         <SelectedFiltersContainer
           categories={selectedCategories}
