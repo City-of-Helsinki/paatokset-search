@@ -62,7 +62,8 @@ class FormContainer extends React.Component<FormContainerProps, FormContainerSta
         >
           <form className={classNames(
               formStyles.FormContainer__form,
-              'container'
+              'container',
+              'container--search-frontpage'
             )}
             onSubmit={this.handleSubmit}
           >
